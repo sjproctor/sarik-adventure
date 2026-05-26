@@ -6,37 +6,46 @@
 @import '@fontsource-variable/dm-sans';
 
 /*
-  Design tokens — mid-century-modern, mid-minimalist.
-  Palette is warm and earthy: cream paper, espresso ink, with teal /
-  mustard / terracotta / sage accents.
+  Design tokens — "stylized mid-century meadow" (see README › Design Spec).
+  Warm aged-paper cream background with one warm dominant (coral), one cool
+  counterweight (teal), and small doses of saturated accents (burgundy,
+  mustard). Stems/lines read almost-black but slightly cool.
 
-  Accessibility note (WCAG 2.1 AA): the safe text pairings are
-  ink-on-cream / ink-on-sand (~11:1) and cream-on-teal (~5.4:1).
-  Mustard, terracotta and sage are reserved for decorative shapes,
-  borders, and large/badge elements — never small body text on cream.
+  ── WCAG 2.1 AA contrast (verified against these exact hexes) ──
+  Coral and teal are MID-TONES, so the rules are specific:
+    • Body text:   ink on cream ............ ~12:1  ✓
+                   ink-soft on cream ....... ~6.2:1 ✓
+    • Coral fill:  use DARK text  → ink on coral .. ~5.1:1 ✓  (white fails)
+    • Teal fill:   use DARK text  → ink on teal ... ~4.7:1 ✓  (white/cream fail)
+    • Mustard fill:use DARK text  → ink on mustard  ~6.3:1 ✓
+    • Burgundy:    dark enough for either → cream on burgundy ~6.3:1 ✓,
+                   burgundy text on cream ~6.3:1 ✓  (the colored-text option)
+  NEVER use coral, teal, mustard, or rose as small text on cream — they
+  fail. They are fills (with dark text), decorative shapes, or borders only.
 */
 @theme {
-  /* Surfaces */
-  --color-cream: #fbf6ec; /* page background */
-  --color-sand: #f1e6cf; /* raised panels / accordion */
-  --color-shell: #ffffff;
+  /* Surfaces — aged paper, warm */
+  --color-cream: #f4e8d5; /* page background */
+  --color-sand: #eadbc0; /* warm/tan bands: hero, footer */
+  --color-shell: #fbf3e4; /* lifted paper: cards, accordion panels */
 
-  /* Ink (text) */
-  --color-ink: #2c241c; /* primary text — ~11:1 on cream */
-  --color-ink-soft: #5b4f43; /* secondary text — ~5.6:1 on cream */
+  /* Text & lines — almost-black, slightly cool */
+  --color-ink: #1f2937; /* primary text (~12:1 on cream) */
+  --color-ink-soft: #4b5563; /* secondary text (~6.2:1 on cream) */
 
-  /* Accents */
-  --color-teal: #0e6b63; /* primary action — cream text passes AA */
-  --color-teal-deep: #0a534d; /* hover */
-  --color-mustard: #e3a52e;
-  --color-terracotta: #bf4e32;
-  --color-sage: #6e8b5b;
+  /* Accents (mid-century meadow palette) */
+  --color-coral: #e87a5d; /* primary — buttons/callouts (DARK text) */
+  --color-teal: #5b9ba8; /* secondary — pairs with coral (DARK text) */
+  --color-burgundy: #8b3a3a; /* deep accent — hover, emphasis, colored text */
+  --color-mustard: #d4a24c; /* warm accent — sparing highlights (DARK text) */
+  --color-rose: #d98b94; /* decorative only — blush blooms */
+  --color-sky: #a9c7d0; /* decorative only — powder-blue blooms */
 
   /* Fonts */
   --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
   --font-sans: 'DM Sans Variable', system-ui, -apple-system, sans-serif;
 
-  /* Radii — soft, rounded MCM geometry */
+  /* Radii — soft, rounded mid-century geometry */
   --radius-soft: 0.75rem;
   --radius-pill: 999px;
 }
@@ -65,9 +74,10 @@
     text-wrap: balance;
   }
 
-  /* Visible, high-contrast focus for every interactive element (WCAG 2.4.7) */
+  /* Visible, high-contrast focus for every interactive element (WCAG 2.4.7,
+     1.4.11). Ink outline is ~12:1 on cream — well past the 3:1 minimum. */
   :focus-visible {
-    outline: 3px solid var(--color-teal);
+    outline: 3px solid var(--color-ink);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -87,14 +97,15 @@
   }
 }
 
-/* Skip link — hidden until focused, then anchored top-left (WCAG 2.4.1) */
+/* Skip link — hidden until focused, then anchored top-left (WCAG 2.4.1).
+   Burgundy fill + cream text = ~6.3:1. */
 .skip-link {
   position: absolute;
   left: 0.75rem;
   top: -100%;
   z-index: 100;
   padding: 0.6rem 1rem;
-  background-color: var(--color-teal);
+  background-color: var(--color-burgundy);
   color: var(--color-cream);
   border-radius: var(--radius-soft);
   font-weight: 600;

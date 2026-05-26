@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Decor from '../components/Decor.astro';
+import Meadow from '../components/Meadow.astro';
 
 // Placeholder data — replaced by the `locations` content collection in a
 // later milestone. `status` drives which accordion panel opens by default.
@@ -33,17 +34,19 @@ const statusLabel: Record<string, string> = {
 <Layout>
   {/* ===== Hero: the "what & why", above the fold ===== */}
   <section class="relative overflow-hidden border-b border-ink/10 bg-sand">
+    {/* A few floating blooms for whimsy (decorative) */}
     <Decor
-      shape="rings"
-      class="pointer-events-none absolute -right-12 -top-10 h-56 w-56 text-mustard/40"
+      shape="dandelion"
+      class="pointer-events-none absolute right-10 top-10 hidden h-12 w-12 text-ink/70 sm:block"
     />
     <Decor
-      shape="arch"
-      class="pointer-events-none absolute -bottom-6 left-6 hidden h-40 w-32 text-teal/15 sm:block"
+      shape="ring"
+      class="pointer-events-none absolute right-28 top-24 hidden h-9 w-9 text-coral sm:block"
     />
-    <div class="relative mx-auto max-w-5xl px-5 py-20 sm:py-28">
-      <p class="mb-4 inline-flex items-center gap-2 rounded-pill bg-terracotta/15 px-3 py-1 text-sm font-semibold text-terracotta">
-        <Decor shape="starburst" class="h-4 w-4" /> A small travel journal
+
+    <div class="relative mx-auto max-w-5xl px-5 pb-48 pt-20 sm:pb-56 sm:pt-24">
+      <p class="mb-4 inline-flex items-center gap-2 rounded-pill bg-coral px-3 py-1 text-sm font-semibold text-ink">
+        <Decor shape="dandelion" class="h-4 w-4" /> A small travel journal
       </p>
       <h1 class="max-w-2xl text-5xl font-semibold text-ink sm:text-6xl">
         Postcards from the road.
@@ -55,16 +58,24 @@ const statusLabel: Record<string, string> = {
       <div class="mt-8 flex flex-wrap gap-3">
         <a
           href="#locations"
-          class="inline-flex min-h-11 items-center rounded-pill bg-teal px-6 font-medium text-cream transition-colors hover:bg-teal-deep"
+          class="inline-flex min-h-11 items-center rounded-pill bg-coral px-6 font-medium text-ink transition-colors hover:bg-burgundy hover:text-cream"
         >
           See where we are
         </a>
         <a
           href="/musings"
-          class="inline-flex min-h-11 items-center rounded-pill border border-ink/20 px-6 font-medium text-ink transition-colors hover:bg-cream"
+          class="inline-flex min-h-11 items-center rounded-pill border border-ink/25 px-6 font-medium text-ink transition-colors hover:bg-shell"
         >
           Read the musings
         </a>
+      </div>
+    </div>
+
+    {/* Signature meadow band, stems rising from the bottom edge. Width is
+        constrained to the content column so its height stays bounded. */}
+    <div class="pointer-events-none absolute inset-x-0 bottom-0">
+      <div class="mx-auto max-w-5xl px-5">
+        <Meadow class="w-full" />
       </div>
     </div>
   </section>
@@ -72,7 +83,7 @@ const statusLabel: Record<string, string> = {
   {/* ===== Locations accordion (native <details>, zero-JS) ===== */}
   <section id="locations" class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="locations-heading">
     <div class="mb-8 flex items-center gap-3">
-      <Decor shape="boomerang" class="h-6 w-6 text-sage" />
+      <Decor shape="bloom" class="h-6 w-6 text-teal" />
       <h2 id="locations-heading" class="text-3xl font-semibold text-ink">Where we are</h2>
     </div>
 
@@ -81,7 +92,7 @@ const statusLabel: Record<string, string> = {
         locations.map((loc) => (
           <details
             open={loc.status === 'current'}
-            class="group overflow-hidden rounded-soft border border-ink/10 bg-cream"
+            class="group overflow-hidden rounded-soft border border-ink/10 bg-shell"
           >
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
               <span class="flex items-baseline gap-3">
@@ -91,10 +102,8 @@ const statusLabel: Record<string, string> = {
               <span class="flex items-center gap-3">
                 <span
                   class:list={[
-                    'rounded-pill px-3 py-1 text-sm font-semibold',
-                    loc.status === 'current'
-                      ? 'bg-teal text-cream'
-                      : 'bg-mustard/25 text-ink',
+                    'rounded-pill px-3 py-1 text-sm font-semibold text-ink',
+                    loc.status === 'current' ? 'bg-teal' : 'bg-mustard',
                   ]}
                 >
                   {statusLabel[loc.status]}

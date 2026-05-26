@@ -1,0 +1,161 @@
+---
+/**
+ * The signature "mid-century meadow" (see README › Design Spec): a dense field
+ * of thin, gently curved charcoal stems rising from the bottom edge, each topped
+ * with a flat graphic bloom — disc, ringed/two-tone disc, dotted disc, dandelion
+ * starburst, Queen Anne's-lace umbel, dot cluster, or pod. Purely decorative.
+ *
+ * Renders as a band that scales proportionally with its container and anchors to
+ * the bottom. Constrain its width (e.g. wrap in `max-w-5xl`) so its height stays
+ * bounded on wide screens. Colors reference the Tailwind v4 `@theme` variables;
+ * the arrangement is deterministic so builds are stable.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+type BloomType =
+  | 'disc' | 'ring' | 'half' | 'dotted' | 'dandelion' | 'umbel' | 'cluster' | 'pod';
+
+const RAYS = 14;
+const CLUSTER = [
+  [50, 50], [50, 28], [69, 39], [69, 61],
+  [50, 72], [31, 61], [31, 39], [50, 12], [62, 20],
+];
+const SPECKS = [
+  [42, 40], [57, 38], [62, 52], [48, 61], [36, 52],
+  [55, 58], [44, 48], [61, 45], [40, 62], [52, 33],
+];
+const UMBEL = Array.from({ length: 13 }, (_, k) => {
+  const t = ((k - 6) * 14 * Math.PI) / 180;
+  return [50 + 60 * Math.sin(t), 90 - 60 * Math.cos(t)];
+});
+
+// Repeating "kind" pattern — coral discs are the loudest/most frequent, teal &
+// powder-blue are the cool counterweight, with doses of burgundy/mustard/rose.
+const pattern: { type: BloomType; c: string; a?: string }[] = [
+  { type: 'disc', c: 'coral' },
+  { type: 'dandelion', c: 'ink' },
+  { type: 'ring', c: 'ink', a: 'coral' },
+  { type: 'disc', c: 'sky' },
+  { type: 'umbel', c: 'mustard' },
+  { type: 'dotted', c: 'burgundy' },
+  { type: 'disc', c: 'coral' },
+  { type: 'pod', c: 'teal' },
+  { type: 'half', c: 'coral', a: 'burgundy' },
+  { type: 'cluster', c: 'rose' },
+  { type: 'disc', c: 'teal' },
+  { type: 'dandelion', c: 'coral' },
+  { type: 'ring', c: 'coral' },
+  { type: 'disc', c: 'burgundy' },
+  { type: 'umbel', c: 'rose' },
+  { type: 'dotted', c: 'ink' },
+  { type: 'disc', c: 'coral' },
+  { type: 'pod', c: 'coral' },
+  { type: 'cluster', c: 'mustard' },
+  { type: 'disc', c: 'sky' },
+];
+
+const N = 32;
+const BASE = 260;
+const baseScale: Record<BloomType, number> = {
+  disc: 0.6, ring: 0.58, half: 0.6, dotted: 0.58,
+  dandelion: 0.62, umbel: 0.64, cluster: 0.46, pod: 0.5,
+};
+
+const stems = Array.from({ length: N }, (_, i) => {
+  const k = pattern[i % pattern.length];
+  const x = 22 + i * (1156 / (N - 1)) + 12 * Math.sin(i * 1.97);
+  const y = 46 + 92 * ((Math.sin(i * 0.73 + 1.1) + 1) / 2);
+  const s = baseScale[k.type] * (0.82 + 0.32 * Math.abs(Math.sin(i * 1.7 + 0.4)));
+  const bow = (i % 2 ? -1 : 1) * (4 + (i % 3) * 1.5);
+  return { ...k, x, y, s, bow };
+});
+
+const v = (c: string) => `var(--color-${c})`;
+const cream = v('cream');
+---
+
+<svg
+  class={className}
+  viewBox="0 0 1200 260"
+  preserveAspectRatio="xMidYMax meet"
+  role="presentation"
+  aria-hidden="true"
+>
+  {
+    stems.map((st) => {
+      const fill = v(st.c);
+      const accent = st.a ? v(st.a) : cream;
+      return (
+        <g>
+          <path
+            d={`M ${st.x} ${BASE} Q ${st.x + st.bow} ${(BASE + st.y) / 2} ${st.x} ${st.y}`}
+            fill="none"
+            stroke={v('ink')}
+            stroke-width="2.2"
+            stroke-linecap="round"
+          />
+          <g transform={`translate(${st.x} ${st.y}) scale(${st.s}) translate(-50 -50)`}>
+            {st.type === 'disc' && <circle cx="50" cy="50" r="34" fill={fill} />}
+
+            {st.type === 'ring' && (
+              <g fill={fill}>
+                <circle cx="50" cy="50" r="34" />
+                <circle cx="50" cy="50" r="18" fill={accent} />
+                <circle cx="50" cy="50" r="7" />
+              </g>
+            )}
+
+            {st.type === 'half' && (
+              <g>
+                <circle cx="50" cy="50" r="34" fill={fill} />
+                <path d="M50 16 A34 34 0 0 1 50 84 Z" fill={accent} />
+              </g>
+            )}
+
+            {st.type === 'dotted' && (
+              <g fill={fill}>
+                <circle cx="50" cy="50" r="34" />
+                {SPECKS.map(([cx, cy]) => (
+                  <circle cx={cx} cy={cy} r="3.2" fill={accent} />
+                ))}
+              </g>
+            )}
+
+            {st.type === 'pod' && (
+              <path d="M50 8 C66 30 66 58 50 88 C34 58 34 30 50 8 Z" fill={fill} />
+            )}
+
+            {st.type === 'cluster' &&
+              CLUSTER.map(([cx, cy]) => <circle cx={cx} cy={cy} r="5.5" fill={fill} />)}
+
+            {st.type === 'dandelion' && (
+              <g stroke={fill} stroke-width="2.5" stroke-linecap="round" fill={fill}>
+                {Array.from({ length: RAYS }).map((_, j) => (
+                  <g transform={`rotate(${(360 / RAYS) * j} 50 50)`}>
+                    <line x1="50" y1="44" x2="50" y2="14" />
+                    <circle cx="50" cy="11" r="3" stroke="none" />
+                  </g>
+                ))}
+                <circle cx="50" cy="50" r="3.5" stroke="none" />
+              </g>
+            )}
+
+            {st.type === 'umbel' && (
+              <g stroke={fill} stroke-width="2" stroke-linecap="round" fill={fill}>
+                {UMBEL.map(([tx, ty]) => (
+                  <g>
+                    <line x1="50" y1="90" x2={tx} y2={ty} />
+                    <circle cx={tx} cy={ty} r="2.8" stroke="none" />
+                  </g>
+                ))}
+              </g>
+            )}
+          </g>
+        </g>
+      );
+    })
+  }
+</svg>
