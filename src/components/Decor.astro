@@ -1,109 +1,48 @@
 ---
 /**
- * Decorative "mid-century meadow" botanical forms (see README › Design Spec):
- *   - bloom:     flat solid disc — simplified poppy / pom-pom head
- *   - ring:      a disc with a cream "hole" — ringed / two-tone bloom
- *   - dotted:    a disc speckled with cream dots — confetti seed head
- *   - dandelion: radiating thin lines tipped with dots — seed-head / firework
- *   - umbel:     fine stalks fanning to dot tips — Queen Anne's-lace dome
- *   - cluster:   a constellation of dots — stylized lace
- *   - pod:       a simple teardrop bud
- *
- * Purely ornamental, so hidden from assistive tech. The shape color is
- * inherited via `currentColor` — set it with a text-* utility (e.g. `text-coral`).
- * `ring`/`dotted` use the cream paper color for their cut-outs, so place them
- * on a cream/sand surface.
+ * Decorative mid-century-modern shapes (starburst, arch, concentric rings,
+ * boomerang). Purely ornamental, so they are hidden from assistive tech.
+ * Color is inherited via `currentColor` — set it with a text-* utility.
  */
 interface Props {
-  shape: 'bloom' | 'ring' | 'dotted' | 'dandelion' | 'umbel' | 'cluster' | 'pod';
+  shape: 'starburst' | 'arch' | 'rings' | 'boomerang';
   class?: string;
 }
 const { shape, class: className } = Astro.props;
-
-const RAYS = 14;
-const CLUSTER = [
-  [50, 50], [50, 28], [69, 39], [69, 61],
-  [50, 72], [31, 61], [31, 39], [50, 12], [62, 20],
-];
-const SPECKS = [
-  [42, 40], [57, 38], [62, 52], [48, 61], [36, 52],
-  [55, 58], [44, 48], [61, 45], [40, 62], [52, 33],
-];
-const UMBEL = Array.from({ length: 13 }, (_, k) => {
-  const t = ((k - 6) * 14 * Math.PI) / 180; // fan ±84° from vertical
-  return [50 + 60 * Math.sin(t), 90 - 60 * Math.cos(t)];
-});
-const cream = 'var(--color-cream)';
 ---
 
 {
-  shape === 'bloom' && (
+  shape === 'starburst' && (
     <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">
-      <circle cx="50" cy="50" r="34" />
-    </svg>
-  )
-}
-{
-  shape === 'ring' && (
-    <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">
-      <circle cx="50" cy="50" r="34" />
-      <circle cx="50" cy="50" r="18" fill={cream} />
-      <circle cx="50" cy="50" r="7" />
-    </svg>
-  )
-}
-{
-  shape === 'dotted' && (
-    <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">
-      <circle cx="50" cy="50" r="34" />
-      {SPECKS.map(([cx, cy]) => (
-        <circle cx={cx} cy={cy} r="3.2" fill={cream} />
-      ))}
-    </svg>
-  )
-}
-{
-  shape === 'dandelion' && (
-    <svg class={className} viewBox="0 0 100 100" aria-hidden="true">
-      <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="currentColor">
-        {Array.from({ length: RAYS }).map((_, i) => (
-          <g transform={`rotate(${(360 / RAYS) * i} 50 50)`}>
-            <line x1="50" y1="44" x2="50" y2="14" />
-            <circle cx="50" cy="11" r="3" stroke="none" />
-          </g>
+      <g>
+        {Array.from({ length: 12 }).map((_, i) => (
+          <rect x="48.5" y="2" width="3" height="22" rx="1.5" transform={`rotate(${i * 30} 50 50)`} />
         ))}
-        <circle cx="50" cy="50" r="3.5" stroke="none" />
+        <circle cx="50" cy="50" r="9" />
       </g>
     </svg>
   )
 }
 {
-  shape === 'umbel' && (
-    <svg class={className} viewBox="0 0 100 100" aria-hidden="true">
-      <g stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="currentColor">
-        {UMBEL.map(([tx, ty]) => (
-          <g>
-            <line x1="50" y1="90" x2={tx} y2={ty} />
-            <circle cx={tx} cy={ty} r="2.8" stroke="none" />
-          </g>
-        ))}
-      </g>
+  shape === 'arch' && (
+    <svg class={className} viewBox="0 0 100 120" aria-hidden="true" fill="currentColor">
+      <path d="M10 120 V50 a40 40 0 0 1 80 0 V120 H72 V50 a22 22 0 0 0-44 0 V120 Z" />
     </svg>
   )
 }
 {
-  shape === 'cluster' && (
-    <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">
-      {CLUSTER.map(([cx, cy]) => (
-        <circle cx={cx} cy={cy} r="5.5" />
-      ))}
+  shape === 'rings' && (
+    <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="6">
+      <circle cx="50" cy="50" r="14" />
+      <circle cx="50" cy="50" r="30" />
+      <circle cx="50" cy="50" r="46" />
     </svg>
   )
 }
 {
-  shape === 'pod' && (
+  shape === 'boomerang' && (
     <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">
-      <path d="M50 8 C66 30 66 58 50 88 C34 58 34 30 50 8 Z" fill="currentColor" />
+      <path d="M14 86 C14 46 46 14 86 14 C70 22 58 34 50 50 C42 66 30 78 14 86 Z" />
     </svg>
   )
 }

@@ -1,9 +1,10 @@
 ---
 /**
- * The signature "mid-century meadow" (see README › Design Spec): a dense field
- * of thin, gently curved charcoal stems rising from the bottom edge, each topped
- * with a flat graphic bloom — disc, ringed/two-tone disc, dotted disc, dandelion
- * starburst, Queen Anne's-lace umbel, dot cluster, or pod. Purely decorative.
+ * The signature "mid-century meadow" (see CLAUDE.md › Design system): a dense
+ * field of thin, gently curved charcoal stems rising from the bottom edge, topped
+ * with a flat graphic bloom — disc, favicon-style petal flower, two-tone disc,
+ * dotted disc, dandelion starburst, Queen Anne's-lace umbel, dot cluster, or pod.
+ * Purely decorative.
  *
  * Renders as a band that scales proportionally with its container and anchors to
  * the bottom. Constrain its width (e.g. wrap in `max-w-5xl`) so its height stays
@@ -16,7 +17,7 @@ interface Props {
 const { class: className } = Astro.props;
 
 type BloomType =
-  | 'disc' | 'ring' | 'half' | 'dotted' | 'dandelion' | 'umbel' | 'cluster' | 'pod';
+  | 'disc' | 'flower' | 'half' | 'dotted' | 'dandelion' | 'umbel' | 'cluster' | 'pod';
 
 const RAYS = 14;
 const CLUSTER = [
@@ -32,35 +33,35 @@ const UMBEL = Array.from({ length: 13 }, (_, k) => {
   return [50 + 60 * Math.sin(t), 90 - 60 * Math.cos(t)];
 });
 
-// Repeating "kind" pattern — coral discs are the loudest/most frequent, teal &
-// powder-blue are the cool counterweight, with doses of burgundy/mustard/rose.
+// Repeating "kind" pattern — terracotta discs are the loudest/most frequent,
+// teal is the cool counterweight, with doses of teal-deep/mustard/sage.
 const pattern: { type: BloomType; c: string; a?: string }[] = [
-  { type: 'disc', c: 'coral' },
+  { type: 'disc', c: 'terracotta' },
   { type: 'dandelion', c: 'ink' },
-  { type: 'ring', c: 'ink', a: 'coral' },
-  { type: 'disc', c: 'sky' },
-  { type: 'umbel', c: 'mustard' },
-  { type: 'dotted', c: 'burgundy' },
-  { type: 'disc', c: 'coral' },
-  { type: 'pod', c: 'teal' },
-  { type: 'half', c: 'coral', a: 'burgundy' },
-  { type: 'cluster', c: 'rose' },
+  { type: 'flower', c: 'ink', a: 'terracotta' },
   { type: 'disc', c: 'teal' },
-  { type: 'dandelion', c: 'coral' },
-  { type: 'ring', c: 'coral' },
-  { type: 'disc', c: 'burgundy' },
-  { type: 'umbel', c: 'rose' },
+  { type: 'umbel', c: 'mustard' },
+  { type: 'dotted', c: 'teal-deep' },
+  { type: 'disc', c: 'terracotta' },
+  { type: 'pod', c: 'teal' },
+  { type: 'half', c: 'terracotta', a: 'teal-deep' },
+  { type: 'cluster', c: 'sage' },
+  { type: 'disc', c: 'teal' },
+  { type: 'dandelion', c: 'terracotta' },
+  { type: 'flower', c: 'terracotta' },
+  { type: 'disc', c: 'teal-deep' },
+  { type: 'umbel', c: 'sage' },
   { type: 'dotted', c: 'ink' },
-  { type: 'disc', c: 'coral' },
-  { type: 'pod', c: 'coral' },
+  { type: 'disc', c: 'terracotta' },
+  { type: 'pod', c: 'terracotta' },
   { type: 'cluster', c: 'mustard' },
-  { type: 'disc', c: 'sky' },
+  { type: 'disc', c: 'teal' },
 ];
 
 const N = 32;
 const BASE = 260;
 const baseScale: Record<BloomType, number> = {
-  disc: 0.6, ring: 0.58, half: 0.6, dotted: 0.58,
+  disc: 0.6, flower: 0.58, half: 0.6, dotted: 0.58,
   dandelion: 0.62, umbel: 0.64, cluster: 0.46, pod: 0.5,
 };
 
@@ -75,6 +76,7 @@ const stems = Array.from({ length: N }, (_, i) => {
 
 const v = (c: string) => `var(--color-${c})`;
 const cream = v('cream');
+const mustard = v('mustard');
 ---
 
 <svg
@@ -100,11 +102,13 @@ const cream = v('cream');
           <g transform={`translate(${st.x} ${st.y}) scale(${st.s}) translate(-50 -50)`}>
             {st.type === 'disc' && <circle cx="50" cy="50" r="34" fill={fill} />}
 
-            {st.type === 'ring' && (
+            {st.type === 'flower' && (
               <g fill={fill}>
-                <circle cx="50" cy="50" r="34" />
-                <circle cx="50" cy="50" r="18" fill={accent} />
-                <circle cx="50" cy="50" r="7" />
+                <circle cx="50" cy="50" r="40" fill={mustard} />
+                {Array.from({ length: 8 }).map((_, j) => (
+                  <rect x="46" y="13" width="8" height="25" rx="4" transform={`rotate(${45 * j} 50 50)`} />
+                ))}
+                <circle cx="50" cy="50" r="12" fill={accent} />
               </g>
             )}
 
