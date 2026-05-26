@@ -1,0 +1,105 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Self-hosted variable fonts (no external requests, no layout shift) */
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/dm-sans';
+
+/*
+  Design tokens — mid-century-modern, mid-minimalist.
+  Palette is warm and earthy: cream paper, espresso ink, with teal /
+  mustard / terracotta / sage accents.
+
+  Accessibility note (WCAG 2.1 AA): the safe text pairings are
+  ink-on-cream / ink-on-sand (~11:1) and cream-on-teal (~5.4:1).
+  Mustard, terracotta and sage are reserved for decorative shapes,
+  borders, and large/badge elements — never small body text on cream.
+*/
+@theme {
+  /* Surfaces */
+  --color-cream: #fbf6ec; /* page background */
+  --color-sand: #f1e6cf; /* raised panels / accordion */
+  --color-shell: #ffffff;
+
+  /* Ink (text) */
+  --color-ink: #2c241c; /* primary text — ~11:1 on cream */
+  --color-ink-soft: #5b4f43; /* secondary text — ~5.6:1 on cream */
+
+  /* Accents */
+  --color-teal: #0e6b63; /* primary action — cream text passes AA */
+  --color-teal-deep: #0a534d; /* hover */
+  --color-mustard: #e3a52e;
+  --color-terracotta: #bf4e32;
+  --color-sage: #6e8b5b;
+
+  /* Fonts */
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans Variable', system-ui, -apple-system, sans-serif;
+
+  /* Radii — soft, rounded MCM geometry */
+  --radius-soft: 0.75rem;
+  --radius-pill: 999px;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  /* Visible, high-contrast focus for every interactive element (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 3px solid var(--color-teal);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Respect users who prefer less motion (WCAG 2.3.3 / 2.2.2) */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Skip link — hidden until focused, then anchored top-left (WCAG 2.4.1) */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -100%;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background-color: var(--color-teal);
+  color: var(--color-cream);
+  border-radius: var(--radius-soft);
+  font-weight: 600;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 0.75rem;
+}

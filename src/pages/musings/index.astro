@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Decor from '../../components/Decor.astro';
+---
+
+<Layout
+  title="Musings — Sarik Adventure"
+  description="Longer-form thoughts and stories from the road."
+>
+  <section class="mx-auto max-w-3xl px-5 py-20">
+    <div class="mb-6 flex items-center gap-3">
+      <Decor shape="rings" class="h-7 w-7 text-teal" />
+      <h1 class="text-4xl font-semibold text-ink sm:text-5xl">Musings</h1>
+    </div>
+    <p class="max-w-xl text-lg text-ink-soft">
+      Placeholder — this is where longer "other thoughts" will live as
+      blog-style posts with their own sub-pages. Nothing published yet.
+    </p>
+
+    <div class="mt-10 rounded-soft border border-dashed border-ink/20 bg-sand/60 p-8 text-center">
+      <Decor shape="arch" class="mx-auto mb-3 h-12 w-10 text-terracotta/60" />
+      <p class="font-medium text-ink">First post coming soon</p>
+      <p class="mt-1 text-ink-soft">Check back from the road.</p>
+    </div>
+  </section>
+</Layout>

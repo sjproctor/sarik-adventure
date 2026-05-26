@@ -1,0 +1,48 @@
+---
+/**
+ * Decorative mid-century-modern shapes (starburst, arch, concentric rings,
+ * boomerang). Purely ornamental, so they are hidden from assistive tech.
+ * Color is inherited via `currentColor` — set it with a text-* utility.
+ */
+interface Props {
+  shape: 'starburst' | 'arch' | 'rings' | 'boomerang';
+  class?: string;
+}
+const { shape, class: className } = Astro.props;
+---
+
+{
+  shape === 'starburst' && (
+    <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">
+      <g>
+        {Array.from({ length: 12 }).map((_, i) => (
+          <rect x="48.5" y="2" width="3" height="22" rx="1.5" transform={`rotate(${i * 30} 50 50)`} />
+        ))}
+        <circle cx="50" cy="50" r="9" />
+      </g>
+    </svg>
+  )
+}
+{
+  shape === 'arch' && (
+    <svg class={className} viewBox="0 0 100 120" aria-hidden="true" fill="currentColor">
+      <path d="M10 120 V50 a40 40 0 0 1 80 0 V120 H72 V50 a22 22 0 0 0-44 0 V120 Z" />
+    </svg>
+  )
+}
+{
+  shape === 'rings' && (
+    <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="6">
+      <circle cx="50" cy="50" r="14" />
+      <circle cx="50" cy="50" r="30" />
+      <circle cx="50" cy="50" r="46" />
+    </svg>
+  )
+}
+{
+  shape === 'boomerang' && (
+    <svg class={className} viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">
+      <path d="M14 86 C14 46 46 14 86 14 C70 22 58 34 50 50 C42 66 30 78 14 86 Z" />
+    </svg>
+  )
+}

@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Decor from '../components/Decor.astro';
+
+// Placeholder data — replaced by the `locations` content collection in a
+// later milestone. `status` drives which accordion panel opens by default.
+const locations = [
+  {
+    name: 'Sun Valley',
+    region: 'Idaho',
+    status: 'current',
+    dates: 'May 2026',
+    note: 'Placeholder notes about Sun Valley — trails, light, and the people we met.',
+    tiles: 4,
+  },
+  {
+    name: 'Bandon',
+    region: 'Oregon',
+    status: 'upcoming',
+    dates: 'Next stop',
+    note: 'Placeholder notes — coastline and sea stacks are on the itinerary.',
+    tiles: 3,
+  },
+];
+
+const statusLabel: Record<string, string> = {
+  current: 'Currently here',
+  upcoming: 'Next up',
+  visited: 'Visited',
+};
+---
+
+<Layout>
+  {/* ===== Hero: the "what & why", above the fold ===== */}
+  <section class="relative overflow-hidden border-b border-ink/10 bg-sand">
+    <Decor
+      shape="rings"
+      class="pointer-events-none absolute -right-12 -top-10 h-56 w-56 text-mustard/40"
+    />
+    <Decor
+      shape="arch"
+      class="pointer-events-none absolute -bottom-6 left-6 hidden h-40 w-32 text-teal/15 sm:block"
+    />
+    <div class="relative mx-auto max-w-5xl px-5 py-20 sm:py-28">
+      <p class="mb-4 inline-flex items-center gap-2 rounded-pill bg-terracotta/15 px-3 py-1 text-sm font-semibold text-terracotta">
+        <Decor shape="starburst" class="h-4 w-4" /> A small travel journal
+      </p>
+      <h1 class="max-w-2xl text-5xl font-semibold text-ink sm:text-6xl">
+        Postcards from the road.
+      </h1>
+      <p class="mt-5 max-w-xl text-lg text-ink-soft">
+        Placeholder intro — the "what &amp; why" lives here: who we are, where
+        we're headed, and why we packed up to chase good light and new places.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href="#locations"
+          class="inline-flex min-h-11 items-center rounded-pill bg-teal px-6 font-medium text-cream transition-colors hover:bg-teal-deep"
+        >
+          See where we are
+        </a>
+        <a
+          href="/musings"
+          class="inline-flex min-h-11 items-center rounded-pill border border-ink/20 px-6 font-medium text-ink transition-colors hover:bg-cream"
+        >
+          Read the musings
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== Locations accordion (native <details>, zero-JS) ===== */}
+  <section id="locations" class="mx-auto max-w-5xl px-5 py-16" aria-labelledby="locations-heading">
+    <div class="mb-8 flex items-center gap-3">
+      <Decor shape="boomerang" class="h-6 w-6 text-sage" />
+      <h2 id="locations-heading" class="text-3xl font-semibold text-ink">Where we are</h2>
+    </div>
+
+    <div class="space-y-4">
+      {
+        locations.map((loc) => (
+          <details
+            open={loc.status === 'current'}
+            class="group overflow-hidden rounded-soft border border-ink/10 bg-cream"
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+              <span class="flex items-baseline gap-3">
+                <span class="font-display text-2xl font-semibold text-ink">{loc.name}</span>
+                <span class="text-ink-soft">{loc.region}</span>
+              </span>
+              <span class="flex items-center gap-3">
+                <span
+                  class:list={[
+                    'rounded-pill px-3 py-1 text-sm font-semibold',
+                    loc.status === 'current'
+                      ? 'bg-teal text-cream'
+                      : 'bg-mustard/25 text-ink',
+                  ]}
+                >
+                  {statusLabel[loc.status]}
+                </span>
+                <svg
+                  class="h-5 w-5 shrink-0 text-ink-soft transition-transform group-open:rotate-180"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06Z"
+                  />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="border-t border-ink/10 px-5 py-5">
+              <p class="mb-5 text-ink-soft">
+                <span class="font-medium text-ink">{loc.dates}.</span> {loc.note}
+              </p>
+              {/* Placeholder photo tiles — replaced by optimized images later */}
+              <ul class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {Array.from({ length: loc.tiles }).map((_, i) => (
+                  <li class="flex aspect-[4/3] items-center justify-center rounded-soft bg-sand text-sm font-medium text-ink-soft">
+                    Photo {i + 1}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

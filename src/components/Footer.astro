@@ -1,0 +1,34 @@
+---
+import Decor from './Decor.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-ink/10 bg-sand">
+  <div class="mx-auto max-w-5xl px-5 py-10">
+    <!--
+      Placeholder slot for the future "email updates" signup (Future Feature).
+      Replace this block with the real form when that feature lands.
+    -->
+    <div class="flex flex-col items-start gap-3 rounded-soft border border-ink/10 bg-cream p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-3">
+        <Decor shape="boomerang" class="h-6 w-6 shrink-0 text-terracotta" />
+        <p class="text-ink-soft">
+          <span class="font-medium text-ink">Want updates from the road?</span> Email
+          signups are coming soon.
+        </p>
+      </div>
+      <button
+        type="button"
+        disabled
+        class="inline-flex min-h-11 cursor-not-allowed items-center rounded-pill bg-teal/40 px-5 font-medium text-cream"
+        aria-disabled="true"
+      >
+        Coming soon
+      </button>
+    </div>
+
+    <p class="mt-8 text-sm text-ink-soft">
+      &copy; {year} Sarik Adventure. Made with curiosity on the road.
+    </p>
+  </div>
+</footer>
