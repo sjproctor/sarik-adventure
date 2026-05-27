@@ -5,14 +5,33 @@ import Meadow from '../components/Meadow.astro';
 
 // Placeholder data — replaced by the `locations` content collection in a
 // later milestone. `status` drives which accordion panel opens by default.
-const locations = [
+// Each photo's `caption` is optional — omit it for an uncaptioned tile.
+type Photo = { caption?: string };
+type Location = {
+  name: string;
+  region: string;
+  status: string;
+  dates: string;
+  note: string;
+  mapUrl: string;
+  photos: Photo[];
+};
+
+const locations: Location[] = [
   {
     name: 'Sun Valley',
     region: 'Idaho',
     status: 'current',
     dates: 'May 2026',
     note: 'Placeholder notes about Sun Valley — trails, light, and the people we met.',
-    tiles: 4,
+    // Placeholder — real Google Maps URL comes from the location frontmatter later.
+    mapUrl: '#',
+    photos: [
+      { caption: 'Morning light on Bald Mountain.' },
+      { caption: 'Trailhead before the long climb up.' },
+      {},
+      {},
+    ],
   },
   {
     name: 'Bandon',
@@ -20,7 +39,8 @@ const locations = [
     status: 'upcoming',
     dates: 'Next stop',
     note: 'Placeholder notes — coastline and sea stacks are on the itinerary.',
-    tiles: 3,
+    mapUrl: '#',
+    photos: [{ caption: 'Sea stacks at low tide.' }, {}, {}],
   },
 ];
 
@@ -121,14 +141,37 @@ const statusLabel: Record<string, string> = {
             </summary>
 
             <div class="border-t border-ink/10 px-5 py-5">
-              <p class="mb-5 text-ink-soft">
+              <p class="mb-4 text-ink-soft">
                 <span class="font-medium text-ink">{loc.dates}.</span> {loc.note}
               </p>
+              {/* Placeholder Google Maps link — wired to real location coords later */}
+              <a
+                href={loc.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mb-5 inline-flex min-h-11 items-center gap-2 font-medium text-ink underline decoration-ink/30 underline-offset-4 transition-colors hover:text-teal hover:decoration-teal"
+              >
+                <svg class="h-5 w-5 shrink-0 text-terracotta" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 2a5.5 5.5 0 0 0-5.5 5.5c0 3.6 4.51 8.97 4.7 9.2a1.04 1.04 0 0 0 1.6 0c.19-.23 4.7-5.6 4.7-9.2A5.5 5.5 0 0 0 10 2Zm0 7.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                View on Google Maps
+              </a>
               {/* Placeholder photo tiles — replaced by optimized images later */}
               <ul class="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {Array.from({ length: loc.tiles }).map((_, i) => (
-                  <li class="flex aspect-[4/3] items-center justify-center rounded-soft bg-sand text-sm font-medium text-ink-soft">
-                    Photo {i + 1}
+                {loc.photos.map((photo, i) => (
+                  <li>
+                    <figure>
+                      <div class="flex aspect-[4/3] items-center justify-center rounded-soft bg-sand text-sm font-medium text-ink-soft">
+                        Photo {i + 1}
+                      </div>
+                      {photo.caption && (
+                        <figcaption class="mt-2 text-sm text-ink-soft">{photo.caption}</figcaption>
+                      )}
+                    </figure>
                   </li>
                 ))}
               </ul>
