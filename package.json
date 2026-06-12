@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start -p 3003",
     "lint": "eslint .",
-    "content": "velite"
+    "content": "velite",
+    "optimize-images": "node scripts/optimize-images.mjs",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -29,6 +31,7 @@
     "eslint-config-next": "16.2.6",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "knip": "^6.16.1",
+    "sharp": "^0.35.1",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.7.0",
     "velite": "^0.3.1"

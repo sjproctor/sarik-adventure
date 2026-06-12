@@ -1,0 +1,14 @@
+#!/bin/sh
+# Strip EXIF/GPS metadata and downsize any photo being committed under
+# content/ — these files are published verbatim, so a raw iPhone photo would
+# ship its GPS coordinates. Wired up via `git config core.hooksPath .githooks`
+# (run automatically by the package.json `prepare` script on install).
+set -e
+
+staged=$(git diff --cached --name-only -z --diff-filter=ACM -- content |
+  tr '\0' '\n' | grep -iE '\.(jpe?g|png)$' || true)
+
+[ -z "$staged" ] && exit 0
+
+printf '%s\n' "$staged" | tr '\n' '\0' | xargs -0 node scripts/optimize-images.mjs
+printf '%s\n' "$staged" | tr '\n' '\0' | xargs -0 git add

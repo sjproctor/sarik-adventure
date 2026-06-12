@@ -26,15 +26,26 @@ pnpm dev          # start the dev server at http://localhost:3003
 Other scripts:
 
 ```bash
-pnpm build        # production build
-pnpm start        # serve the production build
-pnpm lint         # run ESLint (incl. jsx-a11y rules)
-pnpm content      # run Velite once to build content collections
+pnpm build            # production build
+pnpm start            # serve the production build
+pnpm lint             # run ESLint (incl. jsx-a11y rules)
+pnpm content          # run Velite once to build content collections
+pnpm optimize-images  # strip metadata + downsize photos under content/
 ```
 
 Velite runs automatically before `dev` and `build` (wired up in
 [next.config.ts](next.config.ts)), so you normally don't need `pnpm content`
 by hand.
+
+### Adding photos
+
+Photos are published verbatim, so a raw phone photo would ship its EXIF
+metadata — including GPS coordinates. A pre-commit hook
+([.githooks/pre-commit](.githooks/pre-commit)) automatically strips metadata
+and downsizes any image staged under `content/`, via
+[scripts/optimize-images.mjs](scripts/optimize-images.mjs). The hook is wired
+up by `pnpm install` (the `prepare` script sets `core.hooksPath`); on a fresh
+clone, just install before committing photos.
 
 ## Project structure
 
