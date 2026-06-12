@@ -67,11 +67,12 @@ export default async function config(): Promise<NextConfig> {
   if (!process.env.VELITE_STARTED && (isDev || isBuild)) {
     process.env.VELITE_STARTED = "1";
     const { build } = await import("velite");
-    // `strict` makes a production build throw on MDX/schema errors instead of
-    // silently shipping the site with the broken entry missing. Dev stays
-    // non-strict so a typo mid-edit doesn't kill the dev server; the `prepare`
-    // hook in velite.config.ts logs a console error there instead.
-    await build({ watch: isDev, clean: !isDev, strict: isBuild });
+    // Velite's own `strict` option is intentionally NOT used here: it fails on
+    // any reported message, including the harmless "The content is empty" info
+    // for blocks that just haven't been written yet. Instead, the `prepare`
+    // hook in velite.config.ts logs a console error for files that failed to
+    // compile, and throws (failing the build) only during `next build`.
+    await build({ watch: isDev, clean: !isDev });
   }
   return nextConfig;
 }

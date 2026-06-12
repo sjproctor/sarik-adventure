@@ -139,6 +139,14 @@ export default defineConfig({
           dropped.map((f) => `  ✖ ${f}`).join("\n") +
           `\nSee the velite "issues" report above for the exact error and line number.\n`,
       );
+      // Fail `next build` so a broken file can't ship with its page missing.
+      // Empty-but-valid files are fine — they resolve normally and never land
+      // in `dropped`. In dev and the standalone `velite` CLI this only logs.
+      if (process.argv.includes("build")) {
+        throw new Error(
+          `${dropped.length} MDX file(s) failed to compile: ${dropped.join(", ")}`,
+        );
+      }
     }
   },
 });
