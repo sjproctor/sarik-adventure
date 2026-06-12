@@ -109,13 +109,11 @@ export function Gallery({
 
     // Album cover: link straight to the album rather than opening the lightbox,
     // and mark it with a badge + title so it reads as a set, not a single shot.
+    // No aria-label: the visible badge + title are the accessible name, which
+    // keeps it matching what voice-control users see (WCAG 2.5.3).
     if (image.album) {
       return (
-        <Link
-          href={image.album.href}
-          className={className}
-          aria-label={`View album: ${image.album.title}`}
-        >
+        <Link href={image.album.href} className={className}>
           {photo}
           <span className="pointer-events-none absolute inset-0 bg-linear-to-t from-ink/75 via-ink/15 to-transparent" />
           <span className="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-ink/70 px-2 py-1 text-[11px] font-semibold tracking-wide text-cream uppercase backdrop-blur-sm">

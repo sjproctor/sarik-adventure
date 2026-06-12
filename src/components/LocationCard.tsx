@@ -44,7 +44,8 @@ export function LocationCard({
         </span>
       </div>
       <div className="p-5">
-        <h3 className="font-display text-2xl text-forest">{location.title}</h3>
+        {/* h2: these cards sit directly under the page h1 on /locations */}
+        <h2 className="font-display text-2xl text-forest">{location.title}</h2>
         <p className="mt-1 text-sm font-medium text-clay">{location.region}</p>
         <Markdown html={location.summary} className="mt-3 text-ink/75" />
       </div>
