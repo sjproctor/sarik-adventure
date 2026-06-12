@@ -99,7 +99,7 @@ export function Hero() {
         <div className="relative mx-auto md:mt-30 aspect-4/3 w-full max-w-32 md:max-w-80">
           <Image
             src="/wildflowers.png"
-            alt="Stylized mid-century wildflowers graphic"
+            alt=""
             fill
             sizes="(max-width: 640px) 16rem, 24rem"
             className="object-contain object-bottom"
