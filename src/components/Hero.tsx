@@ -70,7 +70,7 @@ export function Hero() {
       <div className="relative z-10 mx-auto flex flex-col-reverse md:flex-row max-w-6xl items-center gap-10 sm:grid-cols-[1.3fr_1fr]">
         <div>
           <h1 className="font-display text-4xl leading-[1.05] text-forest sm:text-6xl">
-            Sarik's Adventures
+            Sarik&apos;s Adventures
           </h1>
           <p className="mt-6 max-w-xl text-lg text-ink/80">
             After 10 years at our place on Market Street in downtown San Diego
@@ -82,9 +82,9 @@ export function Hero() {
             traveling around the western US staying for a month here and there.
           </p>
           <p className="mt-2 max-w-xl text-lg text-ink/80">
-            We hope you'll follow along with us! We'll add new pics and updates
-            on our progress. And please drop us a line. We'd love to hear from
-            you.
+            We hope you&apos;ll follow along with us! We&apos;ll add new pics
+            and updates on our progress. And please drop us a line. We&apos;d
+            love to hear from you.
           </p>
           <p className="mt-4">
             <Link

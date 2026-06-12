@@ -20,6 +20,9 @@ export function MDXContent({ code }: { code: string }) {
   const Component = useMDXComponent(code);
   return (
     <div className="prose-natural">
+      {/* eslint-disable-next-line react-hooks/static-components -- server
+          component: rendered once per request/build, so there's no client
+          state to lose by deriving the component from `code` during render. */}
       <Component components={mdxComponents} />
     </div>
   );

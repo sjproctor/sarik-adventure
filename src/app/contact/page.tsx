@@ -18,7 +18,7 @@ export default function ContactPage() {
           you.
         </p>
         <p className="mt-4 text-lg text-ink/80">
-          Email and phone are optional but if we don't have your contact info
+          Email and phone are optional but if we don&apos;t have your contact info
           already please let us know how we can respond to you.
         </p>
       </header>
