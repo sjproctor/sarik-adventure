@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { defineConfig, defineCollection, s } from "velite";
 import remarkBreaks from "remark-breaks";
 import rehypeExternalLinks from "rehype-external-links";
@@ -107,4 +109,36 @@ export default defineConfig({
   },
   collections: { locations, musings },
   mdx: { rehypePlugins: [externalLinks] },
+  // When an MDX file has a structural error (e.g. an unclosed tag), Velite
+  // reports it in a yellow "issues" warning but still finishes the build,
+  // silently dropping the entry — the page or block just stops rendering with
+  // no obvious cause. Diff the .mdx files on disk against what actually
+  // resolved and emit a loud console.error naming each dropped file. Runs on
+  // every build and every dev watch rebuild.
+  prepare({ locations, musings }) {
+    const dropped: string[] = [];
+    const checks = [
+      ["locations", new Set(locations.map((e) => e.slug))],
+      ["musings", new Set(musings.map((e) => e.slug))],
+    ] as const;
+    for (const [dir, resolved] of checks) {
+      const base = join("content", dir);
+      for (const file of readdirSync(base, { recursive: true })) {
+        if (typeof file !== "string" || !file.endsWith(".mdx")) continue;
+        const path = join(base, file);
+        const slug = readFileSync(path, "utf8").match(
+          /^slug:\s*["']?([^"'\r\n]+)/m,
+        )?.[1];
+        if (!slug || !resolved.has(slug.trim())) dropped.push(path);
+      }
+    }
+    if (dropped.length > 0) {
+      console.error(
+        `\n[content] ${dropped.length} MDX file(s) failed to compile and were` +
+          ` EXCLUDED from the site — their pages/blocks will NOT render:\n` +
+          dropped.map((f) => `  ✖ ${f}`).join("\n") +
+          `\nSee the velite "issues" report above for the exact error and line number.\n`,
+      );
+    }
+  },
 });
