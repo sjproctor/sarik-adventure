@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/* ---- Theme tokens (Tailwind v4 CSS-first config) ----
+   Warm, natural palette. Reference these as utilities like
+   bg-cream, text-clay, border-sand, font-display, etc. */
+@theme {
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+
+  --color-cream: #f7f1e4;
+  --color-sand: #e7d8bb;
+  --color-clay: #c9744f;
+  --color-terracotta: #aa4d34;
+  --color-sage: #7c8b6f;
+  --color-forest: #3c4736;
+  --color-ink: #2c2620;
+  --color-sky: #7fa6ad;
+  --color-blush: #e3a587;
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  /* Slightly warm focus ring for accessibility across interactive elements */
+  --tw-ring-color: var(--color-terracotta);
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  /* Subtle textured paper feel without being noisy */
+  background-image:
+    radial-gradient(
+      ellipse at top left,
+      color-mix(in srgb, var(--color-blush) 18%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      color-mix(in srgb, var(--color-sage) 16%, transparent),
+      transparent 55%
+    );
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Make keyboard focus obvious everywhere (WCAG 2.1 AA) */
+:focus-visible {
+  outline: 3px solid var(--color-terracotta);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Honor reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---- Small whimsical helpers ---- */
+.tilt-left {
+  transform: rotate(-1.3deg);
+}
+.tilt-right {
+  transform: rotate(1.3deg);
+}
+
+/* Long-form prose styling for MDX bodies */
+.prose-natural {
+  line-height: 1.75;
+  max-width: 68ch;
+}
+.prose-natural > * + * {
+  margin-top: 1.1em;
+}
+.prose-natural h2 {
+  font-size: 1.6rem;
+  margin-top: 2em;
+  color: var(--color-forest);
+}
+.prose-natural h3 {
+  font-size: 1.25rem;
+  margin-top: 1.6em;
+  color: var(--color-forest);
+}
+.prose-natural a {
+  color: var(--color-terracotta);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-natural ul,
+.prose-natural ol {
+  padding-left: 1.4em;
+}
+.prose-natural ul {
+  list-style: disc;
+}
+.prose-natural ol {
+  list-style: decimal;
+}
+.prose-natural li + li {
+  margin-top: 0.4em;
+}
+.prose-natural strong {
+  color: var(--color-terracotta);
+}
