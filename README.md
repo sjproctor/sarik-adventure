@@ -23,6 +23,14 @@ pnpm install
 pnpm dev          # start the dev server at http://localhost:3003
 ```
 
+`pnpm install` also activates the repo's git hooks (the `prepare` script sets
+`core.hooksPath` to [.githooks/](.githooks/)) — see
+[Adding photos](#adding-photos) for why that matters.
+
+For the contact form, copy [.env.example](.env.example) to `.env.local` and
+fill in the EmailJS values (see the comments in that file). The site runs fine
+without them; only the form's submit will fail.
+
 Other scripts:
 
 ```bash
@@ -36,16 +44,6 @@ pnpm optimize-images  # strip metadata + downsize photos under content/
 Velite runs automatically before `dev` and `build` (wired up in
 [next.config.ts](next.config.ts)), so you normally don't need `pnpm content`
 by hand.
-
-### Adding photos
-
-Photos are published verbatim, so a raw phone photo would ship its EXIF
-metadata — including GPS coordinates. A pre-commit hook
-([.githooks/pre-commit](.githooks/pre-commit)) automatically strips metadata
-and downsizes any image staged under `content/`, via
-[scripts/optimize-images.mjs](scripts/optimize-images.mjs). The hook is wired
-up by `pnpm install` (the `prepare` script sets `core.hooksPath`); on a fresh
-clone, just install before committing photos.
 
 ## Project structure
 
@@ -75,7 +73,9 @@ New posts are added in the codebase and pushed to git.
 ### A location
 
 1. Create a folder for the stop's photos next to the MDX file, e.g.
-   `content/locations/sun-valley-id/`, and drop the image files in it.
+   `content/locations/sun-valley-id/`, and drop the image files in it —
+   straight off the phone is fine; the pre-commit hook strips metadata and
+   resizes them (see [Adding photos](#adding-photos)).
 2. Create `content/locations/<slug>.mdx` with frontmatter that references those
    photos by **relative path**:
 
@@ -140,20 +140,57 @@ the contact link live in the **footer**, rendered globally from
 
 Photos are **local files committed to the repo**, colocated with the content
 that uses them (e.g. `content/locations/<slug>/photo.jpg`) and referenced by
-relative path in frontmatter.
+relative path in frontmatter. They pass through three stages:
 
-At build time, Velite (`s.image()` in [velite.config.ts](velite.config.ts))
-copies each photo into `public/static` with a content-hashed filename and
-returns `{ src, width, height, blurDataURL }`. Components render them through
-`next/image` with a `blurDataURL` placeholder, so images fade in from a blur
-and are automatically resized/optimized. No image host or API key is required,
-and `public/static` is git-ignored since it's regenerated on every build.
+1. **Commit time** — a pre-commit hook normalizes any image staged under
+   `content/` (see [Adding photos](#adding-photos) below).
+2. **Build time** — Velite (`s.image()` in [velite.config.ts](velite.config.ts))
+   copies each photo into `public/static` with a content-hashed filename and
+   returns `{ src, width, height, blurDataURL }`. `public/static` is
+   git-ignored since it's regenerated on every build.
+3. **Request time** — components render through `next/image`, which serves
+   resized AVIF/WebP variants with a blur-up placeholder. No image host or
+   API key is required.
 
-The current photos are placeholders — replace the files in each content folder
-with your own (keep the filenames, or update the paths in frontmatter). Source
-images can be any reasonable size; they're optimized on the way out. If a stop
-ends up with many large photos and the repo feels heavy, consider
-[Git LFS](https://git-lfs.com/).
+### Adding photos
+
+Drop photos straight off the phone into the content folder and commit — no
+manual prep needed. Because the files in `public/static` are served verbatim,
+a raw photo would ship its EXIF metadata, **including GPS coordinates**. The
+pre-commit hook ([.githooks/pre-commit](.githooks/pre-commit)) prevents that:
+any image staged under `content/` is run through
+[scripts/optimize-images.mjs](scripts/optimize-images.mjs), which
+
+- strips **all** metadata (EXIF/GPS location, timestamps, device info),
+- bakes in the EXIF orientation so photos still display right-side up,
+- downsizes to at most 2560px (the largest variant `next/image` generates,
+  per `images.deviceSizes` in [next.config.ts](next.config.ts)), re-encoding
+  JPEGs at quality 80,
+
+and re-stages the cleaned file. The script is idempotent — already-clean
+images are skipped, so nothing gets recompressed twice.
+
+Two things the hook does **not** cover:
+
+- `git commit --no-verify` bypasses it — avoid that flag when committing photos.
+- Images outside `content/` (e.g. a new graphic in `public/`) — clean those by
+  hand with `pnpm optimize-images public/<file>`.
+
+You can also run the optimizer over everything at any time:
+
+```bash
+pnpm optimize-images              # all images under content/
+pnpm optimize-images <files...>   # specific files
+```
+
+## Deployment
+
+Pushing to `main` triggers a Vercel deploy — that's the whole publishing
+workflow. The `NEXT_PUBLIC_EMAILJS_*` variables from
+[.env.example](.env.example) must also be set in the Vercel project settings
+for the contact form to work in production. Baseline security headers (HSTS,
+nosniff, frame and permissions policies) are applied to every route in
+[next.config.ts](next.config.ts).
 
 ## Accessibility
 
