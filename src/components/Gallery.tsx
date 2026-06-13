@@ -40,6 +40,11 @@ const DEVICE_SIZES = [640, 750, 1080, 1920, 2560];
 
 type LightboxSlide = {
   src: string;
+  // Intrinsic dimensions are required by the lightbox's Zoom plugin: it derives
+  // maxZoom from the image's declared size vs. the on-screen rect. Omit them and
+  // maxZoom resolves to 1, which disables the zoom buttons and wheel/pinch zoom.
+  width?: number;
+  height?: number;
   alt?: string;
   description?: string;
   blurDataURL?: string;
@@ -155,6 +160,8 @@ export function Gallery({
 
   const slides: LightboxSlide[] = images.map((image) => ({
     src: image.src.src,
+    width: image.src.width,
+    height: image.src.height,
     alt: image.alt,
     description: image.caption,
     blurDataURL: image.src.blurDataURL,
