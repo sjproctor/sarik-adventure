@@ -2,19 +2,20 @@ import type { Metadata } from "next";
 import { Fraunces, Nunito_Sans } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { HomeLogoLink } from "@/components/HomeLogoLink";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
-  display: "swap"
+  display: "swap",
 });
 
 const nunito = Nunito_Sans({
   subsets: ["latin"],
   variable: "--font-nunito",
-  display: "swap"
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -29,15 +30,16 @@ export const metadata: Metadata = {
     url: "/",
     siteName: site.name,
     images: [{ url: "/preview.png" }],
-    type: "website"
-  }
+    type: "website",
+  },
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${fraunces.variable} ${nunito.variable}`}>
+      <GoogleTagManager gtmId="G-V2P8MEMZSG" />
       <body className="min-h-screen antialiased">
         <a
           href="#main"
