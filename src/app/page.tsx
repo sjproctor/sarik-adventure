@@ -24,7 +24,7 @@ export default function HomePage() {
       {/* Recent musings */}
       {musings.length > 0 && (
         <section className="mx-auto max-w-6xl px-5 py-16">
-          <div className="mb-6 flex flex-wrap items-baseline justify-between">
+          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4">
             <h2 className="font-display text-3xl text-forest">
               Some stories & musings
             </h2>
@@ -57,7 +57,7 @@ export default function HomePage() {
       {/* What's ahead */}
       {future.length > 0 && (
         <section className="mx-auto max-w-6xl px-5 py-16">
-          <div className="mb-6 flex flex-wrap items-baseline justify-between">
+          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4">
             <h2 className="font-display text-3xl text-forest">
               What&apos;s ahead for us
             </h2>

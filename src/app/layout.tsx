@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Nunito_Sans } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { HomeLogoLink } from "@/components/HomeLogoLink";
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -39,7 +39,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${fraunces.variable} ${nunito.variable}`}>
-      <GoogleTagManager gtmId="G-V2P8MEMZSG" />
+      {process.env.NEXT_PUBLIC_GA_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+      )}
       <body className="min-h-screen antialiased">
         <a
           href="#main"
