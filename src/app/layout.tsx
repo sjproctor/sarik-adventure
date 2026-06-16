@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, Nunito_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
 import { HomeLogoLink } from "@/components/HomeLogoLink";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -39,9 +39,6 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${fraunces.variable} ${nunito.variable}`}>
-      {process.env.NEXT_PUBLIC_GA_ID && (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-      )}
       <body className="min-h-screen antialiased">
         <a
           href="#main"
@@ -51,6 +48,7 @@ export default function RootLayout({
         </a>
         <HomeLogoLink />
         <main id="main">{children}</main>
+        <Analytics />
         <Footer />
       </body>
     </html>
