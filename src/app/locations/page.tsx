@@ -14,10 +14,10 @@ export default function LocationsPage() {
     <div className="mx-auto max-w-6xl px-5 pb-10 pt-28 md:pt-16">
       <header className="max-w-2xl">
         <h1 className="font-display text-4xl text-forest sm:text-5xl">
-          All the Locations
+          Locations
         </h1>
         <p className="mt-4 text-lg text-ink/80">
-          The full list of where we have been and what we have planned out.
+          Where we&apos;ve been and what&apos;s on the docket.
         </p>
       </header>
 
