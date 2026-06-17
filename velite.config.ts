@@ -93,6 +93,7 @@ const musings = defineCollection({
       excerpt: s.string(),
       cover: s.image().optional(),
       coverAlt: s.string().optional(),
+      aspect: s.string().optional(),
       body: s.mdx(),
     })
     .transform((data) => ({ ...data, permalink: `/musings/${data.slug}` })),
@@ -127,7 +128,7 @@ export default defineConfig({
         if (typeof file !== "string" || !file.endsWith(".mdx")) continue;
         const path = join(base, file);
         const slug = readFileSync(path, "utf8").match(
-          /^slug:\s*["']?([^"'\r\n]+)/m,
+          /^slug:\s*["']?([^"'\r\n]+)/m
         )?.[1];
         if (!slug || !resolved.has(slug.trim())) dropped.push(path);
       }
@@ -137,14 +138,14 @@ export default defineConfig({
         `\n[content] ${dropped.length} MDX file(s) failed to compile and were` +
           ` EXCLUDED from the site — their pages/blocks will NOT render:\n` +
           dropped.map((f) => `  ✖ ${f}`).join("\n") +
-          `\nSee the velite "issues" report above for the exact error and line number.\n`,
+          `\nSee the velite "issues" report above for the exact error and line number.\n`
       );
       // Fail `next build` so a broken file can't ship with its page missing.
       // Empty-but-valid files are fine — they resolve normally and never land
       // in `dropped`. In dev and the standalone `velite` CLI this only logs.
       if (process.argv.includes("build")) {
         throw new Error(
-          `${dropped.length} MDX file(s) failed to compile: ${dropped.join(", ")}`,
+          `${dropped.length} MDX file(s) failed to compile: ${dropped.join(", ")}`
         );
       }
     }

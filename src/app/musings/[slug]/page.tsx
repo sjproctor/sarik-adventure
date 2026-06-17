@@ -38,7 +38,9 @@ export default async function MusingPage({
       </header>
 
       {musing.cover && (
-        <div className="relative mt-8 aspect-video overflow-hidden">
+        <div
+          className={`relative mt-8 ${musing.aspect ? musing.aspect : "aspect-video"} overflow-hidden`}
+        >
           <Image
             src={musing.cover.src}
             alt={musing.coverAlt ?? ""}

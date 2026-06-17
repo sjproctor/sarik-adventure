@@ -14,14 +14,17 @@ export default function ContactPage() {
           Say hi
         </h1>
         <p className="mt-4 text-lg text-ink/80">
-          Questions about our travel adventures? Comments? Just want to say hi? We&apos;d love to hear from
-          you.
+          Questions about our travel adventures? Comments? Just want to say hi?
+          We&apos;d love to hear from you.
         </p>
         <p className="mt-4 text-lg text-ink/80">
-          The email and phone inputs on the form below are optional but if we don&apos;t have your contact info
-          already please let us know how we can respond to you.
+          The email and phone inputs on the form below are optional but if we
+          don&apos;t have your contact info please include a way for us to
+          respond to you.
         </p>
-        <p>(If you already have our numbers feel free to send a text.)</p>
+        <p className="mt-4 text-sm text-ink/80">
+          P.S. If you already have our numbers just send a text.
+        </p>
       </header>
 
       <ContactForm />
