@@ -16,7 +16,17 @@ is no CMS, database, or user auth.
 
 ## Getting started
 
-Requires Node and **pnpm** (`packageManager: pnpm@9.15.0`).
+### Prerequisites
+
+- **Node 22** (see [.nvmrc](.nvmrc)) — with [nvm](https://github.com/nvm-sh/nvm),
+  run `nvm use` in the project root, or `nvm install 22` the first time.
+- **pnpm 9.15.0**, pinned via `packageManager`. Rather than installing pnpm
+  globally, enable [Corepack](https://nodejs.org/api/corepack.html) once and it
+  will use the pinned version automatically:
+
+  ```bash
+  corepack enable
+  ```
 
 ```bash
 pnpm install
