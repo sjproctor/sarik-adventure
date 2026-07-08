@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Hero } from "@/components/Hero";
 import { FeaturedLocation } from "@/components/FeaturedLocation";
 import { LocationMapCard } from "@/components/LocationMapCard";
@@ -28,25 +29,34 @@ export default function HomePage() {
             <h2 className="font-display text-3xl text-forest">
               Some stories & musings
             </h2>
-            <Link
-              href="/musings"
-              className="font-semibold text-terracotta underline underline-offset-4"
-            >
-              More musings →
-            </Link>
           </div>
-          <ul className="grid gap-6 sm:grid-cols-3">
-            {musings.map((musing) => (
+          <ul className="mt-10 space-y-8">
+            {musings.map((musing, i) => (
               <li key={musing.slug}>
                 <Link
                   href={musing.permalink}
-                  className="block border border-sand bg-cream p-6 transition-transform hover:-translate-y-1"
+                  className={`group grid gap-5 border border-sand bg-cream p-5 transition-transform hover:-translate-y-1 sm:grid-cols-[1fr_2fr] ${i % 2 === 0 ? "tilt-left" : "tilt-right"}`}
                 >
-                  <p className="text-sm text-clay">{formatDate(musing.date)}</p>
-                  <h3 className="mt-1 font-display text-xl text-forest">
-                    {musing.title}
-                  </h3>
-                  <p className="mt-2 text-ink/75">{musing.excerpt}</p>
+                  {musing.cover && (
+                    <div className="relative aspect-4/3 overflow-hidden">
+                      <Image
+                        src={musing.cover.src}
+                        alt={musing.coverAlt ?? ""}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 33vw"
+                        placeholder="blur"
+                        blurDataURL={musing.cover.blurDataURL}
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div className="self-center">
+                    <p className="text-sm text-clay">{formatDate(musing.date)}</p>
+                    <h2 className="mt-1 font-display text-2xl text-forest">
+                      {musing.title}
+                    </h2>
+                    <p className="mt-2 text-ink/75">{musing.excerpt}</p>
+                  </div>
                 </Link>
               </li>
             ))}
@@ -61,12 +71,6 @@ export default function HomePage() {
             <h2 className="font-display text-3xl text-forest">
               What&apos;s ahead for us
             </h2>
-            <Link
-              href="/locations"
-              className="font-semibold text-terracotta underline underline-offset-4"
-            >
-              All locations →
-            </Link>
           </div>
           <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {future.map((location, i) => (

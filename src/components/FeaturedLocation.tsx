@@ -80,28 +80,10 @@ export function FeaturedLocation({ location }: { location: Location }) {
               href={location.permalink}
               className="font-semibold text-terracotta underline underline-offset-4 mt-4"
             >
-              See more about {location.title} →
+              See photos of {location.title} →
             </Link>
           </div>
         </div>
-
-        {/* Latest photos — a quick visual update without leaving the home page */}
-        {preview.length > 0 && (
-          <div className="border-t border-sand p-6 sm:p-10">
-            <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4">
-              <h3 className="font-display text-2xl text-forest">Some photos</h3>
-              {hasMore && (
-                <Link
-                  href={location.permalink}
-                  className="font-semibold text-terracotta underline underline-offset-4"
-                >
-                  See more photos →
-                </Link>
-              )}
-            </div>
-            <Gallery images={preview} variant="masonry" />
-          </div>
-        )}
       </div>
     </section>
   );

@@ -86,13 +86,8 @@ export function Hero() {
             and updates on our progress. And please drop us a line. We&apos;d
             love to hear from you.
           </p>
-          <p className="mt-4">
-            <Link
-              href="/contact"
-              className="font-semibold text-terracotta underline underline-offset-4"
-            >
-              Sarah & Erik →
-            </Link>
+          <p className="mt-4 font-semibold text-terracotta">
+            Sarah & Erik
           </p>
         </div>
 
