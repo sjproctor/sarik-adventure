@@ -148,7 +148,11 @@ export default async function LocationPage({
                 </p>
               )}
               <div className="mt-6">
-                <Gallery images={album.gallery} variant="masonry" />
+                <Gallery
+                  images={album.gallery}
+                  variant="masonry"
+                  albumTitle={album.title}
+                />
               </div>
             </section>
           ))}

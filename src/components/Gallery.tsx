@@ -48,6 +48,8 @@ type LightboxSlide = {
   alt?: string;
   description?: string;
   blurDataURL?: string;
+  // Album the photo belongs to, shown as a small badge on the slide.
+  albumTitle?: string;
 };
 
 function LightboxImage({ slide }: { slide: LightboxSlide }) {
@@ -64,6 +66,12 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
           blurDataURL={slide.blurDataURL}
           className="object-contain"
         />
+        {/* Top-left so it stays clear of the lightbox's own controls (top-right) */}
+        {slide.albumTitle && (
+          <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta px-3 py-1 text-xs font-semibold text-cream">
+            {slide.albumTitle}
+          </span>
+        )}
       </div>
       {slide.description && (
         <div className="max-h-28 shrink-0 overflow-y-auto bg-black/50 px-4 py-3 text-center text-sm text-white">
@@ -77,9 +85,13 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
 export function Gallery({
   images,
   variant = "grid",
+  albumTitle,
 }: {
   images: GalleryImage[];
   variant?: "grid" | "masonry" | "row";
+  // When the gallery is one album's photos, badge each full-screen slide
+  // with the album name.
+  albumTitle?: string;
 }) {
   const [index, setIndex] = useState(-1);
 
@@ -165,6 +177,7 @@ export function Gallery({
     alt: image.alt,
     description: image.caption,
     blurDataURL: image.src.blurDataURL,
+    albumTitle,
   }));
 
   return (
