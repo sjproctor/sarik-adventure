@@ -9,8 +9,11 @@
 
   --color-cream: #f7f1e4;
   --color-sand: #e7d8bb;
-  --color-clay: #c9744f;
-  --color-terracotta: #aa4d34;
+  /* clay + terracotta are tuned to keep WCAG AA contrast (>= 4.5:1) for
+     small text on cream and on the bg-sand/40 section bands — re-check
+     contrast before lightening either one. */
+  --color-clay: #9d5a3e;
+  --color-terracotta: #a74c33;
   --color-sage: #7c8b6f;
   --color-forest: #3c4736;
   --color-ink: #2c2620;

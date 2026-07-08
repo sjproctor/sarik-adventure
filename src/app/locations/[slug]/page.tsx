@@ -62,7 +62,8 @@ export default async function LocationPage({
           blurDataURL={location.cover.blurDataURL}
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-ink/60 to-transparent" />
+        {/* ink/70 keeps the cream title/region text readable over bright covers */}
+        <div className="absolute inset-0 bg-linear-to-t from-ink/70 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-4xl px-5 pb-8">
           <h1 className="font-display text-4xl text-cream sm:text-6xl">
             {location.title}

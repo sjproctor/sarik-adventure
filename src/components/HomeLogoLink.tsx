@@ -35,9 +35,10 @@ export function HomeLogoLink() {
         scrolled ? "opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
       }`}
     >
+      {/* Decorative: the link's aria-label is the accessible name */}
       <Image
         src="/flower.png"
-        alt="Sarik's Adventures — home"
+        alt=""
         fill
         sizes="64px"
         className="object-contain"

@@ -9,7 +9,19 @@ import rehypeExternalLinks from "rehype-external-links";
 // frontmatter fields and the MDX body so links behave the same everywhere.
 const externalLinks: [typeof rehypeExternalLinks, Record<string, unknown>] = [
   rehypeExternalLinks,
-  { target: "_blank", rel: ["noopener", "noreferrer"] },
+  {
+    target: "_blank",
+    rel: ["noopener", "noreferrer"],
+    // Screen-reader-only hint appended inside each link, since target=_blank
+    // gives assistive-tech users no other warning a new tab will open.
+    // `sr-only` is emitted by Tailwind because layout.tsx's skip link uses it.
+    content: {
+      type: "element",
+      tagName: "span",
+      properties: { className: ["sr-only"] },
+      children: [{ type: "text", value: " (opens in new tab)" }],
+    },
+  },
 ];
 
 // Markdown frontmatter fields (summary, overview): compiled to an HTML string

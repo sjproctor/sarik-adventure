@@ -60,9 +60,9 @@ export default function HomePage() {
                       <p className="text-sm text-clay">
                         {formatDate(musing.date)}
                       </p>
-                      <h2 className="mt-1 font-display text-2xl text-forest">
+                      <h3 className="mt-1 font-display text-2xl text-forest">
                         {musing.title}
-                      </h2>
+                      </h3>
                       <p className="mt-2 text-ink/75">{musing.excerpt}</p>
                     </div>
                   </Link>

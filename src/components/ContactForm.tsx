@@ -85,6 +85,7 @@ export function ContactForm() {
             type="text"
             autoComplete="name"
             className={inputClass}
+            aria-required="true"
             aria-invalid={errors.name ? "true" : undefined}
             {...register("name", {
               required: "No anonymous messages allowed!",
@@ -129,6 +130,7 @@ export function ContactForm() {
           id="message"
           rows={6}
           className={`${inputClass} resize-y`}
+          aria-required="true"
           aria-invalid={errors.message ? "true" : undefined}
           {...register("message", { required: "Tell us something cool!" })}
         />
