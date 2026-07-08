@@ -1,46 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Gallery, type GalleryImage } from "@/components/Gallery";
 import { Markdown } from "@/components/Markdown";
-import { albumSlug, getLocationPhotos, type Location } from "@/lib/content";
-
-// How many photos to surface on the home page. Enough for a quick glance;
-// the rest live on the location's own page.
-const PREVIEW_COUNT = 6;
+import { type Location } from "@/lib/content";
 
 /**
- * The big "where we are right now" block on the home page — a single current
- * location given full-width, image-forward treatment, with a preview of its
- * latest photos so a passing visitor gets the quick update at a glance.
+ * The big "where we are right now" block on the home page
  */
 export function FeaturedLocation({ location }: { location: Location }) {
-  const photos = getLocationPhotos(location);
-  // Prefer photos the author flagged `featured`; fall back to the first few
-  // when nothing is flagged. Either way, cap the preview at PREVIEW_COUNT.
-  const flagged = photos.filter((p) => p.featured);
-  const selected = (flagged.length > 0 ? flagged : photos).slice(
-    0,
-    PREVIEW_COUNT
-  );
-  const hasMore = photos.length > selected.length;
-
-  // An album's first photo doubles as its cover. Map those covers to their
-  // album so the matching preview tile links to the album (badge + title)
-  // instead of opening the lightbox like an ordinary photo.
-  const albumByCover = new Map<string, GalleryImage["album"]>(
-    location.albums
-      .filter((a) => a.gallery.length > 0)
-      .map((a) => [
-        a.gallery[0].src.src,
-        { href: `${location.permalink}#${albumSlug(a.title)}`, title: a.title },
-      ])
-  );
-
-  const preview: GalleryImage[] = selected.map((photo) => {
-    const album = albumByCover.get(photo.src.src);
-    return album ? { ...photo, album } : photo;
-  });
-
   return (
     <section className="mx-auto max-w-6xl px-5 py-16">
       <div className="overflow-hidden border border-sand bg-cream shadow-sm">

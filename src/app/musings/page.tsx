@@ -16,7 +16,7 @@ export default function MusingsPage() {
     <div className="mx-auto max-w-4xl px-5 pb-10 pt-28 md:pt-16">
       <header className="max-w-2xl">
         <h1 className="font-display text-4xl text-forest sm:text-5xl">
-          Some stories & musings
+          Stories & Musings
         </h1>
         <p className="mt-4 text-lg text-ink/80">
           Here&apos;s what&apos;s going on.

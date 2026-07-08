@@ -86,7 +86,7 @@ export function Hero() {
             and updates on our progress. And please drop us a line. We&apos;d
             love to hear from you.
           </p>
-          <p className="mt-4 font-semibold text-terracotta">
+          <p className="mt-4 max-w-xl text-xl text-ink/80">
             Sarah & Erik
           </p>
         </div>
