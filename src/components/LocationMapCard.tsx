@@ -10,9 +10,9 @@ const statusLabel: Record<Location["status"], string> = {
 };
 
 const statusStyle: Record<Location["status"], string> = {
-  current: "bg-terracotta text-cream",
-  next: "bg-sand text-forest",
-  past: "bg-cream text-ink/70",
+  current: "bg-terracotta/90 text-cream",
+  next: "bg-sand/90 text-forest",
+  past: "bg-cream/90 text-ink/70",
 };
 
 /**

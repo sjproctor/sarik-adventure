@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Nunito_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
-import { HomeLogoLink } from "@/components/HomeLogoLink";
+import { BackButton } from "@/components/BackButton";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -46,8 +46,10 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <HomeLogoLink />
-        <main id="main">{children}</main>
+        <main id="main">
+          <BackButton />
+          {children}
+        </main>
         <Analytics />
         <Footer />
       </body>

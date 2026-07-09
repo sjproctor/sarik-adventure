@@ -68,7 +68,7 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
         />
         {/* Top-left so it stays clear of the lightbox's own controls (top-right) */}
         {slide.albumTitle && (
-          <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta px-3 py-1 text-xs font-semibold text-cream">
+          <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream">
             {slide.albumTitle}
           </span>
         )}
@@ -133,7 +133,7 @@ export function Gallery({
         <Link href={image.album.href} className={className}>
           {photo}
           <span className="pointer-events-none absolute inset-0 bg-linear-to-t from-ink/75 via-ink/15 to-transparent" />
-          <span className="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-terracotta px-2 py-1 text-[11px] font-semibold tracking-wide text-cream uppercase">
+          <span className="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-terracotta/90 px-2 py-1 text-[11px] font-semibold tracking-wide text-cream uppercase">
             <svg
               aria-hidden
               viewBox="0 0 24 24"

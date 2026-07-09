@@ -28,7 +28,7 @@ export function FeaturedLocation({ location }: { location: Location }) {
                 blurDataURL={location.cover.blurDataURL}
                 className="object-cover"
               />
-              <span className="absolute left-4 top-4 rounded-full bg-terracotta px-3 py-1 text-xs font-semibold text-cream">
+              <span className="absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream">
                 Current Location
               </span>
             </div>
