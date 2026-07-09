@@ -30,7 +30,7 @@ export function LocationPhotos({ location, albums }: { location: Location; album
   return (
     <section className="mt-14">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h2 className="font-display text-3xl text-forest">{location.title} Photos</h2>
+        <h2 className="font-display text-3xl text-forest">Photos</h2>
         <div
           role="group"
           aria-label="Choose how to view photos"
