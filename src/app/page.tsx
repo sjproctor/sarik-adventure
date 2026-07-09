@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Hero } from "@/components/Hero";
 import { FeaturedLocation } from "@/components/FeaturedLocation";
 import { LocationCard } from "@/components/LocationCard";
-import { LocationMapCard } from "@/components/LocationMapCard";
+import { LocationInfoCard } from "@/components/LocationInfoCard";
 import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import {
   getCurrentLocation,
@@ -86,10 +86,10 @@ export default function HomePage() {
         >
           <div className="mb-10">
             <p className="text-sm font-semibold tracking-wide text-terracotta uppercase">
-              Where the road takes us
+              Where the road is taking us
             </p>
             <h2 className="mt-2 font-display text-4xl text-forest sm:text-5xl">
-              All Locations
+              Locations
             </h2>
           </div>
 
@@ -101,7 +101,7 @@ export default function HomePage() {
               <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {future.map((location, i) => (
                   <li key={location.slug}>
-                    <LocationMapCard
+                    <LocationInfoCard
                       location={location}
                       tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
                       headingLevel={4}

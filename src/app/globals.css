@@ -36,16 +36,12 @@ body {
   font-family: var(--font-body);
   /* Subtle textured paper feel without being noisy */
   background-image:
-    radial-gradient(
-      ellipse at top left,
+    radial-gradient(ellipse at top left,
       color-mix(in srgb, var(--color-blush) 18%, transparent),
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse at bottom right,
+      transparent 55%),
+    radial-gradient(ellipse at bottom right,
       color-mix(in srgb, var(--color-sage) 16%, transparent),
-      transparent 55%
-    );
+      transparent 55%);
   background-attachment: fixed;
 }
 
@@ -67,6 +63,7 @@ h4 {
 
 /* Honor reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -77,10 +74,11 @@ h4 {
 
 /* ---- Small whimsical helpers ---- */
 .tilt-left {
-  transform: rotate(-1.3deg);
+  transform: rotate(-1.1deg);
 }
+
 .tilt-right {
-  transform: rotate(1.3deg);
+  transform: rotate(1.1deg);
 }
 
 /* Long-form prose styling for MDX bodies */
@@ -88,37 +86,46 @@ h4 {
   line-height: 1.75;
   max-width: 68ch;
 }
-.prose-natural > * + * {
+
+.prose-natural>*+* {
   margin-top: 1.1em;
 }
+
 .prose-natural h2 {
   font-size: 1.6rem;
   margin-top: 2em;
   color: var(--color-forest);
 }
+
 .prose-natural h3 {
   font-size: 1.25rem;
   margin-top: 1.6em;
   color: var(--color-forest);
 }
+
 .prose-natural a {
   color: var(--color-terracotta);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
 .prose-natural ul,
 .prose-natural ol {
   padding-left: 1.4em;
 }
+
 .prose-natural ul {
   list-style: disc;
 }
+
 .prose-natural ol {
   list-style: decimal;
 }
-.prose-natural li + li {
+
+.prose-natural li+li {
   margin-top: 0.4em;
 }
+
 .prose-natural strong {
   color: var(--color-terracotta);
 }
