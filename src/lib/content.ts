@@ -22,14 +22,10 @@ export function getLocation(slug: string): Location | undefined {
   return locations.find((l) => l.slug === slug);
 }
 
-/** Every photo for a location — the lead-row gallery plus all album photos. */
-export function getLocationPhotos(location: Location): GalleryItem[] {
-  return [...location.gallery, ...location.albums.flatMap((a) => a.gallery)];
-}
-
 /**
- * URL-fragment slug for an album, derived from its title — used to anchor-link
- * a preview tile straight to that album's section on the location page.
+ * URL-fragment slug for an album, derived from its title. Used as the `id` on
+ * each album section (in the location page's "albums" view) so an album can be
+ * linked or bookmarked directly, e.g. `/locations/<slug>#dollar-mountain`.
  */
 export function albumSlug(title: string): string {
   return title

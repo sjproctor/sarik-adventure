@@ -2,14 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Gallery } from "@/components/Gallery";
+import { LocationPhotos } from "@/components/LocationPhotos";
 import { Markdown, stripHtml } from "@/components/Markdown";
 import { MDXContent } from "@/components/MDXContent";
-import {
-  getLocation,
-  getLocations,
-  formatDate,
-  albumSlug,
-} from "@/lib/content";
+import { getLocation, getLocations } from "@/lib/content";
 import type { Location } from "@/lib/content";
 
 const statusLabel: Record<Location["status"], string> = {
@@ -123,39 +119,18 @@ export default async function LocationPage({
           </section>
         )}
 
+        {/* Photos: browse by album (events) or as one large gallery feed.
+            Not shown for future locations, which have nothing to show yet. */}
+        {location.status !== "next" && (
+          <LocationPhotos location={location} albums={location.albums} />
+        )}
+
         {/* Anything else in the body section of the MDX file */}
         {location.body && (
           <div className="mt-8">
             <MDXContent code={location.body} />
           </div>
         )}
-
-        {/* Album section with multiple photos; not shown for future locations */}
-        {location.status !== "next" &&
-          location.albums.map((album) => (
-            <section
-              key={album.title}
-              id={albumSlug(album.title)}
-              className="mt-14 scroll-mt-24"
-            >
-              <h2 className="font-display text-3xl text-forest">
-                {album.title}
-              </h2>
-              <p className="text-sm text-clay">{formatDate(album.date)}</p>
-              {album.description && (
-                <p className="mt-2 max-w-2xl text-ink/80">
-                  {album.description}
-                </p>
-              )}
-              <div className="mt-6">
-                <Gallery
-                  images={album.gallery}
-                  variant="masonry"
-                  albumTitle={album.title}
-                />
-              </div>
-            </section>
-          ))}
 
         {/* History of the area; controlled by a boolean value in the MDX */}
         {location.history?.showHistory && (

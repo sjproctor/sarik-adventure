@@ -2,19 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import type { GalleryItem } from "@/lib/content";
 
-/**
- * A gallery image, optionally standing in as the cover for an album. When
- * `album` is set the tile links to that album instead of opening the lightbox,
- * and shows an "Album" badge with the album's title.
- */
+/** A gallery image, optionally tagged with the album it belongs to. */
 export type GalleryImage = GalleryItem & {
-  album?: { href: string; title: string };
+  // The album this photo belongs to. Shown beneath the photo in the "feed"
+  // variant and as the lightbox badge, so a combined feed can name the event
+  // each shot is from.
+  albumTitle?: string;
 };
 
 // Cycled to give the masonry layout varied tile heights without needing the
@@ -88,7 +86,7 @@ export function Gallery({
   albumTitle,
 }: {
   images: GalleryImage[];
-  variant?: "grid" | "masonry" | "row";
+  variant?: "grid" | "masonry" | "row" | "feed";
   // When the gallery is one album's photos, badge each full-screen slide
   // with the album name.
   albumTitle?: string;
@@ -124,39 +122,6 @@ export function Gallery({
     );
     const className = `group relative block w-full overflow-hidden border border-sand ${aspect}`;
 
-    // Album cover: link straight to the album rather than opening the lightbox,
-    // and mark it with a badge + title so it reads as a set, not a single shot.
-    // No aria-label: the visible badge + title are the accessible name, which
-    // keeps it matching what voice-control users see (WCAG 2.5.3).
-    if (image.album) {
-      return (
-        <Link href={image.album.href} className={className}>
-          {photo}
-          <span className="pointer-events-none absolute inset-0 bg-linear-to-t from-ink/75 via-ink/15 to-transparent" />
-          <span className="pointer-events-none absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-terracotta/90 px-2 py-1 text-[11px] font-semibold tracking-wide text-cream uppercase">
-            <svg
-              aria-hidden
-              viewBox="0 0 24 24"
-              className="h-3.5 w-3.5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2 2 7l10 5 10-5-10-5Z" />
-              <path d="m2 12 10 5 10-5" />
-              <path d="m2 17 10 5 10-5" />
-            </svg>
-            Album
-          </span>
-          <span className="pointer-events-none absolute inset-x-0 bottom-0 p-3 font-display text-lg leading-tight text-cream">
-            {image.album.title}
-          </span>
-        </Link>
-      );
-    }
-
     return (
       <button
         type="button"
@@ -177,7 +142,8 @@ export function Gallery({
     alt: image.alt,
     description: image.caption,
     blurDataURL: image.src.blurDataURL,
-    albumTitle,
+    // Per-image album (used by the feed) wins; otherwise the whole-gallery prop.
+    albumTitle: image.albumTitle ?? albumTitle,
   }));
 
   return (
@@ -191,6 +157,50 @@ export function Gallery({
               className={`w-52 shrink-0 snap-start sm:w-64 ${i % 2 === 0 ? "tilt-left" : "tilt-right"}`}
             >
               {tile(image, i, "aspect-[4/5]")}
+            </li>
+          ))}
+        </ul>
+      ) : variant === "feed" ? (
+        // One large photo per row on phones; a two-column masonry on wider
+        // screens. Each photo keeps its natural aspect (no cropping) and shows
+        // its album + caption beneath.
+        <ul className="columns-1 gap-x-6 sm:columns-2 *:mb-10">
+          {images.map((image, i) => (
+            <li key={image.src.src} className="break-inside-avoid">
+              <figure>
+                <button
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  onMouseEnter={() => preload(image.src.src)}
+                  className="group block w-full overflow-hidden border border-sand"
+                  aria-label={`Open image: ${image.alt}`}
+                >
+                  <Image
+                    src={image.src.src}
+                    alt={image.alt}
+                    width={image.src.width}
+                    height={image.src.height}
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    placeholder="blur"
+                    blurDataURL={image.src.blurDataURL}
+                    className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
+                  />
+                </button>
+                {(image.albumTitle || image.caption) && (
+                  <figcaption className="mt-3">
+                    {image.albumTitle && (
+                      <span className="text-xs font-semibold tracking-wide text-terracotta uppercase">
+                        {image.albumTitle}
+                      </span>
+                    )}
+                    {image.caption && (
+                      <p className="mt-1 text-sm text-ink/75">
+                        {image.caption}
+                      </p>
+                    )}
+                  </figcaption>
+                )}
+              </figure>
             </li>
           ))}
         </ul>

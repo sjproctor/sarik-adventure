@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -82,10 +83,10 @@ export function Hero() {
           </p>
           <p className="mt-2 max-w-xl text-lg text-ink/80">
             We hope you&apos;ll follow along with us! We&apos;ll add new pics
-            and updates on our progress. And please drop us a line. We&apos;d
+            and updates on our progress. And <Link href="/contact" className="text-terracotta underline underline-offset-4">please drop us a line</Link>. We&apos;d
             love to hear from you.
           </p>
-          <p className="mt-4 max-w-xl text-xl text-ink/80">
+          <p className="mt-4 max-w-xl text-xl text-ink/80 text-terracotta">
             Sarah & Erik
           </p>
         </div>

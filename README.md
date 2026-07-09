@@ -63,14 +63,15 @@ content/
   musings/        # blog-style posts
 src/
   app/
-    page.tsx                  # home (hero + featured current + upcoming + musings)
-    locations/                # list + [slug] detail pages
-    musings/                  # list + [slug] detail pages
-    layout.tsx                # root layout, fonts, footer, skip link
+    page.tsx                  # home (hero + featured current + musings + all locations)
+    locations/[slug]/         # location detail pages
+    musings/[slug]/           # musing detail pages
+    contact/                  # contact page ("Say Hi")
+    layout.tsx                # root layout, fonts, back button, footer, skip link
     globals.css
-  components/     # Hero, Footer, FeaturedLocation, Gallery, LocationCard, MDXContent
+  components/     # Hero, Footer, FeaturedLocation, Gallery, LocationCard, BackButton, MDXContent
   lib/
-    site.ts       # site-wide constants (name, tagline, contact email, nav)
+    site.ts       # site-wide constants (name, description, nav links)
     content.ts    # helpers for querying/sorting locations & musings
 velite.config.ts  # content schema + output config
 next.config.ts    # image hosts + Velite build hook
@@ -135,16 +136,24 @@ The full schema for both collections is defined and validated in
 
 ## Pages & navigation
 
-- **Home** (`/`) — hero, the **featured current location** (large, image-forward,
-  with a masonry preview of its latest photos), the upcoming stops, and recent
-  musings. Past locations are intentionally kept off the home page.
-- **Locations** (`/locations`) — the full list of every stop (current → next →
-  past); this is where visited places live.
-- **Musings** (`/musings`) — blog-style posts.
+The site is essentially one scrolling home page plus detail pages:
 
-There is no top header bar — site navigation (Home / Locations / Musings) and
-the contact link live in the **footer**, rendered globally from
-[layout.tsx](src/app/layout.tsx).
+- **Home** (`/`) — hero, the **featured current location** (a large,
+  image-forward block linking to its page), a **Stories & Musings** list
+  (`#musings`), and an **all locations** section (`#locations`) covering both
+  upcoming stops and places we've visited.
+- **Location detail** (`/locations/<slug>`) — the full page for a single stop.
+- **Musing detail** (`/musings/<slug>`) — a single blog-style post.
+- **Say Hi** (`/contact`) — the contact form.
+
+There are no standalone Locations/Musings index pages; the footer's
+**Locations** and **Musings** links are anchors into the home page
+(`/#locations`, `/#musings`).
+
+There is no top header bar — site navigation (Home / Locations / Musings /
+Say Hi) lives in the **footer**, rendered globally from
+[layout.tsx](src/app/layout.tsx). Detail pages get a **back button**
+([BackButton.tsx](src/components/BackButton.tsx)) at the top of `<main>`.
 
 ## Images
 
