@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import { MDXContent } from "@/components/MDXContent";
 import { getMusing, getMusings, formatDate } from "@/lib/content";
 
@@ -57,15 +56,6 @@ export default async function MusingPage({
 
       <div className="mt-10">
         <MDXContent code={musing.body} />
-      </div>
-      <div className="mt-10 float-right">
-        <Link
-          href="/musings"
-          aria-label="See all musings"
-          className="font-semibold text-terracotta underline underline-offset-4 mt-4"
-        >
-          See all musings →
-        </Link>
       </div>
     </article>
   );

@@ -77,7 +77,7 @@ export function Hero() {
           </p>
           <p className="mt-2 max-w-xl text-lg text-ink/80">
             At the beginning of May we left our apartment with everything we
-            (still) own packed in a minivan and set out to spend a year(ish)
+            (still) own packed in a minivan and set out to spend a year-ish
             traveling around the western US staying for a month here and there.
           </p>
           <p className="mt-2 max-w-xl text-lg text-ink/80">

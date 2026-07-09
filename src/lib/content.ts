@@ -49,6 +49,13 @@ export function getFutureLocations(): Location[] {
     .sort((a, b) => a.order - b.order);
 }
 
+/** Places we've already been (`past`), sorted by `order`. */
+export function getPastLocations(): Location[] {
+  return locations
+    .filter((l) => l.status === "past")
+    .sort((a, b) => a.order - b.order);
+}
+
 /** All musings, newest first. */
 export function getMusings(): Musing[] {
   return [...musings].sort((a, b) => (a.date < b.date ? 1 : -1));

@@ -26,10 +26,14 @@ const statusStyle: Record<Location["status"], string> = {
 export function LocationMapCard({
   location,
   tilt = "tilt-left",
+  headingLevel = 3,
 }: {
   location: Location;
   tilt?: "tilt-left" | "tilt-right";
+  /** Heading tag for the title, chosen to fit the surrounding page outline. */
+  headingLevel?: 2 | 3 | 4;
 }) {
+  const Heading = `h${headingLevel}` as const;
   const query = `${location.title}, ${location.region}`;
   const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
     query
@@ -50,9 +54,9 @@ export function LocationMapCard({
       </div>
       <Link href={location.permalink} className="">
         <div className="p-5">
-          <h3 className="font-display text-2xl text-forest underline-offset-4 hover:text-terracotta hover:underline">
+          <Heading className="font-display text-2xl text-forest underline-offset-4 hover:text-terracotta hover:underline">
             {location.title}
-          </h3>
+          </Heading>
           <p className="mt-1 text-sm font-medium text-clay">
             {location.region}
           </p>
