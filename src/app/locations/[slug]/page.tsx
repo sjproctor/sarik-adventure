@@ -14,10 +14,12 @@ const statusLabel: Record<Location["status"], string> = {
   past: "Visited",
 };
 
+// Translucent backgrounds get backdrop-blur + full-opacity text so the tiny
+// pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Location["status"], string> = {
   current: "bg-terracotta/90 text-cream",
   next: "bg-sand/90 text-forest",
-  past: "bg-cream/90 text-ink/70",
+  past: "bg-cream/90 text-ink",
 };
 
 export function generateStaticParams() {
@@ -67,7 +69,7 @@ export default async function LocationPage({
           <p className="font-semibold text-cream/90">{location.region}</p>
         </div>
         <span
-          className={`absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[location.status]}`}
+          className={`absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[location.status]}`}
         >
           {statusLabel[location.status]}
         </span>

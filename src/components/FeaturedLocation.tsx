@@ -28,7 +28,7 @@ export function FeaturedLocation({ location }: { location: Location }) {
                 blurDataURL={location.cover.blurDataURL}
                 className="object-cover"
               />
-              <span className="absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream">
+              <span className="absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
                 Current Location
               </span>
             </div>
@@ -41,10 +41,7 @@ export function FeaturedLocation({ location }: { location: Location }) {
                 <h2 className="font-display text-4xl text-forest sm:text-5xl">
                   {location.title}
                 </h2>
-                <MoreInfoIcon
-                  className="size-8 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1"
-                  title={`More about ${location.title}`}
-                />
+                <MoreInfoIcon className="size-8 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1" />
               </div>
               <p className="mt-1 text-sm font-medium text-clay">
                 {location.region}

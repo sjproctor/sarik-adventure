@@ -108,6 +108,11 @@ const musings = defineCollection({
       aspect: s.string().optional(),
       body: s.mdx(),
     })
+    // A cover without alt text renders as alt="" — invisible to screen readers.
+    .refine((data) => !data.cover || !!data.coverAlt, {
+      message: "coverAlt is required when cover is set",
+      path: ["coverAlt"],
+    })
     .transform((data) => ({ ...data, permalink: `/musings/${data.slug}` })),
 });
 

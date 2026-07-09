@@ -29,10 +29,7 @@ export function LocationInfoCard({
           <Heading className="font-display text-2xl text-forest">
             {location.title}
           </Heading>
-          <MoreInfoIcon
-            className="mt-1 size-6 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1"
-            title={`More about ${location.title}`}
-          />
+          <MoreInfoIcon className="mt-1 size-6 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1" />
         </div>
         <p className="mt-1 text-sm font-medium text-clay">{location.region}</p>
         <p className="mt-1 text-sm font-medium text-clay">{location.stay}</p>

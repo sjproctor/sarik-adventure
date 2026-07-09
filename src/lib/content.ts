@@ -1,7 +1,7 @@
 import { locations, musings } from "#site/content";
 
 export type Location = (typeof locations)[number];
-export type Musing = (typeof musings)[number];
+type Musing = (typeof musings)[number];
 /** A Velite-processed image: { src, width, height, blurDataURL, ... }. */
 export type GalleryItem = Location["gallery"][number];
 

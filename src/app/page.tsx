@@ -66,10 +66,7 @@ export default function HomePage() {
                         {musing.title}
                       </h3>
                     </div>
-                    <MoreInfoIcon
-                      className="size-8 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1"
-                      title={`Read ${musing.title}`}
-                    />
+                    <MoreInfoIcon className="size-8 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1" />
                   </Link>
                 </li>
               ))}

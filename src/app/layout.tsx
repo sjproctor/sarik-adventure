@@ -22,7 +22,9 @@ export const metadata: Metadata = {
   // Base for resolving the relative URLs below (and any per-page metadata)
   // into the absolute URLs OG scrapers require.
   metadataBase: new URL("https://sarik-adventure.vercel.app"),
-  title: site.name,
+  // Template keeps the site name in the document title on subpages, which set
+  // only their own title (e.g. "Sun Valley — Sarik's Adventures").
+  title: { default: site.name, template: `%s — ${site.name}` },
   description: site.description,
   openGraph: {
     title: site.name,

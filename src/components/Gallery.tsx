@@ -66,7 +66,7 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
         />
         {/* Top-left so it stays clear of the lightbox's own controls (top-right) */}
         {slide.albumTitle && (
-          <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream">
+          <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
             {slide.albumTitle}
           </span>
         )}
@@ -108,13 +108,21 @@ export function Gallery({
     img.src = `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${LIGHTBOX_QUALITY}`;
   }
 
-  const tile = (image: GalleryImage, i: number, aspect: string) => {
+  // `sizes` must match the tile's real rendered width per variant — the
+  // variants render at fixed/near-fixed widths, so viewport-relative values
+  // make browsers fetch image variants 2-4x larger than needed.
+  const tile = (
+    image: GalleryImage,
+    i: number,
+    aspect: string,
+    sizes: string,
+  ) => {
     const photo = (
       <Image
         src={image.src.src}
         alt={image.alt}
         fill
-        sizes="(max-width: 640px) 50vw, 33vw"
+        sizes={sizes}
         placeholder="blur"
         blurDataURL={image.src.blurDataURL}
         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -156,7 +164,8 @@ export function Gallery({
               key={image.src.src}
               className={`w-52 shrink-0 snap-start sm:w-64 ${i % 2 === 0 ? "tilt-left" : "tilt-right"}`}
             >
-              {tile(image, i, "aspect-[4/5]")}
+              {/* Tiles are fixed w-52/sm:w-64 */}
+              {tile(image, i, "aspect-[4/5]", "(max-width: 640px) 13rem, 16rem")}
             </li>
           ))}
         </ul>
@@ -205,16 +214,22 @@ export function Gallery({
           ))}
         </ul>
       ) : variant === "masonry" ? (
-        <div className="gap-4 columns-2 sm:columns-3 *:mb-4">
+        <ul className="gap-4 columns-2 sm:columns-3 *:mb-4">
           {images.map((image, i) => (
-            <div
+            <li
               key={image.src.src}
               className={`break-inside-avoid ${i % 2 === 0 ? "tilt-left" : "tilt-right"}`}
             >
-              {tile(image, i, MASONRY_ASPECTS[i % MASONRY_ASPECTS.length])}
-            </div>
+              {/* Columns inside a max-w-4xl container cap tiles near 300px */}
+              {tile(
+                image,
+                i,
+                MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
+                "(max-width: 640px) 50vw, 300px",
+              )}
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           {images.map((image, i) => (
@@ -222,7 +237,7 @@ export function Gallery({
               key={image.src.src}
               className={i % 2 === 0 ? "tilt-left" : "tilt-right"}
             >
-              {tile(image, i, "aspect-square")}
+              {tile(image, i, "aspect-square", "(max-width: 640px) 50vw, 300px")}
             </li>
           ))}
         </ul>

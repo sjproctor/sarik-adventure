@@ -10,10 +10,12 @@ const statusLabel: Record<Location["status"], string> = {
   past: "Visited",
 };
 
+// Translucent backgrounds get backdrop-blur + full-opacity text so the tiny
+// pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Location["status"], string> = {
   current: "bg-terracotta/90 text-cream",
   next: "bg-sand/90 text-forest",
-  past: "bg-cream/90 text-ink/70",
+  past: "bg-cream/90 text-ink",
 };
 
 export function LocationCard({
@@ -43,7 +45,7 @@ export function LocationCard({
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <span
-          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[location.status]}`}
+          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[location.status]}`}
         >
           {statusLabel[location.status]}
         </span>
@@ -53,10 +55,7 @@ export function LocationCard({
           <Heading className="font-display text-2xl text-forest">
             {location.title}
           </Heading>
-          <MoreInfoIcon
-            className="mt-1 size-6 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1"
-            title={`More about ${location.title}`}
-          />
+          <MoreInfoIcon className="mt-1 size-6 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1" />
         </div>
         <p className="mt-1 text-sm font-medium text-clay">{location.region}</p>
         <p className="mt-1 text-sm font-medium text-clay">{location.stay}</p>

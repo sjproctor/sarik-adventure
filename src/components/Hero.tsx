@@ -86,19 +86,20 @@ export function Hero() {
             and updates on our progress. And <Link href="/contact" className="text-terracotta underline underline-offset-4">please drop us a line</Link>. We&apos;d
             love to hear from you.
           </p>
-          <p className="mt-4 max-w-xl text-xl text-ink/80 text-terracotta">
+          <p className="mt-4 max-w-xl text-xl text-terracotta">
             Sarah & Erik
           </p>
         </div>
 
         <div className="relative mx-auto md:mt-30 aspect-4/3 w-full max-w-32 md:max-w-80">
+          {/* Matches the container's max-w-32/md:max-w-80. No `priority`: it's
+              decorative — the preload slot belongs to the featured cover. */}
           <Image
             src="/wildflowers.png"
             alt=""
             fill
-            sizes="(max-width: 640px) 16rem, 24rem"
+            sizes="(max-width: 768px) 8rem, 20rem"
             className="object-contain object-bottom"
-            priority
           />
         </div>
       </div>

@@ -87,6 +87,7 @@ export function ContactForm() {
             className={inputClass}
             aria-required="true"
             aria-invalid={errors.name ? "true" : undefined}
+            aria-describedby={errors.name ? "name-error" : undefined}
             {...register("name", {
               required: "No anonymous messages allowed!",
             })}
@@ -100,6 +101,7 @@ export function ContactForm() {
             autoComplete="email"
             className={inputClass}
             aria-invalid={errors.email ? "true" : undefined}
+            aria-describedby={errors.email ? "email-error" : undefined}
             {...register("email", {
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -132,6 +134,7 @@ export function ContactForm() {
           className={`${inputClass} resize-y`}
           aria-required="true"
           aria-invalid={errors.message ? "true" : undefined}
+          aria-describedby={errors.message ? "message-error" : undefined}
           {...register("message", { required: "Tell us something cool!" })}
         />
       </Field>
@@ -185,23 +188,28 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label htmlFor={name} className="block font-medium text-forest">
-      {label}
-      {required && (
-        <span className="text-terracotta" aria-hidden>
-          {" "}
-          *
-        </span>
-      )}
-      {children}
+    <div className="font-medium text-forest">
+      <label htmlFor={name} className="block">
+        {label}
+        {required && (
+          <span className="text-terracotta" aria-hidden>
+            {" "}
+            *
+          </span>
+        )}
+        {children}
+      </label>
+      {/* Outside the <label> so the error is announced via aria-describedby
+          without leaking into the input's accessible name. */}
       {error && (
         <span
+          id={`${name}-error`}
           role="alert"
           className="mt-1 block text-sm font-normal text-terracotta"
         >
           {error}
         </span>
       )}
-    </label>
+    </div>
   );
 }
