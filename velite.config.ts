@@ -65,13 +65,19 @@ const locations = defineCollection({
       region: s.string(),
       // "current" and "next" drive the highlighted spots on the home page.
       status: s.enum(["current", "next", "past"]).default("past"),
+      // Interstitials are the short, quick-turnover stops between major
+      // destinations. They share this collection and detail page but render
+      // as compact "Quick Stop" cards in the home-page timeline.
+      kind: s.enum(["destination", "interstitial"]).default("destination"),
       order: s.number().default(0),
       cover: s.image(),
       coverAlt: s.string(),
       date: s.isodate(),
       stay: s.string(),
-      population: s.string(),
-      elevation: s.string(),
+      // Area stats on the detail page. Optional — a quick interstitial stop
+      // often has no meaningful numbers to show.
+      population: s.string().optional(),
+      elevation: s.string().optional(),
       summary: md(),
       overview: md(),
       // `gallery` is the lead row of photos; `albums` are the grouped sets

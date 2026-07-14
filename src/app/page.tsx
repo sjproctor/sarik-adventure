@@ -2,11 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { Hero } from "@/components/Hero";
 import { FeaturedLocation } from "@/components/FeaturedLocation";
+import { InterstitialCard } from "@/components/InterstitialCard";
 import { LocationCard } from "@/components/LocationCard";
 import { LocationInfoCard } from "@/components/LocationInfoCard";
 import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import {
   getCurrentLocation,
+  getCurrentInterstitials,
   getFutureLocations,
   getPastLocations,
   getMusings,
@@ -15,6 +17,9 @@ import {
 
 export default function HomePage() {
   const current = getCurrentLocation();
+  // Quick stops happening right now sit above the featured destination as
+  // compact cards — capped at two so the featured block stays near the top.
+  const currentInterstitials = getCurrentInterstitials().slice(0, 2);
   const future = getFutureLocations();
   const past = getPastLocations();
   const musings = getMusings();
@@ -22,6 +27,23 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* Quick stops in progress; hidden when no interstitial is current */}
+      {currentInterstitials.length > 0 && (
+        <section className="mx-auto max-w-6xl px-5 pt-16">
+          <ul className="mt-6 grid gap-8 sm:grid-cols-2">
+            {currentInterstitials.map((location, i) => (
+              <li key={location.slug}>
+                <InterstitialCard
+                  location={location}
+                  tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
+                  headingLevel={2}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Featured: where we are right now */}
       {current && <FeaturedLocation location={current} />}
@@ -98,11 +120,19 @@ export default function HomePage() {
               <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {future.map((location, i) => (
                   <li key={location.slug}>
-                    <LocationInfoCard
-                      location={location}
-                      tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-                      headingLevel={4}
-                    />
+                    {location.kind === "interstitial" ? (
+                      <InterstitialCard
+                        location={location}
+                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
+                        headingLevel={4}
+                      />
+                    ) : (
+                      <LocationInfoCard
+                        location={location}
+                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
+                        headingLevel={4}
+                      />
+                    )}
                   </li>
                 ))}
               </ul>
@@ -119,11 +149,19 @@ export default function HomePage() {
               <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {past.map((location, i) => (
                   <li key={location.slug}>
-                    <LocationCard
-                      location={location}
-                      tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-                      headingLevel={4}
-                    />
+                    {location.kind === "interstitial" ? (
+                      <InterstitialCard
+                        location={location}
+                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
+                        headingLevel={4}
+                      />
+                    ) : (
+                      <LocationCard
+                        location={location}
+                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
+                        headingLevel={4}
+                      />
+                    )}
                   </li>
                 ))}
               </ul>

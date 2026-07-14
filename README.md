@@ -114,6 +114,22 @@ Markdown/MDX body goes here.
 Exactly one location should be marked `status: current` and one `status: next`
 — these drive the highlighted spots on the home page.
 
+#### Interstitials (quick stops)
+
+Short stays between major destinations use the same collection — add
+`kind: interstitial` to the frontmatter. They get the same detail page but
+render on the home page as compact "Quick Stop" cards, slotted into the
+timeline by `order` alongside the full destinations.
+
+An interstitial marked `status: current` (e.g. a short detour mid-residency)
+appears in a compact row **above** the featured destination — up to two at a
+time, sorted by `order` — while the full destination keeps the big featured
+block. "Exactly one `current`" above applies to full destinations;
+interstitials can be `current` at the same time. `population` and
+`elevation` are optional (for any location, but quick stops are where you'll
+usually skip them); everything else works the same, so an interstitial can be
+as small as a cover photo, a summary, and a handful of pictures.
+
 ### A musing
 
 Create `content/musings/<slug>.mdx`:

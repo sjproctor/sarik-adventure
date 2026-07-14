@@ -68,11 +68,18 @@ export default async function LocationPage({
           </h1>
           <p className="font-semibold text-cream/90">{location.region}</p>
         </div>
-        <span
-          className={`absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[location.status]}`}
-        >
-          {statusLabel[location.status]}
-        </span>
+        <div className="absolute right-3 top-3 flex gap-2">
+          {location.kind === "interstitial" && (
+            <span className="rounded-full bg-forest/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
+              Quick Stop
+            </span>
+          )}
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[location.status]}`}
+          >
+            {statusLabel[location.status]}
+          </span>
+        </div>
       </div>
 
       <div className="mx-auto max-w-4xl px-5 py-12">
@@ -82,14 +89,20 @@ export default async function LocationPage({
             <p className="text-clay font-semibold uppercase">Our Visit</p>
             <p>{location.stay}</p>
           </div>
-          <div className="flex flex-col items-center">
-            <p className="text-clay font-semibold uppercase">Area population</p>
-            <p>{location.population}</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-clay font-semibold uppercase">Elevation</p>
-            <p>{location.elevation}</p>
-          </div>
+          {location.population && (
+            <div className="flex flex-col items-center">
+              <p className="text-clay font-semibold uppercase">
+                Area population
+              </p>
+              <p>{location.population}</p>
+            </div>
+          )}
+          {location.elevation && (
+            <div className="flex flex-col items-center">
+              <p className="text-clay font-semibold uppercase">Elevation</p>
+              <p>{location.elevation}</p>
+            </div>
+          )}
         </div>
 
         {/* Random pics in a horizontal scroll */}

@@ -34,8 +34,22 @@ export function albumSlug(title: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+/** The full destination we're staying at right now — drives the featured block. */
 export function getCurrentLocation(): Location | undefined {
-  return locations.find((l) => l.status === "current");
+  return locations.find(
+    (l) => l.status === "current" && l.kind === "destination",
+  );
+}
+
+/**
+ * Quick stops happening right now — interstitials marked `status: current`,
+ * e.g. a short detour mid-residency. Rendered as compact cards above the
+ * featured destination on the home page, sorted by `order`.
+ */
+export function getCurrentInterstitials(): Location[] {
+  return locations
+    .filter((l) => l.status === "current" && l.kind === "interstitial")
+    .sort((a, b) => a.order - b.order);
 }
 
 /** Upcoming stops (`next`), sorted by `order`. */
