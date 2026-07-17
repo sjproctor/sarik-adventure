@@ -52,6 +52,18 @@ export function getCurrentInterstitials(): Location[] {
     .sort((a, b) => a.order - b.order);
 }
 
+/**
+ * The last full destination we stayed at — the most recent `past` destination
+ * by date. Gets its own featured-style block on the home page, below the
+ * current interstitials; the remaining past locations render in the
+ * "Where we've been" grid.
+ */
+export function getMostRecentPastDestination(): Location | undefined {
+  return locations
+    .filter((l) => l.status === "past" && l.kind === "destination")
+    .sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+}
+
 /** Upcoming stops (`next`), sorted by `order`. */
 export function getFutureLocations(): Location[] {
   return locations

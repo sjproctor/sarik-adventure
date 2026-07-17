@@ -5,9 +5,19 @@ import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import { type Location } from "@/lib/content";
 
 /**
- * The big "where we are right now" block on the home page
+ * The big featured block on the home page — used for where we are right now
+ * and for the most recent destination we've left.
  */
-export function FeaturedLocation({ location }: { location: Location }) {
+export function FeaturedLocation({
+  location,
+  badge = "Current Location",
+  priority = true,
+}: {
+  location: Location;
+  badge?: string;
+  /** Eager-load the cover; turn off for blocks below the fold. */
+  priority?: boolean;
+}) {
   return (
     <section className="mx-auto max-w-6xl px-5 py-16">
       <div className="overflow-hidden border border-sand bg-cream shadow-sm">
@@ -23,13 +33,13 @@ export function FeaturedLocation({ location }: { location: Location }) {
                 alt={location.coverAlt}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                priority
+                priority={priority}
                 placeholder="blur"
                 blurDataURL={location.cover.blurDataURL}
                 className="object-cover"
               />
               <span className="absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
-                Current Location
+                {badge}
               </span>
             </div>
 

@@ -9,6 +9,7 @@ import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import {
   getCurrentLocation,
   getCurrentInterstitials,
+  getMostRecentPastDestination,
   getFutureLocations,
   getPastLocations,
   getMusings,
@@ -17,16 +18,22 @@ import {
 
 export default function HomePage() {
   const current = getCurrentLocation();
-  // Quick stops happening right now sit above the featured destination as
-  // compact cards — capped at two so the featured block stays near the top.
+  // Quick stops happening right now render below the featured destination as
+  // compact cards — capped at two so the section stays tight.
   const currentInterstitials = getCurrentInterstitials().slice(0, 2);
+  const recentPast = getMostRecentPastDestination();
   const future = getFutureLocations();
-  const past = getPastLocations();
+  // The most recent past destination gets its own featured block up top, so
+  // keep it out of the "Where we've been" grid.
+  const past = getPastLocations().filter((l) => l.slug !== recentPast?.slug);
   const musings = getMusings();
 
   return (
     <>
       <Hero />
+
+      {/* Featured: where we are right now */}
+      {current && <FeaturedLocation location={current} />}
 
       {/* Quick stops in progress; hidden when no interstitial is current */}
       {currentInterstitials.length > 0 && (
@@ -45,8 +52,14 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Featured: where we are right now */}
-      {current && <FeaturedLocation location={current} />}
+      {/* Featured: the last destination we stayed at */}
+      {recentPast && (
+        <FeaturedLocation
+          location={recentPast}
+          badge="Most Recent Location"
+          priority={!current && currentInterstitials.length === 0}
+        />
+      )}
 
       {/* All musings */}
       {musings.length > 0 && (
