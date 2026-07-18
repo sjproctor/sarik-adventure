@@ -63,8 +63,11 @@ const locations = defineCollection({
       title: s.string().max(120),
       slug: s.string(),
       region: s.string(),
-      // "current" and "next" drive the highlighted spots on the home page.
-      status: s.enum(["current", "next", "past"]).default("past"),
+      // "current" is the one place we are right now — only ever one location.
+      // "recent" marks the quick stops since the last main destination; they
+      // render in the home-page in-between row until they flip to "past".
+      // "next" is upcoming.
+      status: s.enum(["current", "recent", "next", "past"]).default("past"),
       // Interstitials are the short, quick-turnover stops between major
       // destinations. They share this collection and detail page but render
       // as compact "Quick Stop" cards in the home-page timeline.
@@ -72,6 +75,11 @@ const locations = defineCollection({
       order: s.number().default(0),
       cover: s.image(),
       coverAlt: s.string(),
+      // The cover is cropped to fill its frame from the center, which can cut
+      // off the subject. Set a CSS object-position to choose which part of the
+      // photo stays in view — e.g. "center 30%" (favor the upper third),
+      // "center top", "left center". First value is horizontal, second vertical.
+      coverPosition: s.string().optional(),
       date: s.isodate(),
       stay: s.string(),
       // Area stats on the detail page. Optional — a quick interstitial stop

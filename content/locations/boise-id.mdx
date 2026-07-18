@@ -1,33 +1,34 @@
 ---
 # Boise is a frequent quick stop, so it gets ONE page and each trip is an
 # album (title + date + description + gallery). Flip `status` to current
-# while in town — the card pops into the quick-stop row above the featured
-# destination — then back to past when you leave. Album titles become link
-# anchors, e.g. /locations/boise-id#july-moms-birthday.
+# while in town, then to recent when you leave — the card stays in the
+# in-between row below the featured destination — then to past once you've
+# settled at the next main destination. Album titles become link anchors,
+# e.g. /locations/boise-id#july-moms-birthday.
 title: Boise
 slug: boise-id
 region: Idaho
-status: current # current | next | past — flip to current while visiting
+status: recent # current | recent | next | past — current while visiting, recent once we've moved on
 kind: interstitial
 order: 2 # sorts within the status group; renders after Vegas (order 1)
 # until then.
 cover: ./boise-id/cover.jpg
 coverAlt: Dad's memorial black metal bench in the park next to the greenbelt near the Boise zoo.
+coverPosition: center 65%
 date: 2026-07-01
 stay: Early July
 summary: |
   I'm very thankful for our parents who love that we periodically come to stay in Boise.
-overview: |
-  A short stay in Boise to celebrate Kayti's birthday, watch Ziggy figure out crawling, and house sit for John & Lori while they were on vacation.
+overview: ""
 # population and elevation are optional — uncomment the block should display:
 population: 235,684
 elevation: 2,730 feet
 # Each visit is one album — copy this block per trip and keep newest first so
 # the latest visit sits at the top of the page:
 albums:
-  - title: Interstitial in Boise
+  - title: Family time
     date: 2026-07-01
-    description: July 2026
+    description: A short stay in Boise to celebrate Kayti's birthday, watch Ziggy figure out crawling, and house sit for John & Lori while they were on vacation.
     gallery:
       - src: ./boise-id/baby-dog.jpg
         alt: Baby Dog, a small long-haired dachshund with a gray face, waiting patiently by the front door. 

@@ -8,7 +8,7 @@ import { LocationInfoCard } from "@/components/LocationInfoCard";
 import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import {
   getCurrentLocation,
-  getCurrentInterstitials,
+  getRecentInterstitials,
   getMostRecentPastDestination,
   getFutureLocations,
   getPastLocations,
@@ -18,9 +18,10 @@ import {
 
 export default function HomePage() {
   const current = getCurrentLocation();
-  // Quick stops happening right now render below the featured destination as
-  // compact cards — capped at two so the section stays tight.
-  const currentInterstitials = getCurrentInterstitials().slice(0, 2);
+  // The stops between main destinations — the current one (if we're at an
+  // interstitial right now) plus everything marked `recent` — render below
+  // the featured destination as compact cards.
+  const recentInterstitials = getRecentInterstitials();
   const recentPast = getMostRecentPastDestination();
   const future = getFutureLocations();
   // The most recent past destination gets its own featured block up top, so
@@ -35,11 +36,11 @@ export default function HomePage() {
       {/* Featured: where we are right now */}
       {current && <FeaturedLocation location={current} />}
 
-      {/* Quick stops in progress; hidden when no interstitial is current */}
-      {currentInterstitials.length > 0 && (
-        <section className="mx-auto max-w-6xl px-5 pt-16">
-          <ul className="mt-6 grid gap-8 sm:grid-cols-2">
-            {currentInterstitials.map((location, i) => (
+      {/* Stops in between; hidden when no interstitial is current or recent */}
+      {recentInterstitials.length > 0 && (
+        <section className="mx-auto max-w-6xl px-5 pt-4 pb-8">
+          <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {recentInterstitials.map((location, i) => (
               <li key={location.slug}>
                 <InterstitialCard
                   location={location}
@@ -57,7 +58,7 @@ export default function HomePage() {
         <FeaturedLocation
           location={recentPast}
           badge="Most Recent Location"
-          priority={!current && currentInterstitials.length === 0}
+          priority={!current && recentInterstitials.length === 0}
         />
       )}
 

@@ -24,9 +24,16 @@ export function InterstitialCard({
   const Heading = `h${headingLevel}` as const;
   const showImage = location.status !== "next";
   const pill = (
-    <span className="rounded-full bg-forest/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
-      Quick Stop
-    </span>
+    <>
+      <span className="rounded-full bg-forest/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
+        Interstitial
+      </span>
+      {location.status === "current" && (
+        <span className="rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
+          Current Location
+        </span>
+      )}
+    </>
   );
   return (
     <Link
@@ -43,12 +50,13 @@ export function InterstitialCard({
             placeholder="blur"
             blurDataURL={location.cover.blurDataURL}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
+            style={{ objectPosition: location.coverPosition }}
           />
-          <span className="absolute left-3 top-3">{pill}</span>
+          <span className="absolute left-3 top-3 flex gap-2">{pill}</span>
         </div>
       )}
       <div className="p-5">
-        {!showImage && <div className="mb-3">{pill}</div>}
+        {!showImage && <div className="mb-3 flex gap-2">{pill}</div>}
         <div className="flex items-start justify-between gap-3">
           <Heading className="font-display text-xl text-forest">
             {location.title}

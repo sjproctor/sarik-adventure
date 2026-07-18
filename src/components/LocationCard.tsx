@@ -6,6 +6,7 @@ import type { Location } from "@/lib/content";
 
 const statusLabel: Record<Location["status"], string> = {
   current: "Current Location",
+  recent: "Recent Stop",
   next: "Coming Up",
   past: "Visited",
 };
@@ -14,6 +15,7 @@ const statusLabel: Record<Location["status"], string> = {
 // pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Location["status"], string> = {
   current: "bg-terracotta/90 text-cream",
+  recent: "bg-forest/90 text-cream",
   next: "bg-sand/90 text-forest",
   past: "bg-cream/90 text-ink",
 };
@@ -43,6 +45,7 @@ export function LocationCard({
           placeholder="blur"
           blurDataURL={location.cover.blurDataURL}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ objectPosition: location.coverPosition }}
         />
         <span
           className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[location.status]}`}

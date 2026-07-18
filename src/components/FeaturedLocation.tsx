@@ -19,7 +19,7 @@ export function FeaturedLocation({
   priority?: boolean;
 }) {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-16">
+    <section className="mx-auto max-w-6xl px-5 py-4 ">
       <div className="overflow-hidden border border-sand bg-cream shadow-sm">
         {/* Header: big cover + summary */}
         <Link
@@ -37,6 +37,7 @@ export function FeaturedLocation({
                 placeholder="blur"
                 blurDataURL={location.cover.blurDataURL}
                 className="object-cover"
+                style={{ objectPosition: location.coverPosition }}
               />
               <span className="absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
                 {badge}

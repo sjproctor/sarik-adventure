@@ -10,6 +10,7 @@ import type { Location } from "@/lib/content";
 
 const statusLabel: Record<Location["status"], string> = {
   current: "Current Location",
+  recent: "Recent Stop",
   next: "Coming Up",
   past: "Visited",
 };
@@ -18,6 +19,7 @@ const statusLabel: Record<Location["status"], string> = {
 // pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Location["status"], string> = {
   current: "bg-terracotta/90 text-cream",
+  recent: "bg-forest/90 text-cream",
   next: "bg-sand/90 text-forest",
   past: "bg-cream/90 text-ink",
 };
@@ -59,6 +61,7 @@ export default async function LocationPage({
           placeholder="blur"
           blurDataURL={location.cover.blurDataURL}
           className="object-cover"
+          style={{ objectPosition: location.coverPosition }}
         />
         {/* ink/70 keeps the cream title/region text readable over bright covers */}
         <div className="absolute inset-0 bg-linear-to-t from-ink/70 to-transparent" />

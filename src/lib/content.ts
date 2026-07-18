@@ -7,8 +7,9 @@ export type GalleryItem = Location["gallery"][number];
 
 const statusRank: Record<Location["status"], number> = {
   current: 0,
-  next: 1,
-  past: 2,
+  recent: 1,
+  next: 2,
+  past: 3,
 };
 
 /** All locations, sorted: current first, then next, then past — within each group by `order`. */
@@ -42,14 +43,22 @@ export function getCurrentLocation(): Location | undefined {
 }
 
 /**
- * Quick stops happening right now — interstitials marked `status: current`,
- * e.g. a short detour mid-residency. Rendered as compact cards above the
- * featured destination on the home page, sorted by `order`.
+ * The in-between stops row: interstitials we're at right now (`current`) or
+ * that we've hit since leaving the last main destination (`recent`). The
+ * current stop sorts first, then the rest by `order`. Flip these to `past`
+ * once we've settled at the next main destination.
  */
-export function getCurrentInterstitials(): Location[] {
+export function getRecentInterstitials(): Location[] {
   return locations
-    .filter((l) => l.status === "current" && l.kind === "interstitial")
-    .sort((a, b) => a.order - b.order);
+    .filter(
+      (l) =>
+        l.kind === "interstitial" &&
+        (l.status === "current" || l.status === "recent"),
+    )
+    .sort(
+      (a, b) =>
+        statusRank[a.status] - statusRank[b.status] || a.order - b.order,
+    );
 }
 
 /**
