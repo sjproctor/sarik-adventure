@@ -57,7 +57,7 @@ export default function HomePage() {
       {recentPast && (
         <FeaturedLocation
           location={recentPast}
-          badge="Most Recent Location"
+          badge="Most Recent Stay"
           priority={!current && recentInterstitials.length === 0}
         />
       )}
@@ -128,9 +128,7 @@ export default function HomePage() {
 
           {future.length > 0 && (
             <>
-              <h3 className="font-display text-2xl text-forest">
-                What&apos;s ahead
-              </h3>
+              <h3 className="font-display text-2xl text-forest">Coming up</h3>
               <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {future.map((location, i) => (
                   <li key={location.slug}>

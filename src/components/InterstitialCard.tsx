@@ -26,7 +26,7 @@ export function InterstitialCard({
   const pill = (
     <>
       <span className="rounded-full bg-forest/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
-        Interstitial
+        Short Stop
       </span>
       {location.status === "current" && (
         <span className="rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">

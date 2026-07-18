@@ -74,7 +74,7 @@ export default async function LocationPage({
         <div className="absolute right-3 top-3 flex gap-2">
           {location.kind === "interstitial" && (
             <span className="rounded-full bg-forest/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
-              Interstitial
+              Short Stop
             </span>
           )}
           <span
