@@ -19,7 +19,7 @@ export function FeaturedLocation({
   priority?: boolean;
 }) {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-4 ">
+    <section className="mx-auto max-w-6xl px-5 pt-4 pb-8 ">
       <div className="overflow-hidden border border-sand bg-cream shadow-sm">
         {/* Header: big cover + summary */}
         <Link
