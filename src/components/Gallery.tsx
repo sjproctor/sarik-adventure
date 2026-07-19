@@ -68,7 +68,7 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
         {/* Top-left so it stays clear of the lightbox's own controls (top-right) */}
         {slide.albumTitle && (
           <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
-            {slide.albumTitle}
+            {slide.albumTitle} Album
           </span>
         )}
       </div>
@@ -190,7 +190,7 @@ export function Gallery({
                 <figcaption className="mt-3">
                   {image.albumTitle && (
                     <span className="text-xs font-semibold tracking-wide text-terracotta uppercase">
-                      {image.albumTitle}
+                      {image.albumTitle} Album
                     </span>
                   )}
                   {image.caption && (
@@ -208,13 +208,20 @@ export function Gallery({
       <ul className="gap-4 columns-2 sm:columns-3 *:mb-4">
         {images.map((image, i) => (
           <li key={image.src.src} className={`break-inside-avoid ${tiltFor(i)}`}>
-            {/* Columns inside a max-w-4xl container cap tiles near 300px */}
-            {tile(
-              image,
-              i,
-              MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
-              "(max-width: 640px) 50vw, 300px",
-            )}
+            <figure>
+              {/* Columns inside a max-w-4xl container cap tiles near 300px */}
+              {tile(
+                image,
+                i,
+                MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
+                "(max-width: 640px) 50vw, 300px",
+              )}
+              {image.caption && (
+                <figcaption className="mt-2 line-clamp-2 text-sm text-ink/75">
+                  {image.caption}
+                </figcaption>
+              )}
+            </figure>
           </li>
         ))}
       </ul>

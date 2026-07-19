@@ -30,7 +30,7 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
   return (
     <section className="mt-14">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h2 className="font-display text-3xl text-forest">Photos</h2>
+        <h2 className="font-display text-3xl text-forest">{view === "albums" ? "Photo Albums" : "Photo Gallery"}</h2>
         <div
           role="group"
           aria-label="Choose how to view photos"
@@ -42,11 +42,10 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
               type="button"
               onClick={() => setView(option)}
               aria-pressed={view === option}
-              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
-                view === option
-                  ? "bg-terracotta text-cream"
-                  : "text-forest hover:text-terracotta"
-              }`}
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${view === option
+                ? "bg-terracotta text-cream"
+                : "text-forest hover:text-terracotta"
+                }`}
             >
               {option}
             </button>
@@ -62,10 +61,10 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
               id={albumSlug(album.title)}
               className="scroll-mt-24"
             >
+              <p className="text-sm text-clay">{formatDate(album.date)}</p>
               <h3 className="font-display text-2xl text-forest">
                 {album.title}
               </h3>
-              <p className="text-sm text-clay">{formatDate(album.date)}</p>
               {album.description && (
                 <p className="mt-2 max-w-2xl text-ink/80">
                   {album.description}
