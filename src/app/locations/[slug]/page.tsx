@@ -10,7 +10,7 @@ import type { Location } from "@/lib/content";
 
 const statusLabel: Record<Location["status"], string> = {
   current: "Current Location",
-  recent: "Recent Stop",
+  recent: "Recent Location",
   next: "Coming Up",
   past: "Visited",
 };
@@ -18,10 +18,10 @@ const statusLabel: Record<Location["status"], string> = {
 // Translucent backgrounds get backdrop-blur + full-opacity text so the tiny
 // pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Location["status"], string> = {
-  current: "bg-terracotta/90 text-cream",
-  recent: "bg-forest/90 text-cream",
-  next: "bg-sand/90 text-forest",
-  past: "bg-cream/90 text-ink",
+  current: "bg-cream text-terracotta/90",
+  recent: "bg-cream text-terracotta/90",
+  next: "bg-cream text-terracotta/90",
+  past: "bg-cream/90 text-forest",
 };
 
 export function generateStaticParams() {
@@ -73,7 +73,7 @@ export default async function LocationPage({
         </div>
         <div className="absolute right-3 top-3 flex gap-2">
           {location.kind === "interstitial" && (
-            <span className="rounded-full bg-forest/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
+            <span className="rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
               Short Stop
             </span>
           )}

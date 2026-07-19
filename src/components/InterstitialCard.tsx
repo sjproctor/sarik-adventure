@@ -25,11 +25,11 @@ export function InterstitialCard({
   const showImage = location.status !== "next";
   const pill = (
     <>
-      <span className="rounded-full bg-forest/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
+      <span className="rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
         Short Stop
       </span>
       {location.status === "current" && (
-        <span className="rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
+        <span className="rounded-full bg-cream px-3 py-1 text-xs font-semibold text-terracotta/90 backdrop-blur-sm">
           Current Location
         </span>
       )}
