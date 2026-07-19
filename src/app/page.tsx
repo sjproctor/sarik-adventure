@@ -75,24 +75,27 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Featured: where we are right now */}
-      {current && <FeaturedLocation location={current} />}
+      <section id="current" className="mx-auto max-w-6xl px-5 pt-4 pb-8">
 
-      {/* Stops in between; hidden when no interstitial is current or recent */}
-      {recentInterstitials.length > 0 && (
-        <section className="mx-auto max-w-6xl px-5 pt-4 pb-8">
-          <LocationGrid locations={recentInterstitials} cardHeadingLevel={2} />
-        </section>
-      )}
+        {/* Featured: where we are right now */}
+        {current && <FeaturedLocation location={current} />}
 
-      {/* Featured: the last destination we stayed at */}
-      {recentPast && (
-        <FeaturedLocation
-          location={recentPast}
-          badge="Most Recent Stay"
-          priority={!current && recentInterstitials.length === 0}
-        />
-      )}
+        {/* Stops in between; hidden when no interstitial is current or recent */}
+        {recentInterstitials.length > 0 && (
+          <div className="py-8 px-4">
+            <LocationGrid locations={recentInterstitials} cardHeadingLevel={2} />
+          </div>
+        )}
+
+        {/* Featured: the last destination we stayed at */}
+        {recentPast && (
+          <FeaturedLocation
+            location={recentPast}
+            badge="Most Recent Stay"
+            priority={!current && recentInterstitials.length === 0}
+          />
+        )}
+      </section>
 
       {/* All musings */}
       {musings.length > 0 && (
@@ -151,7 +154,7 @@ export default function HomePage() {
         >
           <div className="mb-10">
             <p className="text-sm font-semibold tracking-wide text-terracotta uppercase">
-              Where the road is taking us
+              What's coming up
             </p>
             <h2 className="mt-2 font-display text-4xl text-forest sm:text-5xl">
               Locations
@@ -159,7 +162,8 @@ export default function HomePage() {
           </div>
 
           {future.length > 0 && (
-            <LocationGrid title="Coming up" locations={future} />
+            // <LocationGrid title="Coming up" locations={future} />
+            <LocationGrid locations={future} />
           )}
 
           {past.length > 0 && (

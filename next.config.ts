@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
     // benefits from the default 3840px variant, which roughly doubles the
     // payload on large displays.
     deviceSizes: [640, 750, 1080, 1920, 2560],
+    // Next 16 only generates variants for allowlisted qualities: 70 is the
+    // lightbox quality (see Gallery.tsx), 75 is the default everywhere else.
+    qualities: [70, 75],
   },
   // Baseline security headers applied to every route. These are safe for a
   // static content site and don't require per-request nonces.

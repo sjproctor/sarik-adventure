@@ -30,7 +30,7 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
   return (
     <section className="mt-14">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h2 className="font-display text-3xl text-forest">{view === "albums" ? "Photo Albums" : "Photo Gallery"}</h2>
+        <h2 className="font-display text-3xl text-forest">{view === "albums" ? "Photos" : "Gallery"}</h2>
         <div
           role="group"
           aria-label="Choose how to view photos"

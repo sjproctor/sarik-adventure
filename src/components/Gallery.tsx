@@ -135,7 +135,7 @@ export function Gallery({
     openButton(
       image,
       i,
-      `group relative block w-full overflow-hidden border border-sand ${aspect}`,
+      `group relative block w-full overflow-hidden border border-sand cursor-pointer ${aspect}`,
       <Image
         src={image.src.src}
         alt={image.alt}
