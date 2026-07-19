@@ -38,7 +38,7 @@ export function InterstitialCard({
   return (
     <Link
       href={location.permalink}
-      className={`group block overflow-hidden border border-dashed border-clay/50 bg-cream shadow-sm transition-transform hover:-translate-y-1 focus-visible:-translate-y-1 ${tilt}`}
+      className={`group block overflow-hidden border border-sand bg-cream shadow-sm transition-transform hover:-translate-y-1 focus-visible:-translate-y-1 ${tilt}`}
     >
       {showImage && (
         <div className="relative aspect-video overflow-hidden">
