@@ -5,24 +5,8 @@ import { Gallery } from "@/components/Gallery";
 import { LocationPhotos } from "@/components/LocationPhotos";
 import { Markdown, stripHtml } from "@/components/Markdown";
 import { MDXContent } from "@/components/MDXContent";
+import { StatusBadge } from "@/components/StatusBadge";
 import { getLocation, getLocations } from "@/lib/content";
-import type { Location } from "@/lib/content";
-
-const statusLabel: Record<Location["status"], string> = {
-  current: "Current Location",
-  recent: "Recent Location",
-  next: "Coming Up",
-  past: "Visited",
-};
-
-// Translucent backgrounds get backdrop-blur + full-opacity text so the tiny
-// pill text keeps AA contrast regardless of the photo behind it.
-const statusStyle: Record<Location["status"], string> = {
-  current: "bg-cream text-terracotta/90",
-  recent: "bg-cream text-terracotta/90",
-  next: "bg-cream text-terracotta/90",
-  past: "bg-cream/90 text-forest",
-};
 
 export function generateStaticParams() {
   return getLocations().map((location) => ({ slug: location.slug }));
@@ -77,11 +61,7 @@ export default async function LocationPage({
               Short Stop
             </span>
           )}
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[location.status]}`}
-          >
-            {statusLabel[location.status]}
-          </span>
+          <StatusBadge status={location.status} />
         </div>
       </div>
 
@@ -140,7 +120,7 @@ export default async function LocationPage({
         {/* Photos: browse by album (events) or as one large gallery feed.
             Not shown for future locations, which have nothing to show yet. */}
         {location.status !== "next" && (
-          <LocationPhotos location={location} albums={location.albums} />
+          <LocationPhotos albums={location.albums} />
         )}
 
         {/* Anything else in the body section of the MDX file */}

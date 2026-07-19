@@ -16,7 +16,7 @@ type Album = Location["albums"][number];
  *    phones, two on wider screens) with the album title + caption beneath each
  *    — a more visual, Instagram-like browse.
  */
-export function LocationPhotos({ location, albums }: { location: Location; albums: Album[] }) {
+export function LocationPhotos({ albums }: { albums: Album[] }) {
   const [view, setView] = useState<"albums" | "gallery">("albums");
 
   if (albums.length === 0) return null;
@@ -42,10 +42,11 @@ export function LocationPhotos({ location, albums }: { location: Location; album
               type="button"
               onClick={() => setView(option)}
               aria-pressed={view === option}
-              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${view === option
-                ? "bg-terracotta text-cream"
-                : "text-forest hover:text-terracotta"
-                }`}
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
+                view === option
+                  ? "bg-terracotta text-cream"
+                  : "text-forest hover:text-terracotta"
+              }`}
             >
               {option}
             </button>

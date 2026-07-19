@@ -2,25 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { Markdown } from "@/components/Markdown";
 import { MoreInfoIcon } from "@/components/MoreInfoIcon";
-import type { Location } from "@/lib/content";
+import { StatusBadge } from "@/components/StatusBadge";
+import { cardLinkClass, type CardProps } from "@/lib/ui";
 
 /**
  * A compact card for interstitial stops — the short stays between major
- * destinations. Visually lighter than LocationCard (shorter photo, dashed
- * border, clamped summary) so quick stops read as connective tissue in the
- * timeline rather than full chapters. Upcoming interstitials render without
- * the photo, mirroring how LocationInfoCard handles unphotographed stops.
+ * destinations. Visually lighter than LocationCard (shorter photo, clamped
+ * summary) so quick stops read as connective tissue in the timeline rather
+ * than full chapters. Upcoming interstitials render without the photo,
+ * mirroring how LocationCard handles unphotographed stops.
  */
 export function InterstitialCard({
   location,
   tilt = "tilt-left",
   headingLevel = 3,
-}: {
-  location: Location;
-  tilt?: "tilt-left" | "tilt-right";
-  /** Heading tag for the title, chosen to fit the surrounding page outline. */
-  headingLevel?: 2 | 3 | 4;
-}) {
+}: CardProps) {
   const Heading = `h${headingLevel}` as const;
   const showImage = location.status !== "next";
   const pill = (
@@ -28,18 +24,11 @@ export function InterstitialCard({
       <span className="rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
         Short Stop
       </span>
-      {location.status === "current" && (
-        <span className="rounded-full bg-cream px-3 py-1 text-xs font-semibold text-terracotta/90 backdrop-blur-sm">
-          Current Location
-        </span>
-      )}
+      {location.status === "current" && <StatusBadge status={location.status} />}
     </>
   );
   return (
-    <Link
-      href={location.permalink}
-      className={`group block overflow-hidden border border-sand bg-cream shadow-sm transition-transform hover:-translate-y-1 focus-visible:-translate-y-1 ${tilt}`}
-    >
+    <Link href={location.permalink} className={`${cardLinkClass} ${tilt}`}>
       {showImage && (
         <div className="relative aspect-video overflow-hidden">
           <Image
@@ -61,7 +50,7 @@ export function InterstitialCard({
           <Heading className="font-display text-xl text-forest">
             {location.title}
           </Heading>
-          <MoreInfoIcon className="mt-0.5 size-8 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1" />
+          <MoreInfoIcon className="mt-0.5 size-8" />
         </div>
         <p className="mt-1 text-sm font-medium text-clay">
           {location.region} · {location.stay}

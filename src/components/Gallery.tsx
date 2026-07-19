@@ -6,6 +6,7 @@ import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import type { GalleryItem } from "@/lib/content";
+import { tiltFor } from "@/lib/ui";
 
 /** A gallery image, optionally tagged with the album it belongs to. */
 export type GalleryImage = GalleryItem & {
@@ -108,16 +109,33 @@ export function Gallery({
     img.src = `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${LIGHTBOX_QUALITY}`;
   }
 
+  // Every tile shape opens the lightbox the same way: click to open, hover to
+  // warm the full-size variant.
+  const openButton = (
+    image: GalleryImage,
+    i: number,
+    className: string,
+    children: React.ReactNode,
+  ) => (
+    <button
+      type="button"
+      onClick={() => setIndex(i)}
+      onMouseEnter={() => preload(image.src.src)}
+      className={className}
+      aria-label={`Open image: ${image.alt}`}
+    >
+      {children}
+    </button>
+  );
+
   // `sizes` must match the tile's real rendered width per variant — the
   // variants render at fixed/near-fixed widths, so viewport-relative values
   // make browsers fetch image variants 2-4x larger than needed.
-  const tile = (
-    image: GalleryImage,
-    i: number,
-    aspect: string,
-    sizes: string,
-  ) => {
-    const photo = (
+  const tile = (image: GalleryImage, i: number, aspect: string, sizes: string) =>
+    openButton(
+      image,
+      i,
+      `group relative block w-full overflow-hidden border border-sand ${aspect}`,
       <Image
         src={image.src.src}
         alt={image.alt}
@@ -126,21 +144,91 @@ export function Gallery({
         placeholder="blur"
         blurDataURL={image.src.blurDataURL}
         className="object-cover transition-transform duration-500 group-hover:scale-105"
-      />
+      />,
     );
-    const className = `group relative block w-full overflow-hidden border border-sand ${aspect}`;
 
-    return (
-      <button
-        type="button"
-        onClick={() => setIndex(i)}
-        onMouseEnter={() => preload(image.src.src)}
-        className={className}
-        aria-label={`Open image: ${image.alt}`}
-      >
-        {photo}
-      </button>
-    );
+  const layouts = {
+    // A single horizontal line of photos that scrolls sideways on overflow.
+    row: () => (
+      <ul className="-mx-5 flex justify-between snap-x gap-4 overflow-x-auto px-5 pb-3">
+        {images.map((image, i) => (
+          <li
+            key={image.src.src}
+            className={`w-52 shrink-0 snap-start sm:w-64 ${tiltFor(i)}`}
+          >
+            {/* Tiles are fixed w-52/sm:w-64 */}
+            {tile(image, i, "aspect-[4/5]", "(max-width: 640px) 13rem, 16rem")}
+          </li>
+        ))}
+      </ul>
+    ),
+
+    // One large photo per row on phones; a two-column masonry on wider
+    // screens. Each photo keeps its natural aspect (no cropping) and shows
+    // its album + caption beneath.
+    feed: () => (
+      <ul className="columns-1 gap-x-6 sm:columns-2 *:mb-10">
+        {images.map((image, i) => (
+          <li key={image.src.src} className="break-inside-avoid">
+            <figure>
+              {openButton(
+                image,
+                i,
+                "group block w-full overflow-hidden border border-sand",
+                <Image
+                  src={image.src.src}
+                  alt={image.alt}
+                  width={image.src.width}
+                  height={image.src.height}
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  placeholder="blur"
+                  blurDataURL={image.src.blurDataURL}
+                  className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
+                />,
+              )}
+              {(image.albumTitle || image.caption) && (
+                <figcaption className="mt-3">
+                  {image.albumTitle && (
+                    <span className="text-xs font-semibold tracking-wide text-terracotta uppercase">
+                      {image.albumTitle}
+                    </span>
+                  )}
+                  {image.caption && (
+                    <p className="mt-1 text-sm text-ink/75">{image.caption}</p>
+                  )}
+                </figcaption>
+              )}
+            </figure>
+          </li>
+        ))}
+      </ul>
+    ),
+
+    masonry: () => (
+      <ul className="gap-4 columns-2 sm:columns-3 *:mb-4">
+        {images.map((image, i) => (
+          <li key={image.src.src} className={`break-inside-avoid ${tiltFor(i)}`}>
+            {/* Columns inside a max-w-4xl container cap tiles near 300px */}
+            {tile(
+              image,
+              i,
+              MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
+              "(max-width: 640px) 50vw, 300px",
+            )}
+          </li>
+        ))}
+      </ul>
+    ),
+
+    grid: () => (
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        {images.map((image, i) => (
+          <li key={image.src.src} className={tiltFor(i)}>
+            {tile(image, i, "aspect-square", "(max-width: 640px) 50vw, 300px")}
+          </li>
+        ))}
+      </ul>
+    ),
   };
 
   const slides: LightboxSlide[] = images.map((image) => ({
@@ -156,92 +244,7 @@ export function Gallery({
 
   return (
     <>
-      {variant === "row" ? (
-        // A single horizontal line of photos that scrolls sideways on overflow.
-        <ul className="-mx-5 flex justify-between snap-x gap-4 overflow-x-auto px-5 pb-3">
-          {images.map((image, i) => (
-            <li
-              key={image.src.src}
-              className={`w-52 shrink-0 snap-start sm:w-64 ${i % 2 === 0 ? "tilt-left" : "tilt-right"}`}
-            >
-              {/* Tiles are fixed w-52/sm:w-64 */}
-              {tile(image, i, "aspect-[4/5]", "(max-width: 640px) 13rem, 16rem")}
-            </li>
-          ))}
-        </ul>
-      ) : variant === "feed" ? (
-        // One large photo per row on phones; a two-column masonry on wider
-        // screens. Each photo keeps its natural aspect (no cropping) and shows
-        // its album + caption beneath.
-        <ul className="columns-1 gap-x-6 sm:columns-2 *:mb-10">
-          {images.map((image, i) => (
-            <li key={image.src.src} className="break-inside-avoid">
-              <figure>
-                <button
-                  type="button"
-                  onClick={() => setIndex(i)}
-                  onMouseEnter={() => preload(image.src.src)}
-                  className="group block w-full overflow-hidden border border-sand"
-                  aria-label={`Open image: ${image.alt}`}
-                >
-                  <Image
-                    src={image.src.src}
-                    alt={image.alt}
-                    width={image.src.width}
-                    height={image.src.height}
-                    sizes="(max-width: 640px) 100vw, 50vw"
-                    placeholder="blur"
-                    blurDataURL={image.src.blurDataURL}
-                    className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
-                  />
-                </button>
-                {(image.albumTitle || image.caption) && (
-                  <figcaption className="mt-3">
-                    {image.albumTitle && (
-                      <span className="text-xs font-semibold tracking-wide text-terracotta uppercase">
-                        {image.albumTitle}
-                      </span>
-                    )}
-                    {image.caption && (
-                      <p className="mt-1 text-sm text-ink/75">
-                        {image.caption}
-                      </p>
-                    )}
-                  </figcaption>
-                )}
-              </figure>
-            </li>
-          ))}
-        </ul>
-      ) : variant === "masonry" ? (
-        <ul className="gap-4 columns-2 sm:columns-3 *:mb-4">
-          {images.map((image, i) => (
-            <li
-              key={image.src.src}
-              className={`break-inside-avoid ${i % 2 === 0 ? "tilt-left" : "tilt-right"}`}
-            >
-              {/* Columns inside a max-w-4xl container cap tiles near 300px */}
-              {tile(
-                image,
-                i,
-                MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
-                "(max-width: 640px) 50vw, 300px",
-              )}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {images.map((image, i) => (
-            <li
-              key={image.src.src}
-              className={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-            >
-              {tile(image, i, "aspect-square", "(max-width: 640px) 50vw, 300px")}
-            </li>
-          ))}
-        </ul>
-      )}
+      {layouts[variant]()}
 
       <Lightbox
         open={index >= 0}

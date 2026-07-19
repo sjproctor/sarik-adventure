@@ -4,7 +4,6 @@ import { Hero } from "@/components/Hero";
 import { FeaturedLocation } from "@/components/FeaturedLocation";
 import { InterstitialCard } from "@/components/InterstitialCard";
 import { LocationCard } from "@/components/LocationCard";
-import { LocationInfoCard } from "@/components/LocationInfoCard";
 import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import {
   getCurrentLocation,
@@ -15,6 +14,49 @@ import {
   getMusings,
   formatDate,
 } from "@/lib/content";
+import type { Location } from "@/lib/content";
+import { tiltFor } from "@/lib/ui";
+
+/**
+ * A responsive grid of location cards with an optional heading. Interstitial
+ * stops get their compact card; everything else the standard one.
+ */
+function LocationGrid({
+  title,
+  titleClassName = "",
+  locations,
+  cardHeadingLevel = 4,
+}: {
+  title?: string;
+  titleClassName?: string;
+  locations: Location[];
+  cardHeadingLevel?: 2 | 3 | 4;
+}) {
+  return (
+    <>
+      {title && (
+        <h3 className={`font-display text-2xl text-forest ${titleClassName}`}>
+          {title}
+        </h3>
+      )}
+      <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {locations.map((location, i) => {
+          const Card =
+            location.kind === "interstitial" ? InterstitialCard : LocationCard;
+          return (
+            <li key={location.slug}>
+              <Card
+                location={location}
+                tilt={tiltFor(i)}
+                headingLevel={cardHeadingLevel}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
 
 export default function HomePage() {
   const current = getCurrentLocation();
@@ -39,17 +81,7 @@ export default function HomePage() {
       {/* Stops in between; hidden when no interstitial is current or recent */}
       {recentInterstitials.length > 0 && (
         <section className="mx-auto max-w-6xl px-5 pt-4 pb-8">
-          <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {recentInterstitials.map((location, i) => (
-              <li key={location.slug}>
-                <InterstitialCard
-                  location={location}
-                  tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-                  headingLevel={2}
-                />
-              </li>
-            ))}
-          </ul>
+          <LocationGrid locations={recentInterstitials} cardHeadingLevel={2} />
         </section>
       )}
 
@@ -102,7 +134,7 @@ export default function HomePage() {
                         {musing.title}
                       </h3>
                     </div>
-                    <MoreInfoIcon className="size-8 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1" />
+                    <MoreInfoIcon className="size-8" />
                   </Link>
                 </li>
               ))}
@@ -127,57 +159,15 @@ export default function HomePage() {
           </div>
 
           {future.length > 0 && (
-            <>
-              <h3 className="font-display text-2xl text-forest">Coming up</h3>
-              <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {future.map((location, i) => (
-                  <li key={location.slug}>
-                    {location.kind === "interstitial" ? (
-                      <InterstitialCard
-                        location={location}
-                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-                        headingLevel={4}
-                      />
-                    ) : (
-                      <LocationInfoCard
-                        location={location}
-                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-                        headingLevel={4}
-                      />
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </>
+            <LocationGrid title="Coming up" locations={future} />
           )}
 
           {past.length > 0 && (
-            <>
-              <h3
-                className={`font-display text-2xl text-forest ${future.length > 0 ? "mt-16" : ""}`}
-              >
-                Where we&apos;ve been
-              </h3>
-              <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {past.map((location, i) => (
-                  <li key={location.slug}>
-                    {location.kind === "interstitial" ? (
-                      <InterstitialCard
-                        location={location}
-                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-                        headingLevel={4}
-                      />
-                    ) : (
-                      <LocationCard
-                        location={location}
-                        tilt={i % 2 === 0 ? "tilt-left" : "tilt-right"}
-                        headingLevel={4}
-                      />
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </>
+            <LocationGrid
+              title="Where we've been"
+              titleClassName={future.length > 0 ? "mt-16" : ""}
+              locations={past}
+            />
           )}
         </section>
       )}

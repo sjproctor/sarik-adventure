@@ -52,7 +52,7 @@ export function FeaturedLocation({
                 <h2 className="font-display text-4xl text-forest sm:text-5xl">
                   {location.title}
                 </h2>
-                <MoreInfoIcon className="size-8 shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1" />
+                <MoreInfoIcon className="size-8" />
               </div>
               <p className="mt-1 text-sm font-medium text-clay">
                 {location.region}

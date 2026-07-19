@@ -12,11 +12,17 @@ const statusRank: Record<Location["status"], number> = {
   past: 3,
 };
 
+const byStatusThenOrder = (a: Location, b: Location) =>
+  statusRank[a.status] - statusRank[b.status] || a.order - b.order;
+
+const byOrder = (a: Location, b: Location) => a.order - b.order;
+
+const byDateDesc = (a: { date: string }, b: { date: string }) =>
+  a.date < b.date ? 1 : -1;
+
 /** All locations, sorted: current first, then next, then past — within each group by `order`. */
 export function getLocations(): Location[] {
-  return [...locations].sort(
-    (a, b) => statusRank[a.status] - statusRank[b.status] || a.order - b.order,
-  );
+  return [...locations].sort(byStatusThenOrder);
 }
 
 export function getLocation(slug: string): Location | undefined {
@@ -55,10 +61,7 @@ export function getRecentInterstitials(): Location[] {
         l.kind === "interstitial" &&
         (l.status === "current" || l.status === "recent"),
     )
-    .sort(
-      (a, b) =>
-        statusRank[a.status] - statusRank[b.status] || a.order - b.order,
-    );
+    .sort(byStatusThenOrder);
 }
 
 /**
@@ -70,26 +73,22 @@ export function getRecentInterstitials(): Location[] {
 export function getMostRecentPastDestination(): Location | undefined {
   return locations
     .filter((l) => l.status === "past" && l.kind === "destination")
-    .sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+    .sort(byDateDesc)[0];
 }
 
 /** Upcoming stops (`next`), sorted by `order`. */
 export function getFutureLocations(): Location[] {
-  return locations
-    .filter((l) => l.status === "next")
-    .sort((a, b) => a.order - b.order);
+  return locations.filter((l) => l.status === "next").sort(byOrder);
 }
 
 /** Places we've already been (`past`), sorted by `order`. */
 export function getPastLocations(): Location[] {
-  return locations
-    .filter((l) => l.status === "past")
-    .sort((a, b) => a.order - b.order);
+  return locations.filter((l) => l.status === "past").sort(byOrder);
 }
 
 /** All musings, newest first. */
 export function getMusings(): Musing[] {
-  return [...musings].sort((a, b) => (a.date < b.date ? 1 : -1));
+  return [...musings].sort(byDateDesc);
 }
 
 export function getMusing(slug: string): Musing | undefined {

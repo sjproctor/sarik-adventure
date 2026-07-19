@@ -1,13 +1,14 @@
 /**
  * A circle enclosing a right-pointing arrow, used to signal that a card is
- * clickable for more information. Inherits color via `currentColor`, so set the
- * color with a text utility (e.g. `text-terracotta`) on the icon or a parent.
+ * clickable for more information. Carries the shared terracotta color and the
+ * nudge-right on hover/focus of the surrounding `group` link; callers pass
+ * only sizing/spacing utilities via `className` (e.g. `mt-1 size-6`).
  *
  * Always rendered inside a link that already has a text name, so it's hidden
  * from assistive tech — a label here would make screen readers announce the
  * card title twice.
  */
-export function MoreInfoIcon({ className }: { className?: string }) {
+export function MoreInfoIcon({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -17,7 +18,7 @@ export function MoreInfoIcon({ className }: { className?: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={className}
+      className={`shrink-0 text-terracotta transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1 ${className}`}
     >
       <circle cx="12" cy="12" r="9" />
       <path d="M8.5 12h7" />
