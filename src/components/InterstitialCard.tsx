@@ -7,7 +7,7 @@ import { cardLinkClass, type CardProps } from "@/lib/ui";
 
 /**
  * A compact card for interstitial stops — the short stays between major
- * destinations. Visually lighter than LocationCard (shorter photo, clamped
+ * destinations. Visually lighter than LocationCard (shorter photo, no
  * summary) so quick stops read as connective tissue in the timeline rather
  * than full chapters. Upcoming interstitials render without the photo,
  * mirroring how LocationCard handles unphotographed stops.
@@ -55,10 +55,6 @@ export function InterstitialCard({
         <p className="mt-1 text-sm font-medium text-clay">
           {location.region} · {location.stay}
         </p>
-        <Markdown
-          html={location.summary}
-          className="mt-2 line-clamp-2 text-sm text-ink/75"
-        />
       </div>
     </Link>
   );

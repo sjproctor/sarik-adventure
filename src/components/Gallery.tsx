@@ -49,6 +49,10 @@ type LightboxSlide = {
   blurDataURL?: string;
   // Album the photo belongs to, shown as a small badge on the slide.
   albumTitle?: string;
+  // 1-based position within the photo's own album (not the whole slide list —
+  // the feed mixes albums), shown in the badge as "2 of 7".
+  albumIndex?: number;
+  albumCount?: number;
 };
 
 function LightboxImage({ slide }: { slide: LightboxSlide }) {
@@ -69,6 +73,11 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
         {slide.albumTitle && (
           <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
             {slide.albumTitle} Album
+            {slide.albumIndex && slide.albumCount && (
+              <span className="ml-2 border-l border-cream/40 pl-2 font-normal">
+                {slide.albumIndex} of {slide.albumCount}
+              </span>
+            )}
           </span>
         )}
       </div>
@@ -217,7 +226,7 @@ export function Gallery({
                 "(max-width: 640px) 50vw, 300px",
               )}
               {image.caption && (
-                <figcaption className="mt-2 line-clamp-2 text-sm text-ink/75">
+                <figcaption className="mt-2 line-clamp-1 text-sm text-ink/75">
                   {image.caption}
                 </figcaption>
               )}
@@ -238,16 +247,36 @@ export function Gallery({
     ),
   };
 
-  const slides: LightboxSlide[] = images.map((image) => ({
-    src: image.src.src,
-    width: image.src.width,
-    height: image.src.height,
-    alt: image.alt,
-    description: image.caption,
-    blurDataURL: image.src.blurDataURL,
+  // Count photos per album so each slide can show its position within its own
+  // album ("2 of 7") — in the feed variant the slide list spans several albums,
+  // so the lightbox index alone is the wrong number.
+  const albumTotals = new Map<string, number>();
+  for (const image of images) {
+    const title = image.albumTitle ?? albumTitle;
+    if (title) albumTotals.set(title, (albumTotals.get(title) ?? 0) + 1);
+  }
+  const albumSeen = new Map<string, number>();
+
+  const slides: LightboxSlide[] = images.map((image) => {
     // Per-image album (used by the feed) wins; otherwise the whole-gallery prop.
-    albumTitle: image.albumTitle ?? albumTitle,
-  }));
+    const title = image.albumTitle ?? albumTitle;
+    let albumIndex: number | undefined;
+    if (title) {
+      albumIndex = (albumSeen.get(title) ?? 0) + 1;
+      albumSeen.set(title, albumIndex);
+    }
+    return {
+      src: image.src.src,
+      width: image.src.width,
+      height: image.src.height,
+      alt: image.alt,
+      description: image.caption,
+      blurDataURL: image.src.blurDataURL,
+      albumTitle: title,
+      albumIndex,
+      albumCount: title ? albumTotals.get(title) : undefined,
+    };
+  });
 
   return (
     <>
