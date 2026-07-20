@@ -140,20 +140,35 @@ export function Gallery({
   // `sizes` must match the tile's real rendered width per variant — the
   // variants render at fixed/near-fixed widths, so viewport-relative values
   // make browsers fetch image variants 2-4x larger than needed.
-  const tile = (image: GalleryImage, i: number, aspect: string, sizes: string) =>
+  // `caption` renders inside the button (spans only — a <button> can't hold a
+  // <figcaption>) so clicking the caption also opens the viewer.
+  const tile = (
+    image: GalleryImage,
+    i: number,
+    aspect: string,
+    sizes: string,
+    caption?: React.ReactNode,
+  ) =>
     openButton(
       image,
       i,
-      `group relative block w-full overflow-hidden border border-sand cursor-pointer ${aspect}`,
-      <Image
-        src={image.src.src}
-        alt={image.alt}
-        fill
-        sizes={sizes}
-        placeholder="blur"
-        blurDataURL={image.src.blurDataURL}
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
-      />,
+      "group block w-full cursor-pointer text-left",
+      <>
+        <span
+          className={`relative block w-full overflow-hidden border border-sand ${aspect}`}
+        >
+          <Image
+            src={image.src.src}
+            alt={image.alt}
+            fill
+            sizes={sizes}
+            placeholder="blur"
+            blurDataURL={image.src.blurDataURL}
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </span>
+        {caption}
+      </>,
     );
 
   const layouts = {
@@ -179,35 +194,39 @@ export function Gallery({
       <ul className="columns-1 gap-x-6 sm:columns-2 *:mb-10">
         {images.map((image, i) => (
           <li key={image.src.src} className="break-inside-avoid">
-            <figure>
-              {openButton(
-                image,
-                i,
-                "group block w-full overflow-hidden border border-sand",
-                <Image
-                  src={image.src.src}
-                  alt={image.alt}
-                  width={image.src.width}
-                  height={image.src.height}
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  placeholder="blur"
-                  blurDataURL={image.src.blurDataURL}
-                  className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
-                />,
-              )}
-              {(image.albumTitle || image.caption) && (
-                <figcaption className="mt-3">
-                  {image.albumTitle && (
-                    <span className="text-xs font-semibold tracking-wide text-terracotta uppercase">
-                      {image.albumTitle} Album
-                    </span>
-                  )}
-                  {image.caption && (
-                    <p className="mt-1 text-sm text-ink/75">{image.caption}</p>
-                  )}
-                </figcaption>
-              )}
-            </figure>
+            {openButton(
+              image,
+              i,
+              "group block w-full cursor-pointer text-left",
+              <>
+                <span className="block w-full overflow-hidden border border-sand">
+                  <Image
+                    src={image.src.src}
+                    alt={image.alt}
+                    width={image.src.width}
+                    height={image.src.height}
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    placeholder="blur"
+                    blurDataURL={image.src.blurDataURL}
+                    className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
+                  />
+                </span>
+                {(image.albumTitle || image.caption) && (
+                  <span className="mt-3 block">
+                    {image.albumTitle && (
+                      <span className="text-xs font-semibold tracking-wide text-terracotta uppercase">
+                        {image.albumTitle} Album
+                      </span>
+                    )}
+                    {image.caption && (
+                      <span className="mt-1 block text-sm text-ink/75">
+                        {image.caption}
+                      </span>
+                    )}
+                  </span>
+                )}
+              </>,
+            )}
           </li>
         ))}
       </ul>
@@ -217,20 +236,18 @@ export function Gallery({
       <ul className="gap-4 columns-2 sm:columns-3 *:mb-4">
         {images.map((image, i) => (
           <li key={image.src.src} className={`break-inside-avoid ${tiltFor(i)}`}>
-            <figure>
-              {/* Columns inside a max-w-4xl container cap tiles near 300px */}
-              {tile(
-                image,
-                i,
-                MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
-                "(max-width: 640px) 50vw, 300px",
-              )}
-              {image.caption && (
-                <figcaption className="mt-2 line-clamp-1 text-sm text-ink/75">
+            {/* Columns inside a max-w-4xl container cap tiles near 300px */}
+            {tile(
+              image,
+              i,
+              MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
+              "(max-width: 640px) 50vw, 300px",
+              image.caption && (
+                <span className="mb-2 line-clamp-1 text-sm text-ink/75">
                   {image.caption}
-                </figcaption>
-              )}
-            </figure>
+                </span>
+              ),
+            )}
           </li>
         ))}
       </ul>
