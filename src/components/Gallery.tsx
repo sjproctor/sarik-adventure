@@ -14,6 +14,10 @@ export type GalleryImage = GalleryItem & {
   // variant and as the lightbox badge, so a combined feed can name the event
   // each shot is from.
   albumTitle?: string;
+  // Where this photo was taken. Used by the home page's cross-location wall:
+  // shown as a caption line under masonry tiles and as a clickable badge on
+  // the lightbox slide, linking through to the location page.
+  link?: { label: string; href: string };
 };
 
 // Cycled to give the masonry layout varied tile heights without needing the
@@ -53,6 +57,8 @@ type LightboxSlide = {
   // the feed mixes albums), shown in the badge as "2 of 7".
   albumIndex?: number;
   albumCount?: number;
+  // Linked badge naming the photo's location; takes the album badge's spot.
+  link?: { label: string; href: string };
 };
 
 function LightboxImage({ slide }: { slide: LightboxSlide }) {
@@ -70,8 +76,20 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
           className="object-contain"
         />
         {/* Top-left so it stays clear of the lightbox's own controls (top-right) */}
-        {slide.albumTitle && (
-          <span className="pointer-events-none absolute left-4 top-4 rounded-full bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
+        {slide.link && (
+          <a
+            href={slide.link.href}
+            className="absolute bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm transition-colors hover:bg-terracotta"
+          >
+            See {slide.link.label}
+            <span aria-hidden className="ml-1.5">
+              →
+            </span>
+            <span className="sr-only"> (view location)</span>
+          </a>
+        )}
+        {!slide.link && slide.albumTitle && (
+          <span className="pointer-events-none absolute left-4 top-4 bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
             {slide.albumTitle} Album
             {slide.albumIndex && slide.albumCount && (
               <span className="ml-2 border-l border-cream/40 pl-2 font-normal">
@@ -164,7 +182,7 @@ export function Gallery({
             sizes={sizes}
             placeholder="blur"
             blurDataURL={image.src.blurDataURL}
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-103"
           />
         </span>
         {caption}
@@ -208,7 +226,7 @@ export function Gallery({
                     sizes="(max-width: 640px) 100vw, 50vw"
                     placeholder="blur"
                     blurDataURL={image.src.blurDataURL}
-                    className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
+                    className="h-auto w-full transition-transform duration-500 group-hover:scale-103"
                   />
                 </span>
                 {(image.albumTitle || image.caption) && (
@@ -242,9 +260,18 @@ export function Gallery({
               i,
               MASONRY_ASPECTS[i % MASONRY_ASPECTS.length],
               "(max-width: 640px) 50vw, 300px",
-              image.caption && (
-                <span className="mb-2 line-clamp-1 text-sm text-ink/75">
-                  {image.caption}
+              (image.link || image.caption) && (
+                <span className="mb-2 block">
+                  {image.link && (
+                    <span className="block text-xs font-semibold tracking-wide text-terracotta uppercase">
+                      {image.link.label}
+                    </span>
+                  )}
+                  {image.caption && (
+                    <span className="line-clamp-1 text-sm text-ink/75">
+                      {image.caption}
+                    </span>
+                  )}
                 </span>
               ),
             )}
@@ -292,6 +319,7 @@ export function Gallery({
       albumTitle: title,
       albumIndex,
       albumCount: title ? albumTotals.get(title) : undefined,
+      link: image.link,
     };
   });
 

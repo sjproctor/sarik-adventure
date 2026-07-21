@@ -10,7 +10,7 @@ const statusLabel: Record<Location["status"], string> = {
 // Translucent backgrounds get backdrop-blur + full-opacity text so the tiny
 // pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Location["status"], string> = {
-  current: "bg-cream text-terracotta/90",
+  current: "bg-terracotta/90 text-cream",
   recent: "bg-cream text-terracotta/90",
   next: "bg-cream text-terracotta/90",
   past: "bg-cream/90 text-forest",
@@ -30,7 +30,7 @@ export function StatusBadge({
 }) {
   return (
     <span
-      className={`rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[status]} ${className}`}
+      className={`px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[status]} ${className}`}
     >
       {statusLabel[status]}
     </span>

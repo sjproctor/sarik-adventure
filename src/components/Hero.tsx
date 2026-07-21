@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden px-5 pt-16 pb-12 sm:pt-24">
+    <section className="relative overflow-hidden px-5 py-20">
       {/* Watercolor mountain ridgeline — purely decorative, sits behind content */}
       <svg
         aria-hidden
@@ -72,7 +72,7 @@ export function Hero() {
           <h1 className="font-display text-4xl leading-[1.05] text-forest sm:text-6xl">
             Sarik&apos;s Adventures
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-ink/80">
+          <p className="mt-5 max-w-xl text-lg text-ink/80">
             After 10 years at our place on Market Street in downtown San Diego
             it was time for a new spot. But first, why not go on an adventure?
           </p>
@@ -92,10 +92,10 @@ export function Hero() {
             </Link>
             . We&apos;d love to hear from you.
           </p>
-          <p className="mt-4 max-w-xl text-xl text-terracotta">Sarah & Erik</p>
+          <p className="mt-5 max-w-xl text-xl text-terracotta">Sarah & Erik</p>
         </div>
 
-        <div className="relative mx-auto md:mt-30 aspect-4/3 w-full max-w-32 md:max-w-80">
+        <div className="relative mx-auto md:mt-12 aspect-4/3 w-full max-w-32 md:max-w-80">
           {/* Matches the container's max-w-32/md:max-w-80. No `priority`: it's
               decorative — the preload slot belongs to the featured cover. */}
           <Image

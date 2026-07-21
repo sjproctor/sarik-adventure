@@ -1,100 +1,92 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Hero } from "@/components/Hero";
-import { FeaturedLocation } from "@/components/FeaturedLocation";
-import { InterstitialCard } from "@/components/InterstitialCard";
-import { LocationCard } from "@/components/LocationCard";
+import { Gallery, type GalleryImage } from "@/components/Gallery";
+import { LocationsSection } from "@/components/LocationsSection";
+import { PlacesRow } from "@/components/PlacesRow";
 import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import {
-  getCurrentLocation,
-  getRecentInterstitials,
-  getMostRecentPastDestination,
   getFutureLocations,
-  getPastLocations,
+  getTimelineLocations,
+  getHighlightPhotos,
   getMusings,
   formatDate,
 } from "@/lib/content";
-import type { Location } from "@/lib/content";
-import { tiltFor } from "@/lib/ui";
-
-/**
- * A responsive grid of location cards with an optional heading. Interstitial
- * stops get their compact card; everything else the standard one.
- */
-function LocationGrid({
-  title,
-  titleClassName = "",
-  locations,
-  cardHeadingLevel = 4,
-}: {
-  title?: string;
-  titleClassName?: string;
-  locations: Location[];
-  cardHeadingLevel?: 2 | 3 | 4;
-}) {
-  return (
-    <>
-      {title && (
-        <h3 className={`font-display text-2xl text-forest ${titleClassName}`}>
-          {title}
-        </h3>
-      )}
-      <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {locations.map((location, i) => {
-          const Card =
-            location.kind === "interstitial" ? InterstitialCard : LocationCard;
-          return (
-            <li key={location.slug}>
-              <Card
-                location={location}
-                tilt={tiltFor(i)}
-                headingLevel={cardHeadingLevel}
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </>
-  );
-}
 
 export default function HomePage() {
-  const current = getCurrentLocation();
-  // The stops between main destinations — the current one (if we're at an
-  // interstitial right now) plus everything marked `recent` — render below
-  // the featured destination as compact cards.
-  const recentInterstitials = getRecentInterstitials();
-  const recentPast = getMostRecentPastDestination();
   const future = getFutureLocations();
-  // The most recent past destination gets its own featured block up top, so
-  // keep it out of the "Where we've been" grid.
-  const past = getPastLocations().filter((l) => l.slug !== recentPast?.slug);
+  const timeline = getTimelineLocations();
   const musings = getMusings();
+
+  // The Photos wall: each highlight tagged with a link to its location page,
+  // shown as the tile caption and as the badge on the lightbox slide.
+  const highlights: GalleryImage[] = getHighlightPhotos().map(
+    ({ locationTitle, locationPermalink, ...photo }) => ({
+      ...photo,
+      link: { label: locationTitle, href: locationPermalink },
+    }),
+  );
 
   return (
     <>
       <Hero />
 
-      <section id="current" className="mx-auto max-w-6xl px-5 pt-4 pb-8">
-
-        {/* Featured: where we are right now */}
-        {current && <FeaturedLocation location={current} />}
-
-        {/* Stops in between; hidden when no interstitial is current or recent */}
-        {recentInterstitials.length > 0 && (
-          <div className="py-8 px-4">
-            <LocationGrid locations={recentInterstitials} cardHeadingLevel={2} />
-          </div>
-        )}
-
-        {/* Featured: the last destination we stayed at */}
-        {recentPast && (
-          <FeaturedLocation
-            location={recentPast}
-            badge="Most Recent Stay"
-            priority={!current && recentInterstitials.length === 0}
-          />
-        )}
+      {/* All locations, one section: the Places/Photos toggle switches between
+          the navigational timeline and the cross-location photo wall */}
+      <section
+        id="locations"
+        className="mx-auto max-w-6xl scroll-mt-8 px-5 py-20"
+      >
+        <LocationsSection
+          heading={
+            <div>
+              <p className="text-sm font-semibold tracking-wide text-terracotta uppercase">
+                Where we've been
+              </p>
+              <h2 className="mt-2 font-display text-4xl text-forest sm:text-5xl">
+                Locations
+              </h2>
+            </div>
+          }
+          places={
+            <>
+              <ul>
+                {timeline.map((location) => (
+                  <li key={location.slug} className="mb-4">
+                    <PlacesRow location={location} />
+                  </li>
+                ))}
+              </ul>
+              {/* Upcoming stops: a slim inline cluster after the timeline —
+                  no photos to show yet, so no rows */}
+              {future.length > 0 && (
+                <div className="mt-8">
+                  <p className="text-sm font-semibold tracking-wide text-terracotta uppercase">
+                    Coming up
+                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-x-12 gap-y-2">
+                    {future.map((location) => (
+                      <li key={location.slug}>
+                        <Link
+                          href={location.permalink}
+                          className="group text-forest"
+                        >
+                          <span className="font-display text-lg group-hover:text-terracotta">
+                            {location.title}
+                          </span>
+                          <span className="ml-2 text-sm text-clay">
+                            {location.stay}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
+          }
+          photos={<Gallery images={highlights} variant="masonry" />}
+        />
       </section>
 
       {/* All musings */}
@@ -125,7 +117,7 @@ export default function HomePage() {
                           sizes="80px"
                           placeholder="blur"
                           blurDataURL={musing.cover.blurDataURL}
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover transition-transform duration-500 group-hover:scale-103"
                         />
                       </div>
                     )}
@@ -143,36 +135,6 @@ export default function HomePage() {
               ))}
             </ul>
           </div>
-        </section>
-      )}
-
-      {/* All locations: upcoming stops, then places we've visited */}
-      {(future.length > 0 || past.length > 0) && (
-        <section
-          id="locations"
-          className="mx-auto max-w-6xl scroll-mt-8 px-5 py-20"
-        >
-          <div className="mb-10">
-            <p className="text-sm font-semibold tracking-wide text-terracotta uppercase">
-              What's coming up
-            </p>
-            <h2 className="mt-2 font-display text-4xl text-forest sm:text-5xl">
-              Locations
-            </h2>
-          </div>
-
-          {future.length > 0 && (
-            // <LocationGrid title="Coming up" locations={future} />
-            <LocationGrid locations={future} />
-          )}
-
-          {past.length > 0 && (
-            <LocationGrid
-              title="Where we've been"
-              titleClassName={future.length > 0 ? "mt-16" : ""}
-              locations={past}
-            />
-          )}
         </section>
       )}
     </>

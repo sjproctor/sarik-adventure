@@ -40,9 +40,9 @@ const image = s.object({
   src: s.image(),
   alt: s.string(),
   caption: s.string().optional(),
-  // Surface this photo in the home-page featured preview. For an album's first
-  // photo (its cover) this features the album tile. When no photo on a location
-  // is flagged, the preview falls back to the first few photos.
+  // Surface this photo in the home page's "Photos" view — the cross-location
+  // wall of curated highlights. Aim for 3-6 flagged photos per location; when
+  // a location has none flagged, the wall falls back to its first few photos.
   featured: s.boolean().optional(),
 });
 

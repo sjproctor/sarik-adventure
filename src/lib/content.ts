@@ -41,49 +41,58 @@ export function albumSlug(title: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-/** The full destination we're staying at right now — drives the featured block. */
-export function getCurrentLocation(): Location | undefined {
-  return locations.find(
-    (l) => l.status === "current" && l.kind === "destination",
-  );
-}
-
-/**
- * The in-between stops row: interstitials we're at right now (`current`) or
- * that we've hit since leaving the last main destination (`recent`). The
- * current stop sorts first, then the rest by `order`. Flip these to `past`
- * once we've settled at the next main destination.
- */
-export function getRecentInterstitials(): Location[] {
-  return locations
-    .filter(
-      (l) =>
-        l.kind === "interstitial" &&
-        (l.status === "current" || l.status === "recent"),
-    )
-    .sort(byStatusThenOrder);
-}
-
-/**
- * The last full destination we stayed at — the most recent `past` destination
- * by date. Gets its own featured-style block on the home page, below the
- * current interstitials; the remaining past locations render in the
- * "Where we've been" grid.
- */
-export function getMostRecentPastDestination(): Location | undefined {
-  return locations
-    .filter((l) => l.status === "past" && l.kind === "destination")
-    .sort(byDateDesc)[0];
-}
-
 /** Upcoming stops (`next`), sorted by `order`. */
 export function getFutureLocations(): Location[] {
   return locations.filter((l) => l.status === "next").sort(byOrder);
 }
 
-/** Places we've already been (`past`), sorted by `order`. */
-export function getPastLocations(): Location[] {
-  return locations.filter((l) => l.status === "past").sort(byOrder);
+/**
+ * The home-page timeline: everywhere we are or have been — destinations and
+ * interstitials alike — newest first. The current stop leads regardless of
+ * date so the "here now" super-row always tops the list.
+ */
+export function getTimelineLocations(): Location[] {
+  return locations
+    .filter((l) => l.status !== "next")
+    .sort(
+      (a, b) =>
+        Number(b.status === "current") - Number(a.status === "current") ||
+        byDateDesc(a, b),
+    );
+}
+
+/** Every photo on a location — the lead gallery plus each album's set. */
+export function getAllPhotos(location: Location): GalleryItem[] {
+  return [...location.gallery, ...location.albums.flatMap((a) => a.gallery)];
+}
+
+/** A highlight for the home Photos wall: the photo plus where it was taken. */
+export type HighlightPhoto = GalleryItem & {
+  locationTitle: string;
+  locationPermalink: string;
+};
+
+// When a location has no `featured` photos, the wall shows its first few
+// instead so new locations appear without any curation step.
+const HIGHLIGHT_FALLBACK_COUNT = 3;
+
+/**
+ * The curated photo wall for the home page's "Photos" view: each location's
+ * `featured: true` photos (or its first few when none are flagged), tagged
+ * with the location they're from. Locations appear newest first.
+ */
+export function getHighlightPhotos(): HighlightPhoto[] {
+  return getTimelineLocations().flatMap((location) => {
+    const photos = getAllPhotos(location);
+    const flagged = photos.filter((p) => p.featured);
+    const picks =
+      flagged.length > 0 ? flagged : photos.slice(0, HIGHLIGHT_FALLBACK_COUNT);
+    return picks.map((photo) => ({
+      ...photo,
+      locationTitle: location.title,
+      locationPermalink: location.permalink,
+    }));
+  });
 }
 
 /** All musings, newest first. */
