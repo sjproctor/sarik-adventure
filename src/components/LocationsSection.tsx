@@ -2,7 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 
-const VIEWS = ["browse places", "view photos"] as const;
+const VIEWS = ["view by location", "photo gallery"] as const;
 type View = (typeof VIEWS)[number];
 
 // Persists the visitor's last-used view across visits. The server renders
@@ -13,15 +13,15 @@ const STORAGE_KEY = "locations-view";
 // localStorage never notifies within a tab, so there's nothing to subscribe
 // to — the saved view only matters for the initial client render; after that
 // the visitor's clicks drive the state.
-const subscribeNoop = () => () => { };
+const subscribeNoop = () => () => {};
 
 function useSavedView(): View {
   const saved = useSyncExternalStore(
     subscribeNoop,
     () => localStorage.getItem(STORAGE_KEY),
-    () => null,
+    () => null
   );
-  return saved === "view photos" ? "view photos" : "browse places";
+  return saved === "photo gallery" ? "photo gallery" : "view by location";
 }
 
 /**
@@ -68,10 +68,11 @@ export function LocationsSection({
               type="button"
               onClick={() => choose(option)}
               aria-pressed={view === option}
-              className={`px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${view === option
-                ? "bg-terracotta text-cream"
-                : "text-forest hover:text-terracotta"
-                }`}
+              className={`px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
+                view === option
+                  ? "bg-terracotta text-cream"
+                  : "text-forest hover:text-terracotta"
+              }`}
             >
               {option}
             </button>
@@ -79,7 +80,7 @@ export function LocationsSection({
         </div>
       </div>
 
-      {view === "browse places" ? places : photos}
+      {view === "view by location" ? places : photos}
     </>
   );
 }

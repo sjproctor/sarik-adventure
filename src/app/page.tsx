@@ -24,7 +24,7 @@ export default function HomePage() {
     ({ locationTitle, locationPermalink, ...photo }) => ({
       ...photo,
       link: { label: locationTitle, href: locationPermalink },
-    }),
+    })
   );
 
   return (
@@ -52,7 +52,7 @@ export default function HomePage() {
             <>
               <ul>
                 {timeline.map((location) => (
-                  <li key={location.slug} className="mb-4">
+                  <li key={location.slug} className="mb-8">
                     <PlacesRow location={location} />
                   </li>
                 ))}

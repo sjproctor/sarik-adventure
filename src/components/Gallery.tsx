@@ -142,7 +142,7 @@ export function Gallery({
     image: GalleryImage,
     i: number,
     className: string,
-    children: React.ReactNode,
+    children: React.ReactNode
   ) => (
     <button
       type="button"
@@ -165,7 +165,7 @@ export function Gallery({
     i: number,
     aspect: string,
     sizes: string,
-    caption?: React.ReactNode,
+    caption?: React.ReactNode
   ) =>
     openButton(
       image,
@@ -186,7 +186,7 @@ export function Gallery({
           />
         </span>
         {caption}
-      </>,
+      </>
     );
 
   const layouts = {
@@ -243,7 +243,7 @@ export function Gallery({
                     )}
                   </span>
                 )}
-              </>,
+              </>
             )}
           </li>
         ))}
@@ -253,7 +253,10 @@ export function Gallery({
     masonry: () => (
       <ul className="gap-4 columns-2 sm:columns-3 *:mb-4">
         {images.map((image, i) => (
-          <li key={image.src.src} className={`break-inside-avoid ${tiltFor(i)}`}>
+          <li
+            key={image.src.src}
+            className={`break-inside-avoid ${tiltFor(i)}`}
+          >
             {/* Columns inside a max-w-4xl container cap tiles near 300px */}
             {tile(
               image,
@@ -263,17 +266,17 @@ export function Gallery({
               (image.link || image.caption) && (
                 <span className="mb-2 block">
                   {image.link && (
-                    <span className="block text-xs font-semibold tracking-wide text-terracotta uppercase">
+                    <span className="block text-sm pt-1 font-semibold tracking-wide text-terracotta uppercase">
                       {image.link.label}
                     </span>
                   )}
                   {image.caption && (
-                    <span className="line-clamp-1 text-sm text-ink/75">
+                    <span className="line-clamp-2 text-sm text-ink/75">
                       {image.caption}
                     </span>
                   )}
                 </span>
-              ),
+              )
             )}
           </li>
         ))}

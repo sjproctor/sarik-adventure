@@ -40,9 +40,7 @@ export function PlacesRow({ location }: { location: Location }) {
       </div>
 
       <div>
-        <p className="text-sm text-clay">
-          {formatDate(location.date)} · {location.region}
-        </p>
+        <p className="text-sm text-clay">{location.region}</p>
         <div className="flex items-center gap-4 justify-between">
           <h3 className="mt-0.5 font-display text-xl text-forest sm:text-2xl">
             {location.title}
@@ -63,6 +61,6 @@ export function PlacesRow({ location }: { location: Location }) {
           className="mt-3 max-w-xl text-ink/75 sm:block"
         />
       </div>
-    </Link >
+    </Link>
   );
 }

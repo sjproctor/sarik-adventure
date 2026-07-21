@@ -55,12 +55,7 @@ export default async function LocationPage({
           </h1>
           <p className="font-semibold text-cream/90">{location.region}</p>
         </div>
-        <div className="absolute right-3 top-3 flex gap-2">
-          {location.kind === "interstitial" && (
-            <span className="bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream backdrop-blur-sm">
-              Short Stop
-            </span>
-          )}
+        <div className="absolute right-0">
           <StatusBadge status={location.status} />
         </div>
       </div>

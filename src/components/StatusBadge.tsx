@@ -16,11 +16,6 @@ const statusStyle: Record<Location["status"], string> = {
   past: "bg-cream/90 text-forest",
 };
 
-/**
- * The pill naming a location's status ("Current Location", "Visited", …).
- * Pass positioning via `className` (e.g. `absolute left-3 top-3`); the pill
- * styles itself.
- */
 export function StatusBadge({
   status,
   className = "",
@@ -30,7 +25,7 @@ export function StatusBadge({
 }) {
   return (
     <span
-      className={`px-3 py-1 text-xs font-semibold backdrop-blur-sm ${statusStyle[status]} ${className}`}
+      className={`px-3 py-1 text-sm font-semibold backdrop-blur-sm ${statusStyle[status]} ${className}`}
     >
       {statusLabel[status]}
     </span>
