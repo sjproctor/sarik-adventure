@@ -15,6 +15,7 @@ const shortStopPill = (
 export function PlacesRow({ location }: { location: Location }) {
   const isCurrent = location.status === "current";
   const isInterstitial = location.kind === "interstitial";
+  const isUpcoming = location.status === "next";
   const count = getAllPhotos(location).length;
 
   return (
@@ -22,24 +23,30 @@ export function PlacesRow({ location }: { location: Location }) {
       href={location.permalink}
       className="group flex flex-wrap gap-4 sm:gap-6"
     >
-      <div className="relative border border-sand h-[40vh] w-90 overflow-hidden">
-        <Image
-          src={location.cover.src}
-          alt={location.coverAlt}
-          fill
-          sizes="100vw"
-          priority={isCurrent}
-          placeholder="blur"
-          blurDataURL={location.cover.blurDataURL}
-          className="object-cover transition-transform duration-500 group-hover:scale-103"
-          style={{ objectPosition: location.coverPosition }}
-        />
-        <div className="absolute flex gap-2">
-          {isInterstitial && shortStopPill}
-        </div>
-      </div>
+      {!isUpcoming && (
+        <>
+          <div className="relative border border-sand h-60 w-90 overflow-hidden">
+            <Image
+              src={location.cover.src}
+              alt={location.coverAlt}
+              fill
+              sizes="90vw"
+              priority={isCurrent}
+              placeholder="blur"
+              blurDataURL={location.cover.blurDataURL}
+              className="object-cover transition-transform duration-500 group-hover:scale-103"
+              style={{ objectPosition: location.coverPosition }}
+            />
+            <div className="absolute flex gap-2">
+              {isInterstitial && shortStopPill}
+            </div>
+          </div>
+        </>
+      )}
 
-      <div>
+      <div
+        className={`border-b border-sand pb-2 ${!isUpcoming ? "max-w-xl" : "w-lg"}`}
+      >
         <p className="text-sm text-clay">{location.region}</p>
         <div className="flex items-center gap-4 justify-between">
           <h3 className="mt-0.5 font-display text-xl text-forest sm:text-2xl">
@@ -49,7 +56,7 @@ export function PlacesRow({ location }: { location: Location }) {
         </div>
         <p className="mt-1 text-sm font-medium text-clay">
           {location.stay}
-          {count > 0 && <> · {count} photos</>}
+          {count > 0 && !isUpcoming && <> · {count} photos</>}
         </p>
         {isCurrent && (
           <p className="mt-2">
@@ -58,7 +65,7 @@ export function PlacesRow({ location }: { location: Location }) {
         )}
         <Markdown
           html={location.summary}
-          className="mt-3 max-w-xl text-ink/75 sm:block"
+          className="mt-3 text-ink/75 sm:block"
         />
       </div>
     </Link>

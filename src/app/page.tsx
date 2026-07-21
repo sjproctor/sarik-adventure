@@ -18,8 +18,9 @@ export default function HomePage() {
   const timeline = getTimelineLocations();
   const musings = getMusings();
 
-  // The Photos wall: each highlight tagged with a link to its location page,
+  // The Photos wall: each highlight photo tagged with a link to its location page,
   // shown as the tile caption and as the badge on the lightbox slide.
+  // Add featured: true to specific image
   const highlights: GalleryImage[] = getHighlightPhotos().map(
     ({ locationTitle, locationPermalink, ...photo }) => ({
       ...photo,
@@ -57,32 +58,18 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              {/* Upcoming stops: a slim inline cluster after the timeline —
-                  no photos to show yet, so no rows */}
-              {future.length > 0 && (
-                <div className="mt-8">
-                  <p className="text-sm font-semibold tracking-wide text-terracotta uppercase">
-                    Coming up
-                  </p>
-                  <ul className="mt-3 flex flex-wrap gap-x-12 gap-y-2">
-                    {future.map((location) => (
-                      <li key={location.slug}>
-                        <Link
-                          href={location.permalink}
-                          className="group text-forest"
-                        >
-                          <span className="font-display text-lg group-hover:text-terracotta">
-                            {location.title}
-                          </span>
-                          <span className="ml-2 text-sm text-clay">
-                            {location.stay}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <div className="mt-8">
+                <p className="text-sm font-semibold tracking-wide text-terracotta uppercase mb-4">
+                  Coming up
+                </p>
+                <ul>
+                  {future.map((location) => (
+                    <li key={location.slug} className="mb-8">
+                      <PlacesRow location={location} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </>
           }
           photos={<Gallery images={highlights} variant="masonry" />}

@@ -57,7 +57,7 @@ export function getTimelineLocations(): Location[] {
     .sort(
       (a, b) =>
         Number(b.status === "current") - Number(a.status === "current") ||
-        byDateDesc(a, b),
+        byDateDesc(a, b)
     );
 }
 

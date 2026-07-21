@@ -70,8 +70,8 @@ export function LocationsSection({
               aria-pressed={view === option}
               className={`px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
                 view === option
-                  ? "bg-terracotta text-cream"
-                  : "text-forest hover:text-terracotta"
+                  ? "bg-terracotta/90 text-cream"
+                  : "text-forest hover:text-terracotta/90"
               }`}
             >
               {option}

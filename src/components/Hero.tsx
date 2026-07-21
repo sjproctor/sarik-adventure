@@ -82,22 +82,20 @@ export function Hero() {
             traveling around the western US staying for a month here and there.
           </p>
           <p className="mt-2 max-w-xl text-lg text-ink/80">
-            We hope you&apos;ll follow along with us! We&apos;ll add new pics
-            and updates on our progress. And{" "}
+            We hope you&apos;ll follow along with us! If you would like to get
+            an email when we add new content please{" "}
             <Link
               href="/contact"
               className="text-terracotta underline underline-offset-4"
             >
-              please drop us a line
+              click here
             </Link>
-            . We&apos;d love to hear from you.
+            .
           </p>
           <p className="mt-5 max-w-xl text-xl text-terracotta">Sarah & Erik</p>
         </div>
 
         <div className="relative mx-auto md:mt-12 aspect-4/3 w-full max-w-32 md:max-w-80">
-          {/* Matches the container's max-w-32/md:max-w-80. No `priority`: it's
-              decorative — the preload slot belongs to the featured cover. */}
           <Image
             src="/wildflowers.png"
             alt=""
