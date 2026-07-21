@@ -83,7 +83,7 @@ export function Hero() {
           </p>
           <p className="mt-2 max-w-xl text-lg text-ink/80">
             We hope you&apos;ll follow along with us! If you would like to get
-            an email when we add new content please{" "}
+            an email reminder when we add new content please{" "}
             <Link
               href="/contact"
               className="text-terracotta underline underline-offset-4"

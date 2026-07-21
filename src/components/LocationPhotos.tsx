@@ -24,13 +24,15 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
   // Gallery view: every album's photos flattened into one feed, each tagged
   // with its album title so the caption can name the event it came from.
   const feed: GalleryImage[] = albums.flatMap((album) =>
-    album.gallery.map((image) => ({ ...image, albumTitle: album.title })),
+    album.gallery.map((image) => ({ ...image, albumTitle: album.title }))
   );
 
   return (
     <section className="mt-14">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h2 className="font-display text-3xl text-forest">{view === "albums" ? "Photos" : "Gallery"}</h2>
+        <h2 className="font-display text-3xl text-forest">
+          {view === "albums" ? "Photo Albums" : "Photo Gallery"}
+        </h2>
         <div
           role="group"
           aria-label="Choose how to view photos"
@@ -42,12 +44,13 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
               type="button"
               onClick={() => setView(option)}
               aria-pressed={view === option}
-              className={`px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${view === option
-                ? "bg-terracotta text-cream"
-                : "text-forest hover:text-terracotta"
-                }`}
+              className={`px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
+                view === option
+                  ? "bg-terracotta text-cream"
+                  : "text-forest hover:text-terracotta"
+              }`}
             >
-              {option}
+              {option === "albums" ? "View By Album" : "View Gallery"}
             </button>
           ))}
         </div>
