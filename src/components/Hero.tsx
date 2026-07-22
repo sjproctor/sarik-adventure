@@ -1,5 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
+import {
+  EmailSignupModal,
+  EmailSignupTrigger,
+} from "@/components/EmailSignupModal";
 
 export function Hero() {
   return (
@@ -81,17 +84,13 @@ export function Hero() {
             (still) own packed in a minivan and set out to spend a year-ish
             traveling around the western US staying for a month here and there.
           </p>
-          <p className="mt-2 max-w-xl text-lg text-ink/80">
-            We hope you&apos;ll follow along with us! If you would like to get
-            an email reminder when we add new content please{" "}
-            <Link
-              href="/contact"
-              className="text-terracotta underline underline-offset-4"
-            >
-              click here
-            </Link>
-            .
-          </p>
+          <EmailSignupModal>
+            <p className="mt-2 max-w-xl text-lg text-ink/80">
+              We hope you&apos;ll follow along with us! If you would like to
+              get an email reminder when we add new content please{" "}
+              <EmailSignupTrigger>click here</EmailSignupTrigger>.
+            </p>
+          </EmailSignupModal>
           <p className="mt-5 max-w-xl text-xl text-terracotta">Sarah & Erik</p>
         </div>
 
