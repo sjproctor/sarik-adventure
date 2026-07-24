@@ -11,9 +11,9 @@ const statusLabel: Record<Location["status"], string> = {
 // pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Location["status"], string> = {
   current: "bg-terracotta/90 text-cream",
-  recent: "bg-cream text-terracotta/90",
-  next: "bg-cream text-terracotta/90",
-  past: "bg-cream/90 text-forest",
+  recent: "bg-cream/90 text-terracotta",
+  next: "bg-cream/90 text-terracotta",
+  past: "bg-cream/90 text-terracotta",
 };
 
 export function StatusBadge({

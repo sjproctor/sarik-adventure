@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { AboutUs } from "@/components/AboutUs";
 import { Hero } from "@/components/Hero";
 import { Gallery, type GalleryImage } from "@/components/Gallery";
 import { LocationsSection } from "@/components/LocationsSection";
@@ -124,6 +125,8 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      <AboutUs />
     </>
   );
 }

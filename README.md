@@ -3,7 +3,8 @@
 A photo-forward travel site for a slow trip around the country — where we are,
 where we're headed, and the thoughts in between. Content (locations and
 musings) lives in the codebase as MDX and is published by pushing to git; there
-is no CMS, database, or user auth.
+is no CMS, database, or user auth. The only stored data is the email signup
+list, which lives in an Airtable base.
 
 ## Tech stack
 
@@ -37,9 +38,10 @@ pnpm dev          # start the dev server at http://localhost:3003
 `core.hooksPath` to [.githooks/](.githooks/)) — see
 [Adding photos](#adding-photos) for why that matters.
 
-For the contact form, copy [.env.example](.env.example) to `.env.local` and
-fill in the EmailJS values (see the comments in that file). The site runs fine
-without them; only the form's submit will fail.
+For the contact form (EmailJS) and the email signup form (Airtable), copy
+[.env.example](.env.example) to `.env.local` and fill in the values (see the
+comments in that file). The site runs fine without them; only the forms'
+submits will fail.
 
 Other scripts:
 
@@ -68,9 +70,10 @@ src/
     locations/[slug]/         # location detail pages
     musings/[slug]/           # musing detail pages
     contact/                  # contact page ("Say Hi")
+    api/signup/               # route handler that saves email signups to Airtable
     layout.tsx                # root layout, fonts, back button, footer, skip link
     globals.css
-  components/     # Hero, Footer, FeaturedLocation, Gallery, LocationCard, InterstitialCard, StatusBadge, …
+  components/     # Hero, Footer, Gallery, ContactForm, EmailSignupModal, StatusBadge, …
   lib/
     site.ts       # site-wide constants (name, description, nav links)
     content.ts    # helpers for querying/sorting locations & musings
@@ -163,8 +166,12 @@ The site is essentially one scrolling home page plus detail pages:
 - **Home** (`/`) — hero, the **featured current location** (a large,
   image-forward block linking to its page) plus a matching **Most Recent
   Stay** block for the last destination we left, a **Stories & Musings** list
-  (`#musings`), and an **all locations** section (`#locations`) covering both
-  upcoming stops and places we've visited.
+  (`#musings`), an **all locations** section (`#locations`) covering both
+  upcoming stops and places we've visited, and an **About Us** section
+  (`#about`). The hero includes a "click here"
+  link that opens the **email signup modal**
+  ([EmailSignupModal.tsx](src/components/EmailSignupModal.tsx)); submissions
+  go through `/api/signup` to Airtable.
 - **Location detail** (`/locations/<slug>`) — the full page for a single stop.
 - **Musing detail** (`/musings/<slug>`) — a single blog-style post.
 - **Say Hi** (`/contact`) — the contact form.
@@ -228,9 +235,10 @@ pnpm optimize-images <files...>   # specific files
 ## Deployment
 
 Pushing to `main` triggers a Vercel deploy — that's the whole publishing
-workflow. The `NEXT_PUBLIC_EMAILJS_*` variables from
-[.env.example](.env.example) must also be set in the Vercel project settings
-for the contact form to work in production. Baseline security headers (HSTS,
+workflow. The variables from [.env.example](.env.example) must also be set in
+the Vercel project settings: `NEXT_PUBLIC_EMAILJS_*` for the contact form and
+the server-only `AIRTABLE_*` values for the email signup form. Baseline
+security headers (HSTS,
 nosniff, frame and permissions policies) are applied to every route in
 [next.config.ts](next.config.ts).
 
@@ -242,5 +250,4 @@ required `alt` text on all images (enforced by the content schema), and the
 
 ## Roadmap
 
-- Email signup for new-location updates
 - Photo likes/comments (private submissions; optionally surface like counts)

@@ -7,7 +7,7 @@ import { formatDate, getAllPhotos } from "@/lib/content";
 import type { Location } from "@/lib/content";
 
 const shortStopPill = (
-  <span className="bg-forest/80 px-3 py-1 text-xs font-semibold text-cream">
+  <span className="bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream">
     Short Stop
   </span>
 );
