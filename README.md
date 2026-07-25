@@ -50,7 +50,7 @@ pnpm build            # production build
 pnpm start            # serve the production build
 pnpm lint             # run ESLint (incl. jsx-a11y rules)
 pnpm content          # run Velite once to build content collections
-pnpm optimize-images  # strip metadata + downsize photos under content/
+pnpm optimize-images  # strip metadata + downsize photos under content/ (or specify public/)
 npm run content       # rebuild the mdx file and images
 ```
 

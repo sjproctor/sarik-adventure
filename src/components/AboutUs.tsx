@@ -23,24 +23,23 @@ export function AboutUs() {
             salad bowl has very specific requirements.
           </p>
           <p>
-            Outside of work, Erik is an avid golfer. Left to his own devices,
-            he would play multiple rounds a day and have the craziest tan
-            lines. I have never been a ball-sport person, preferring running
-            and yoga or any kind of acrobatic-type activity. This adventure
-            has afforded us a lot of hiking opportunities and I guess we are
-            of a certain age where a birding app suddenly appears on your
+            Outside of work, Erik is an avid golfer. Left to his own devices, he
+            would play multiple rounds a day and have the craziest tan lines. I
+            prefer running and yoga or any kind of acrobatic-type activity. This
+            adventure has afforded us a lot of hiking opportunities and I guess
+            we are of a certain age where a birding app suddenly appears on your
             phone. I swear I don&apos;t know how that happened.
           </p>
           <p>
-            We are eternally thankful to our families in Boise, Idaho, who
-            have, and continue to, open their homes to us. Having a support
-            system (with a spare room) is so comforting and gives us the
-            luxury to take risks while having a &quot;what happens if this all
-            goes to hell&quot; backup plan.
+            We are eternally thankful to our families in Boise, Idaho, who have,
+            and continue to, open their homes to us. Having a support system
+            (with a spare room) is so comforting and gives us the luxury to take
+            risks while having a &quot;what happens if this all goes to
+            hell&quot; backup plan.
           </p>
           <p>
-            If you have questions or comments, we&apos;d love to hear from
-            you. Please{" "}
+            If you have questions or comments, we&apos;d love to hear from you.
+            Please{" "}
             <Link
               href="/contact"
               className="text-terracotta underline underline-offset-4"
@@ -54,7 +53,7 @@ export function AboutUs() {
         <div className="mx-auto w-full max-w-xs shrink-0 md:mx-0 md:max-w-sm">
           <Image
             src="/sarik.jpg"
-            alt="Selfie of Sarah and Erik in sunglasses on a sunny day in downtown San Diego."
+            alt="Selfie of Sarah and Erik in sunglasses on a sunny day outside the Civic Theater in downtown San Diego."
             width={1920}
             height={2560}
             sizes="(max-width: 768px) 20rem, 24rem"
