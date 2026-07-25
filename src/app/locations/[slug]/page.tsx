@@ -55,7 +55,15 @@ export default async function LocationPage({
           </h1>
           <p className="font-semibold text-cream/90">{location.region}</p>
         </div>
-        <div className="absolute right-0">
+        {/* The rounded current badge gets inset from the corner; the square
+            badges stay flush against the edge as before. */}
+        <div
+          className={
+            location.status === "current"
+              ? "absolute top-3 right-3"
+              : "absolute right-0"
+          }
+        >
           <StatusBadge status={location.status} />
         </div>
       </div>
