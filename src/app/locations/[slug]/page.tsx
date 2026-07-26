@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Gallery } from "@/components/Gallery";
 import { LocationPhotos } from "@/components/LocationPhotos";
 import { Markdown, stripHtml } from "@/components/Markdown";
 import { MDXContent } from "@/components/MDXContent";
@@ -90,13 +89,6 @@ export default async function LocationPage({
             </div>
           )}
         </div>
-
-        {/* Random pics in a horizontal scroll */}
-        {location.gallery.length > 0 && (
-          <section className="mt-14">
-            <Gallery images={location.gallery} variant="row" />
-          </section>
-        )}
 
         {/* Overview section */}
         <section className="mt-14">

@@ -16,8 +16,8 @@ export function AboutUs() {
       <div className="flex flex-col gap-10 md:flex-row md:items-start">
         <div className="max-w-3xl space-y-4 text-lg text-ink/80">
           <p>
-            I hope this page makes our lives sound adventurous and exciting.
-            Because actually we are pretty boring. We both work as software
+            I hope this page makes our lives sound adventurous and exciting
+            because day to day we are kinda boring. We both work as software
             developers and our current dinner obsession is &quot;big
             salads&quot; which I bought special bowls for because a good big
             salad bowl has very specific requirements.
@@ -31,7 +31,7 @@ export function AboutUs() {
             phone. I swear I don&apos;t know how that happened.
           </p>
           <p>
-            We are eternally thankful to our families in Boise, Idaho, who have,
+            We are eternally thankful to our families in Boise, Idaho, who have
             and continue to, open their homes to us. Having a support system
             (with a spare room) is so comforting and gives us the luxury to take
             risks while having a &quot;what happens if this all goes to

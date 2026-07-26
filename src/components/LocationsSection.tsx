@@ -25,11 +25,11 @@ function useSavedView(): View {
 }
 
 /**
- * The home page's unified Locations section: a pill toggle (same UI as the
+ * The home page's unified Locations section: a toggle (same UI as the
  * Albums/Gallery toggle on location pages) switching between two views of the
  * same places —
- *  - "places": the navigational timeline of rows linking to location pages
- *  - "photos": the cross-location wall of curated highlight photos
+ *  - "view by location": the navigational timeline of rows linking to location pages
+ *  - "photo gallery": the cross-location wall of curated highlight photos
  * Both views render server-side and arrive as props; this component only
  * owns the switch.
  */
