@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Markdown } from "@/components/Markdown";
 import { MoreInfoIcon } from "@/components/MoreInfoIcon";
 import { StatusBadge } from "@/components/StatusBadge";
-import { formatDate, getAllPhotos } from "@/lib/content";
+import { getAllPhotos } from "@/lib/content";
 import type { Location } from "@/lib/content";
 
 const shortStopPill = (

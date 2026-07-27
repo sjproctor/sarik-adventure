@@ -43,7 +43,7 @@ export default function HomePage() {
           heading={
             <div>
               <p className="text-sm font-semibold tracking-wide text-terracotta uppercase">
-                Where we've been
+                Where we&apos;ve been
               </p>
               <h2 className="mt-2 font-display text-4xl text-forest sm:text-5xl">
                 Locations
