@@ -88,6 +88,12 @@ export default async function LocationPage({
               <p>{location.elevation}</p>
             </div>
           )}
+          {location.county && (
+            <div className="flex flex-col items-center">
+              <p className="text-clay font-semibold uppercase">County</p>
+              <p>{location.county}</p>
+            </div>
+          )}
         </div>
 
         {/* Overview section */}

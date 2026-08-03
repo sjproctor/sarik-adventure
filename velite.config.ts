@@ -85,6 +85,7 @@ const locations = defineCollection({
       // Area stats on the detail page. Optional — a quick interstitial stop
       // often has no meaningful numbers to show.
       population: s.string().optional(),
+      county: s.string().optional(),
       elevation: s.string().optional(),
       summary: md(),
       overview: md(),
