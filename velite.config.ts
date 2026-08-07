@@ -95,8 +95,8 @@ const locations = defineCollection({
       // Optional reference sections, each rendered in its own block on the
       // location page. Authored as markdown (links + line breaks supported);
       // omit any a given location doesn't have.
-      history: s
-        .object({ showHistory: s.boolean().default(true), content: md() })
+      vocabulary: s
+        .object({ showVocabulary: s.boolean().default(true), content: md() })
         .optional(),
       suggestions: s
         .object({ showSuggestions: s.boolean().default(true), content: md() })
