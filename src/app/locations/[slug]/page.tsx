@@ -48,7 +48,7 @@ export default async function LocationPage({
         />
         {/* ink/70 keeps the cream title/region text readable over bright covers */}
         <div className="absolute inset-0 bg-linear-to-t from-ink/70 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-4xl px-5 pb-8">
+        <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-5xl px-5 pb-8">
           <h1 className="font-display text-4xl text-cream sm:text-6xl">
             {location.title}
           </h1>
@@ -67,9 +67,9 @@ export default async function LocationPage({
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-5 py-12">
+      <div className="mx-auto max-w-5xl px-5">
         {/* Call out with our timeline and stats of the city */}
-        <div className="border border-sand p-6 mt-6 bg-cream flex flex-wrap justify-around gap-4">
+        <section className="mt-6 sm:mt-14 border border-sand p-6 bg-cream flex flex-wrap justify-around gap-4">
           <div className="flex flex-col items-center">
             <p className="text-clay font-semibold uppercase">Our Visit</p>
             <p>{location.stay}</p>
@@ -94,56 +94,62 @@ export default async function LocationPage({
               <p>{location.county}</p>
             </div>
           )}
-        </div>
+        </section>
 
         {/* Overview section */}
-        <section className="mt-14">
+        <section className="mt-6 sm:mt-14">
           <Markdown
             html={location.overview}
             className="text-lg text-ink/80 pb-4"
           />
         </section>
 
-        {/* Our likes and tips */}
-        {location.suggestions?.showSuggestions && (
-          <section className="mt-14">
-            <h2 className="mb-4 font-display text-3xl text-forest">
-              Our Thumbs Up List
-            </h2>
-            <Markdown
-              as="div"
-              html={location.suggestions.content}
-              className="prose-natural"
-            />
-          </section>
-        )}
-
-        {/* Photos: browse by album (events) or as one large gallery feed.
+        {/* Images and written content */}
+        <div className="flex gap-2 sm:gap-16 flex-col-reverse sm:flex-row">
+          <div className="basis-2/3">
+            {/* Photos: browse by album (events) or as one large gallery feed.
             Not shown for future locations, which have nothing to show yet. */}
-        {location.status !== "next" && (
-          <LocationPhotos albums={location.albums} />
-        )}
-
-        {/* Anything else in the body section of the MDX file */}
-        {location.body && (
-          <div className="mt-8">
-            <MDXContent code={location.body} />
+            {location.status !== "next" && (
+              <LocationPhotos albums={location.albums} />
+            )}
           </div>
-        )}
+          <div className="basis-1/3">
+            {/* Our likes and tips */}
+            {location.suggestions?.showSuggestions && (
+              <section className="mt-6 sm:mt-14 border border-sand p-6 bg-cream">
+                <h2 className="mb-4 font-display text-xl text-forest">
+                  Our Thumbs Up List
+                </h2>
+                <Markdown
+                  as="div"
+                  html={location.suggestions.content}
+                  className="prose-natural"
+                />
+              </section>
+            )}
 
-        {/* History of the area; controlled by a boolean value in the MDX */}
-        {location.history?.showHistory && (
-          <section className="mt-14">
-            <h2 className="mb-4 font-display text-3xl text-forest">
-              History of the Area
-            </h2>
-            <Markdown
-              as="div"
-              html={location.history.content}
-              className="prose-natural"
-            />
-          </section>
-        )}
+            {/* Anything else in the body section of the MDX file */}
+            {location.body && (
+              <div className="mt-8">
+                <MDXContent code={location.body} />
+              </div>
+            )}
+
+            {/* Unique terminology of the area; controlled by a boolean value in the MDX */}
+            {location.vocabulary?.showVocabulary && (
+              <section className="mt-6 border border-sand p-6 bg-cream">
+                <h2 className="mb-4 font-display text-xl text-forest">
+                  How to Speak Like a Local
+                </h2>
+                <Markdown
+                  as="div"
+                  html={location.vocabulary.content}
+                  className="prose-natural"
+                />
+              </section>
+            )}
+          </div>
+        </div>
       </div>
     </article>
   );

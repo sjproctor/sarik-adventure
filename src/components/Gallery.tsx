@@ -257,7 +257,7 @@ export function Gallery({
             key={image.src.src}
             className={`break-inside-avoid ${tiltFor(i)}`}
           >
-            {/* Columns inside a max-w-4xl container cap tiles near 300px */}
+            {/* Columns inside a max-w-5xl container cap tiles near 300px */}
             {tile(
               image,
               i,

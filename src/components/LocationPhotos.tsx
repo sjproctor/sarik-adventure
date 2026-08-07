@@ -65,7 +65,7 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
               className="scroll-mt-24"
             >
               <p className="text-sm text-clay">{formatDate(album.date)}</p>
-              <h3 className="font-display text-2xl text-forest">
+              <h3 className="font-display text-xl text-forest">
                 {album.title}
               </h3>
               {album.description && (
