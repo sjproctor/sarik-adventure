@@ -56,13 +56,7 @@ export default async function LocationPage({
         </div>
         {/* The rounded current badge gets inset from the corner; the square
             badges stay flush against the edge as before. */}
-        <div
-          className={
-            location.status === "current"
-              ? "absolute top-3 right-3"
-              : "absolute right-0"
-          }
-        >
+        <div className="absolute top-3 right-3">
           <StatusBadge status={location.status} />
         </div>
       </div>

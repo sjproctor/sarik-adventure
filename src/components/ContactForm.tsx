@@ -143,7 +143,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-full bg-terracotta px-6 py-3 font-display text-lg text-cream shadow-sm transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-full bg-terracotta px-6 py-2 font-display text-lg text-cream shadow-sm transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting ? "Sending…" : "Ship it!"}
         </button>

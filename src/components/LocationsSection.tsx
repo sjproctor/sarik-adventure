@@ -60,7 +60,7 @@ export function LocationsSection({
         <div
           role="group"
           aria-label="Choose how to explore locations"
-          className="inline-flex border border-sand bg-cream p-1"
+          className="inline-flex rounded-full border border-sand bg-cream p-1"
         >
           {VIEWS.map((option) => (
             <button
@@ -68,7 +68,7 @@ export function LocationsSection({
               type="button"
               onClick={() => choose(option)}
               aria-pressed={view === option}
-              className={`px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
                 view === option
                   ? "bg-terracotta/90 text-cream"
                   : "text-forest hover:text-terracotta/90"

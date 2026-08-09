@@ -45,7 +45,7 @@ export function StatusBadge({
 
   return (
     <span
-      className={`px-3 py-1 text-sm font-semibold backdrop-blur-sm ${statusStyle[status]} ${className}`}
+      className={`rounded-full px-3 py-1 text-sm font-semibold backdrop-blur-sm ${statusStyle[status]} ${className}`}
     >
       {statusLabel[status]}
     </span>

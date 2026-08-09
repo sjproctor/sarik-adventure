@@ -36,7 +36,7 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
         <div
           role="group"
           aria-label="Choose how to view photos"
-          className="inline-flex border border-sand bg-cream p-1"
+          className="rounded-full inline-flex border border-sand bg-cream p-1"
         >
           {(["albums", "gallery"] as const).map((option) => (
             <button
@@ -44,7 +44,7 @@ export function LocationPhotos({ albums }: { albums: Album[] }) {
               type="button"
               onClick={() => setView(option)}
               aria-pressed={view === option}
-              className={`px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
                 view === option
                   ? "bg-terracotta text-cream"
                   : "text-forest hover:text-terracotta"
