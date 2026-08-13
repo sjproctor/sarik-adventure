@@ -68,10 +68,6 @@ const locations = defineCollection({
       // render in the home-page in-between row until they flip to "past".
       // "next" is upcoming.
       status: s.enum(["current", "recent", "next", "past"]).default("past"),
-      // Interstitials are the short, quick-turnover stops between major
-      // destinations. They share this collection and detail page but render
-      // as compact "Short Stop" cards in the home-page timeline.
-      kind: s.enum(["destination", "interstitial"]).default("destination"),
       order: s.number().default(0),
       cover: s.image(),
       coverAlt: s.string(),
@@ -105,7 +101,7 @@ const locations = defineCollection({
       albums: s.array(album).default([]),
       // Anything else authored in the MDX body, rendered on the location page
       // below the photo albums.
-      body: s.mdx(),
+      // body: s.mdx(),
     })
     .transform((data) => ({ ...data, permalink: `/locations/${data.slug}` })),
 });
@@ -124,7 +120,7 @@ const musings = defineCollection({
       // Tailwind aspect-ratio class for the cover on the musing page,
       // e.g. "aspect-[3/4]" for a portrait shot. Defaults to "aspect-video".
       aspect: s.string().optional(),
-      body: s.mdx(),
+      // body: s.mdx(),
     })
     // A cover without alt text renders as alt="" — invisible to screen readers.
     .refine((data) => !data.cover || !!data.coverAlt, {

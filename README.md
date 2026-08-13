@@ -120,25 +120,6 @@ Exactly one location should be marked `status: current` — it drives the big
 featured block on the home page. Any number can be `status: next`; they fill
 the "Coming up" grid, sorted by `order`.
 
-#### Interstitials (quick stops)
-
-Short stays between major destinations use the same collection — add
-`kind: interstitial` to the frontmatter. They get the same detail page but
-render on the home page as compact "Short Stop" cards, slotted into the
-timeline by `order` alongside the full destinations.
-
-An interstitial marked `status: current` (e.g. a short detour mid-residency)
-appears in a compact row **above** the featured destination — up to two at a
-time, sorted by `order` — while the full destination keeps the big featured
-block. "Exactly one `current`" above applies to full destinations;
-interstitials can be `current` at the same time. `status: recent` keeps a
-quick stop in that in-between row after you've moved on (the stops hit since
-leaving the last main destination); flip it to `past` once you've settled at
-the next destination. `population` and
-`elevation` are optional (for any location, but quick stops are where you'll
-usually skip them); everything else works the same, so an interstitial can be
-as small as a cover photo, a summary, and a handful of pictures.
-
 ### A musing
 
 Create `content/musings/<slug>.mdx`:
