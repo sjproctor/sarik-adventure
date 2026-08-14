@@ -123,11 +123,11 @@ export default async function LocationPage({
             )}
 
             {/* Anything else in the body section of the MDX file */}
-            {location.body && (
+            {/* {location.body && (
               <div className="mt-8">
                 <MDXContent code={location.body} />
               </div>
-            )}
+            )} */}
 
             {/* Unique terminology of the area; controlled by a boolean value in the MDX */}
             {location.vocabulary?.showVocabulary && (
