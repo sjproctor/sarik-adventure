@@ -6,15 +6,8 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { getAllPhotos } from "@/lib/content";
 import type { Location } from "@/lib/content";
 
-const shortStopPill = (
-  <span className="bg-terracotta/90 px-3 py-1 text-xs font-semibold text-cream">
-    Short Stop
-  </span>
-);
-
 export function PlacesRow({ location }: { location: Location }) {
   const isCurrent = location.status === "current";
-  const isInterstitial = location.kind === "interstitial";
   const isUpcoming = location.status === "next";
   const count = getAllPhotos(location).length;
 
@@ -24,24 +17,19 @@ export function PlacesRow({ location }: { location: Location }) {
       className="group flex flex-wrap gap-4 sm:gap-6"
     >
       {!isUpcoming && (
-        <>
-          <div className="relative border border-sand h-60 w-90 overflow-hidden">
-            <Image
-              src={location.cover.src}
-              alt={location.coverAlt}
-              fill
-              sizes="90vw"
-              priority={isCurrent}
-              placeholder="blur"
-              blurDataURL={location.cover.blurDataURL}
-              className="object-cover transition-transform duration-500 group-hover:scale-103"
-              style={{ objectPosition: location.coverPosition }}
-            />
-            <div className="absolute flex gap-2">
-              {isInterstitial && shortStopPill}
-            </div>
-          </div>
-        </>
+        <div className="relative border border-sand h-60 w-90 overflow-hidden">
+          <Image
+            src={location.cover.src}
+            alt={location.coverAlt}
+            fill
+            sizes="90vw"
+            priority={isCurrent}
+            placeholder="blur"
+            blurDataURL={location.cover.blurDataURL}
+            className="object-cover transition-transform duration-500 group-hover:scale-103"
+            style={{ objectPosition: location.coverPosition }}
+          />
+        </div>
       )}
 
       <div

@@ -1,7 +1,6 @@
 # Sarik's Adventures
 
-A photo-forward travel site for a slow trip around the country — where we are,
-where we're headed, and the thoughts in between. Content (locations and
+A photo-forward travel site documenting a nomadic adventure. Content (locations and
 musings) lives in the codebase as MDX and is published by pushing to git; there
 is no CMS, database, or user auth. The only stored data is the email signup
 list, which lives in an Airtable base.
@@ -103,17 +102,32 @@ region: Idaho
 status: current # current | recent | next | past  (default: past)
 order: 1 # sort order within a status group
 date: 2026-05-01
-stay: Mid May through June
-summary: A one-line summary shown in lists.
 cover: ./sun-valley-id/cover.jpg
 coverAlt: Describe the cover image for screen readers.
-gallery:
-  - src: ./sun-valley-id/trailhead.jpg
-    alt: Required alt text
-    caption: Optional caption
+stay: Date or date range
+population: Shown on the location page, comment out if not needed
+elevation: Shown on the location page, comment out if not needed
+county: Shown on the location page, comment out if not needed
+summary: A teaser shown on the main page location cards
+overview: More text content about the location shown on the location page
+suggestions:
+  showSuggestions: true/false
+  content: |
+    - Thumbs up list item shown as a list
+    - Another thumbs up item
+albums:
+  - title: Title in larger bold font
+    date: 2026-07-01
+    description: Text content to further describe the photo content
+    gallery:
+      - src: ./sun-valley-id/pic1.jpg
+        alt: Required alt text
+        caption: Optional caption
+      - src: ./sun-valley-id/pic2.jpg
+        alt: Required alt text
+        caption: Optional caption
+        featured: true - optional, add for photo to be featured in the main page gallery
 ---
-
-Markdown/MDX body goes here.
 ```
 
 Exactly one location should be marked `status: current` — it drives the big
