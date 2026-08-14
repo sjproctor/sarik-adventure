@@ -120,7 +120,7 @@ const musings = defineCollection({
       // Tailwind aspect-ratio class for the cover on the musing page,
       // e.g. "aspect-[3/4]" for a portrait shot. Defaults to "aspect-video".
       aspect: s.string().optional(),
-      // body: s.mdx(),
+      body: s.mdx(),
     })
     // A cover without alt text renders as alt="" — invisible to screen readers.
     .refine((data) => !data.cover || !!data.coverAlt, {
