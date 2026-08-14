@@ -2,7 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 
-const VIEWS = ["view by location", "photo gallery"] as const;
+const VIEWS = ["view by location", "featured photos"] as const;
 type View = (typeof VIEWS)[number];
 
 // Persists the visitor's last-used view across visits. The server renders
@@ -21,7 +21,7 @@ function useSavedView(): View {
     () => localStorage.getItem(STORAGE_KEY),
     () => null
   );
-  return saved === "photo gallery" ? "photo gallery" : "view by location";
+  return saved === "featured photos" ? "featured photos" : "view by location";
 }
 
 /**
@@ -29,7 +29,7 @@ function useSavedView(): View {
  * Albums/Gallery toggle on location pages) switching between two views of the
  * same places —
  *  - "view by location": the navigational timeline of rows linking to location pages
- *  - "photo gallery": the cross-location wall of curated highlight photos
+ *  - "featured photos": the cross-location wall of curated highlight photos
  * Both views render server-side and arrive as props; this component only
  * owns the switch.
  */
