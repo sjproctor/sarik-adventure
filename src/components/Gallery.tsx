@@ -182,6 +182,9 @@ export function Gallery({
             sizes={sizes}
             placeholder="blur"
             blurDataURL={image.src.blurDataURL}
+            // Frontmatter `position` picks which part of the photo survives
+            // the crop, same as a location's coverPosition.
+            style={{ objectPosition: image.position }}
             className="object-cover transition-transform duration-500 group-hover:scale-103"
           />
         </span>

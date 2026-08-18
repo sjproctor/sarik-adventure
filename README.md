@@ -104,6 +104,7 @@ order: 1 # sort order within a status group
 date: 2026-05-01
 cover: ./sun-valley-id/cover.jpg
 coverAlt: Describe the cover image for screen readers.
+coverPosition: center 30% # optional, see "Positioning cropped photos" below
 stay: Date or date range
 population: Shown on the location page, comment out if not needed
 elevation: Shown on the location page, comment out if not needed
@@ -127,12 +128,41 @@ albums:
         alt: Required alt text
         caption: Optional caption
         featured: true - optional, add for photo to be featured in the main page gallery
+        position: center 30% # optional, see "Positioning cropped photos" below
 ---
 ```
 
 Exactly one location should be marked `status: current` — it drives the big
 featured block on the home page. Any number can be `status: next`; they fill
 the "Coming up" grid, sorted by `order`.
+
+#### Positioning cropped photos
+
+Covers and gallery tiles are cropped to fill their frame, and by default the
+crop is centered — which can cut off the subject (heads at the top of a
+portrait shot are the usual casualty). Two optional frontmatter fields let you
+choose which part of the photo stays in view:
+
+- `coverPosition` — on a location, positions the **cover** image wherever it
+  appears cropped (the home-page cards and the location page's header).
+- `position` — on any photo in a `gallery` list (the lead gallery or an
+  album's), positions that photo in the cropped tile layouts (grid, masonry,
+  and the horizontal row).
+
+Both take a CSS
+[`object-position`](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position)
+value: first the horizontal position, then the vertical. Examples:
+
+```yaml
+position: center 30% # favor the upper third (good for faces)
+position: center top # pin to the very top
+position: left center # keep the left edge in view
+```
+
+Percentages pick the point of the photo to keep visible: `0%` is the top (or
+left), `100%` the bottom (or right), `50%` the center. Omit the field to keep
+the default centered crop. The full-screen lightbox and the combined photo
+feed always show the whole photo, so `position` has no effect there.
 
 ### A musing
 

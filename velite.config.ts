@@ -40,6 +40,12 @@ const image = s.object({
   src: s.image(),
   alt: s.string(),
   caption: s.string().optional(),
+  // Gallery tiles crop the photo to fill their frame from the center, which
+  // can cut off the subject. Set a CSS object-position to choose which part
+  // stays in view — e.g. "center 30%" (favor the upper third), "left center",
+  // "center top". First value is horizontal, second vertical. Only affects
+  // cropped tiles (grid/masonry/row); the feed and lightbox show the full photo.
+  position: s.string().optional(),
   // Surface this photo in the home page's "Photos" view — the cross-location
   // wall of curated highlights. Aim for 3-6 flagged photos per location; when
   // a location has none flagged, the wall falls back to its first few photos.
