@@ -61,11 +61,11 @@ by hand.
 
 ```
 content/
-  locations/      # one MDX file per place (current / recent / next / past)
+  locations/      # one MDX file per place (current / next / past)
   musings/        # blog-style posts
 src/
   app/
-    page.tsx                  # home (hero + featured current & recent stops + musings + all locations)
+    page.tsx                  # home (hero + featured current + musings + all locations)
     locations/[slug]/         # location detail pages
     musings/[slug]/           # musing detail pages
     contact/                  # contact page ("Say Hi")
@@ -99,7 +99,7 @@ New posts are added in the codebase and pushed to git.
 title: Sun Valley
 slug: sun-valley-id
 region: Idaho
-status: current # current | recent | next | past  (default: past)
+status: current # current | next | past  (default: past)
 order: 1 # sort order within a status group
 date: 2026-05-01
 cover: ./sun-valley-id/cover.jpg

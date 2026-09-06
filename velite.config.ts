@@ -70,10 +70,9 @@ const locations = defineCollection({
       slug: s.string(),
       region: s.string(),
       // "current" is the one place we are right now — only ever one location.
-      // "recent" marks the quick stops since the last main destination; they
-      // render in the home-page in-between row until they flip to "past".
+      // "past" is previous locations.
       // "next" is upcoming.
-      status: s.enum(["current", "recent", "next", "past"]).default("past"),
+      status: s.enum(["current", "next", "past"]).default("past"),
       order: s.number().default(0),
       cover: s.image(),
       coverAlt: s.string(),

@@ -7,9 +7,8 @@ export type GalleryItem = Location["gallery"][number];
 
 const statusRank: Record<Location["status"], number> = {
   current: 0,
-  recent: 1,
-  next: 2,
-  past: 3,
+  next: 1,
+  past: 2,
 };
 
 const byStatusThenOrder = (a: Location, b: Location) =>

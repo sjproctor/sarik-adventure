@@ -3,7 +3,6 @@ import type { Location } from "@/lib/content";
 
 const statusLabel: Record<Location["status"], string> = {
   current: "Current Location",
-  recent: "Recent Location",
   next: "Coming Up",
   past: "Visited",
 };
@@ -11,7 +10,6 @@ const statusLabel: Record<Location["status"], string> = {
 // Translucent backgrounds get backdrop-blur + full-opacity text so the tiny
 // pill text keeps AA contrast regardless of the photo behind it.
 const statusStyle: Record<Exclude<Location["status"], "current">, string> = {
-  recent: "bg-cream/90 text-terracotta",
   next: "bg-cream/90 text-terracotta",
   past: "bg-cream/90 text-terracotta",
 };
