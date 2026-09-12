@@ -46,10 +46,13 @@ export function EmailSignupModal({ children }: { children: React.ReactNode }) {
           </div>
 
           <p className="mt-4 text-lg text-ink/80">
-            Leave your name and email and we&apos;ll give you a ping when we post new content.
+            Leave your name and email and I&apos;ll ping you when there is new
+            content.
           </p>
           <p className="mt-4 text-lg text-ink/80">
-            We won&apos;t spam you. I&apos;m thinking once a month max and honestly I&apos;ll probably forget some of the time.
+            I won&apos;t spam you or use your email for any other purpose.
+            You&apos;ll hear from me once a month max and honestly I&apos;ll
+            probably forget some of the time.
           </p>
 
           <EmailSignupForm />

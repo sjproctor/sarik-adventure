@@ -101,16 +101,17 @@ slug: sun-valley-id
 region: Idaho
 status: current # current | next | past  (default: past)
 order: 1 # sort order within a status group
-date: 2026-05-01
 cover: ./sun-valley-id/cover.jpg
 coverAlt: Describe the cover image for screen readers.
-coverPosition: center 30% # optional, see "Positioning cropped photos" below
+coverPosition: First value is horizontal, second vertical
+date: 2026-05-01
 stay: Date or date range
 population: Shown on the location page, comment out if not needed
-elevation: Shown on the location page, comment out if not needed
 county: Shown on the location page, comment out if not needed
-summary: A teaser shown on the main page location cards
-overview: More text content about the location shown on the location page
+elevation: Shown on the location page, comment out if not needed
+summary: |
+  A teaser shown on the main page location cards
+overview: More text content about the location shown on the location page. Use | to allow line breaks.
 suggestions:
   showSuggestions: true/false
   content: |
