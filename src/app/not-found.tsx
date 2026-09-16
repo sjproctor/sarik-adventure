@@ -1,20 +1,16 @@
-"use client";
 import Image from "next/image";
 
 // App router requires the file to be named not-found
 
 export default function NotFound() {
   return (
-    <section
-      id="locations"
-      className="mx-auto max-w-6xl scroll-mt-8 px-5 py-20"
-    >
+    <section className="mx-auto max-w-6xl px-5 py-20">
       <div className="flex flex-col gap-10 md:flex-row md:items-start">
         <div className="max-w-xl space-y-4 text-lg text-ink/80">
           <h1 className="mt-2 font-display text-4xl text-forest sm:text-5xl">
             Oops!
           </h1>
-          <p>This page doesn't exist.</p>
+          <p>This page doesn&apos;t exist.</p>
           <p>
             But since you are here, check out this adorable pic of us during the
             seventh inning stretch at Petco Park, home of the San Diego Padres.

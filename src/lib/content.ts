@@ -3,7 +3,7 @@ import { locations, musings } from "#site/content";
 export type Location = (typeof locations)[number];
 type Musing = (typeof musings)[number];
 /** A Velite-processed image: { src, width, height, blurDataURL, ... }. */
-export type GalleryItem = Location["gallery"][number];
+export type GalleryItem = Location["albums"][number]["gallery"][number];
 
 const statusRank: Record<Location["status"], number> = {
   current: 0,
@@ -60,9 +60,9 @@ export function getTimelineLocations(): Location[] {
     );
 }
 
-/** Every photo on a location — the lead gallery plus each album's set. */
+/** Every photo on a location, across all of its albums. */
 export function getAllPhotos(location: Location): GalleryItem[] {
-  return [...location.gallery, ...location.albums.flatMap((a) => a.gallery)];
+  return location.albums.flatMap((a) => a.gallery);
 }
 
 /** A highlight for the home Photos wall: the photo plus where it was taken. */

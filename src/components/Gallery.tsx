@@ -110,11 +110,11 @@ function LightboxImage({ slide }: { slide: LightboxSlide }) {
 
 export function Gallery({
   images,
-  variant = "grid",
+  variant,
   albumTitle,
 }: {
   images: GalleryImage[];
-  variant?: "grid" | "masonry" | "row" | "feed";
+  variant: "masonry" | "feed";
   // When the gallery is one album's photos, badge each full-screen slide
   // with the album name.
   albumTitle?: string;
@@ -193,21 +193,6 @@ export function Gallery({
     );
 
   const layouts = {
-    // A single horizontal line of photos that scrolls sideways on overflow.
-    row: () => (
-      <ul className="-mx-5 flex justify-between snap-x gap-4 overflow-x-auto px-5 pb-3">
-        {images.map((image, i) => (
-          <li
-            key={image.src.src}
-            className={`w-52 shrink-0 snap-start sm:w-64 ${tiltFor(i)}`}
-          >
-            {/* Tiles are fixed w-52/sm:w-64 */}
-            {tile(image, i, "aspect-[4/5]", "(max-width: 640px) 13rem, 16rem")}
-          </li>
-        ))}
-      </ul>
-    ),
-
     // One large photo per row on phones; a two-column masonry on wider
     // screens. Each photo keeps its natural aspect (no cropping) and shows
     // its album + caption beneath.
@@ -281,16 +266,6 @@ export function Gallery({
                 </span>
               )
             )}
-          </li>
-        ))}
-      </ul>
-    ),
-
-    grid: () => (
-      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {images.map((image, i) => (
-          <li key={image.src.src} className={tiltFor(i)}>
-            {tile(image, i, "aspect-square", "(max-width: 640px) 50vw, 300px")}
           </li>
         ))}
       </ul>

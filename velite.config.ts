@@ -44,7 +44,7 @@ const image = s.object({
   // can cut off the subject. Set a CSS object-position to choose which part
   // stays in view — e.g. "center 30%" (favor the upper third), "left center",
   // "center top". First value is horizontal, second vertical. Only affects
-  // cropped tiles (grid/masonry/row); the feed and lightbox show the full photo.
+  // cropped masonry tiles; the feed and lightbox show the full photo.
   position: s.string().optional(),
   // Surface this photo in the home page's "Photos" view — the cross-location
   // wall of curated highlights. Aim for 3-6 flagged photos per location; when
@@ -52,8 +52,8 @@ const image = s.object({
   featured: s.boolean().optional(),
 });
 
-// A titled, described set of photos shown below the lead row on a location
-// page — e.g. "Up Dollar Mountain". `description` gives the album some context.
+// A titled, described set of photos on a location page — e.g. "Up Dollar
+// Mountain". `description` gives the album some context.
 const album = s.object({
   title: s.string().max(120),
   date: s.isodate(),
@@ -90,9 +90,6 @@ const locations = defineCollection({
       elevation: s.string().optional(),
       summary: md(),
       overview: md(),
-      // `gallery` is the lead row of photos; `albums` are the grouped sets
-      // shown beneath it, each with its own title and description.
-      gallery: s.array(image).default([]),
       // Optional reference sections, each rendered in its own block on the
       // location page. Authored as markdown (links + line breaks supported);
       // omit any a given location doesn't have.
@@ -102,11 +99,8 @@ const locations = defineCollection({
       suggestions: s
         .object({ showSuggestions: s.boolean().default(true), content: md() })
         .optional(),
-
+      // The photo albums, each a titled set with its own description.
       albums: s.array(album).default([]),
-      // Anything else authored in the MDX body, rendered on the location page
-      // below the photo albums.
-      // body: s.mdx(),
     })
     .transform((data) => ({ ...data, permalink: `/locations/${data.slug}` })),
 });

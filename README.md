@@ -146,9 +146,8 @@ choose which part of the photo stays in view:
 
 - `coverPosition` — on a location, positions the **cover** image wherever it
   appears cropped (the home-page cards and the location page's header).
-- `position` — on any photo in a `gallery` list (the lead gallery or an
-  album's), positions that photo in the cropped tile layouts (grid, masonry,
-  and the horizontal row).
+- `position` — on any photo in an album's `gallery` list, positions that
+  photo in the cropped masonry tiles.
 
 Both take a CSS
 [`object-position`](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position)

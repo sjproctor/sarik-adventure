@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { LocationPhotos } from "@/components/LocationPhotos";
 import { Markdown, stripHtml } from "@/components/Markdown";
-import { MDXContent } from "@/components/MDXContent";
 import { StatusBadge } from "@/components/StatusBadge";
 import { getLocation, getLocations } from "@/lib/content";
 
@@ -121,13 +120,6 @@ export default async function LocationPage({
                 />
               </section>
             )}
-
-            {/* Anything else in the body section of the MDX file */}
-            {/* {location.body && (
-              <div className="mt-8">
-                <MDXContent code={location.body} />
-              </div>
-            )} */}
 
             {/* Unique terminology of the area; controlled by a boolean value in the MDX */}
             {location.vocabulary?.showVocabulary && (
